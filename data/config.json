@@ -1,0 +1,17 @@
+{
+    "last_folder": "D:/Code app/Test",
+    "columns": [
+        "STT",
+        "Tên file",
+        "Định dạng",
+        "Kích thước",
+        "Thư mục lưu",
+        "Thời gian",
+        "Trạng thái",
+        "URL"
+    ],
+    "settings": {
+        "theme": "dark",
+        "language": "vi"
+    }
+}
