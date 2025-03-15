@@ -535,5 +535,23 @@
         "timestamp": "15/03/2025 16:22:06",
         "status": "Thành công",
         "folder_path": "D:\\Code app\\Test"
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=4S3lNyQPVy8&ab_channel=H%C3%A0AnhTu%E1%BA%A5n",
+        "file_type": "mp4",
+        "file_path": "D:\\Code app\\Test\\[SKETCH_A_ROSE_IN_SAIGON]_HÀ_ANH_TUẤN_Thiên_Đường_Gọi_Tên,_Yêu_Em,_Cơn_Mưa_Tình_Yêu.mp4",
+        "size": "753.65 MB",
+        "timestamp": "15/03/2025 22:35:09",
+        "status": "Thành công",
+        "folder_path": "D:\\Code app\\Test"
+    },
+    {
+        "url": "https://www.youtube.com/shorts/a5U8GBLRseo",
+        "file_type": "mp4",
+        "file_path": "D:\\Code app\\Test\\Khó_hiểu_quá🤣.mp4",
+        "size": "7.66 MB",
+        "timestamp": "15/03/2025 23:43:14",
+        "status": "Thành công",
+        "folder_path": "D:\\Code app\\Test"
     }
 ]

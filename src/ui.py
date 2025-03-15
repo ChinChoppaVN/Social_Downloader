@@ -61,6 +61,7 @@ class DownloaderApp:
         self.is_downloading = False
         self.mp4_selected = ctk.BooleanVar(value=True)
         self.mp3_selected = ctk.BooleanVar(value=False)
+        self.download_start_time = None
         
         self.create_widgets()
 
@@ -149,7 +150,16 @@ class DownloaderApp:
             fg_color=("gray85", "gray20")
         )
         self.progress_bar.set(0)
-        self.progress_bar.grid(row=4, column=1, columnspan=2, pady=10, sticky="w")
+        self.progress_bar.grid(row=4, column=1, columnspan=2, pady=(10,0), sticky="w")
+        
+        # Thêm label hiển thị thông tin tải xuống
+        self.download_info_label = ctk.CTkLabel(
+            self.main_frame,
+            text="",
+            font=APP_CONFIG["font_small"],
+            text_color=("gray50", "gray70")
+        )
+        self.download_info_label.grid(row=5, column=1, columnspan=2, pady=(0,10), sticky="w")
         
         self.main_frame.columnconfigure(1, weight=1)
         self.mp4_selected.trace("w", self.update_button_colors)
@@ -230,13 +240,48 @@ class DownloaderApp:
         if d.get("status") == "downloading":
             total = d.get("total_bytes") or d.get("total_bytes_estimate")
             downloaded = d.get("downloaded_bytes", 0)
+            
             if total:
                 progress = downloaded / total
                 self.progress_bar.set(progress)
+                
+                # Tính toán tốc độ và thời gian
+                speed = d.get("speed", 0)
+                if speed:
+                    # Chuyển đổi tốc độ sang MB/s
+                    speed_mb = speed / 1024 / 1024
+                    
+                    # Tính thời gian còn lại
+                    remaining_bytes = total - downloaded
+                    eta_seconds = remaining_bytes / speed if speed > 0 else 0
+                    
+                    # Định dạng thời gian
+                    if eta_seconds < 60:
+                        eta_str = f"{int(eta_seconds)}s"
+                    elif eta_seconds < 3600:
+                        eta_str = f"{int(eta_seconds/60)}m {int(eta_seconds%60)}s"
+                    else:
+                        eta_str = f"{int(eta_seconds/3600)}h {int((eta_seconds%3600)/60)}m"
+                    
+                    # Cập nhật label thông tin
+                    progress_percent = progress * 100
+                    info_text = f"{progress_percent:.1f}% • {speed_mb:.1f} MB/s • Còn lại: {eta_str}"
+                    self.download_info_label.configure(text=info_text)
+                else:
+                    progress_percent = progress * 100
+                    self.download_info_label.configure(text=f"{progress_percent:.1f}%")
+            else:
+                # Nếu không có thông tin về kích thước tổng
+                downloaded_mb = downloaded / 1024 / 1024
+                self.download_info_label.configure(text=f"Đã tải: {downloaded_mb:.1f} MB")
+        elif d.get("status") == "finished":
+            self.download_info_label.configure(text="Đang xử lý...")
+        elif d.get("status") == "error":
+            self.download_info_label.configure(text="Lỗi tải xuống!")
 
     def download_thread(self, url, file_type, final_path, parent_window):
         try:
-            downloaded_file = download_video(url, file_type, final_path, parent_window)
+            downloaded_file = download_video(url, file_type, final_path, parent_window, self.progress_callback)
             
             if downloaded_file and os.path.exists(downloaded_file):
                 # Tính kích thước file
@@ -262,6 +307,7 @@ class DownloaderApp:
         finally:
             self.is_downloading = False
             parent_window.after(0, lambda: self.download_button.configure(state="normal"))
+            parent_window.after(0, lambda: self.download_info_label.configure(text=""))
             self.url_entry.delete(0, ctk.END)
             self.filename_entry.delete(0, ctk.END)
 
@@ -292,6 +338,11 @@ class DownloaderApp:
         if not name_input:
             name_input = fetch_video_title(url)
 
+        # Reset thanh tiến trình và thông tin
+        self.progress_bar.set(0)
+        self.download_info_label.configure(text="Đang chuẩn bị...")
+        self.download_start_time = None
+
         # Chuẩn hóa tên file trước khi tạo final_path
         if self.mp4_selected.get():
             file_type = "mp4"
@@ -302,7 +353,6 @@ class DownloaderApp:
                 if not messagebox.askyesno("Xác nhận", f"Tên file MP4 đã tồn tại. Bạn có muốn ghi đè?"):
                     return
 
-            self.progress_bar.set(0)
             self.is_downloading = True
             self.download_button.configure(state="disabled")
             threading.Thread(target=self.download_thread, args=(url, file_type, final_path, self.root), daemon=True).start()
@@ -316,7 +366,6 @@ class DownloaderApp:
                 if not messagebox.askyesno("Xác nhận", f"Tên file MP3 đã tồn tại. Bạn có muốn ghi đè?"):
                     return
 
-            self.progress_bar.set(0)
             self.is_downloading = True
             self.download_button.configure(state="disabled")
             threading.Thread(target=self.download_thread, args=(url, file_type, final_path, self.root), daemon=True).start()

@@ -31,6 +31,8 @@ def download_video(url, file_type, output_path, parent_window, progress_callback
         'outtmpl': outtmpl + ".%(ext)s",
         'noplaylist': True,
     }
+    
+    # Thêm callback tiến trình nếu được cung cấp
     if progress_callback is not None:
         ydl_opts['progress_hooks'] = [progress_callback]
 
