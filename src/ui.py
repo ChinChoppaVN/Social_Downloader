@@ -47,6 +47,14 @@ class DownloaderApp:
         icon_path = os.path.join(ASSETS_DIR, "CH.ico")
         if os.path.exists(icon_path):
             self.root.iconbitmap(icon_path)
+            # Thiết lập icon cho taskbar
+            try:
+                from ctypes import windll
+                myappid = "thangmupmip.socialdownloader.1.0"
+                windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+                self.root.iconbitmap(default=icon_path)
+            except Exception as e:
+                logging.error(f"Không thể thiết lập icon cho taskbar: {e}")
         
         self.center_window()
         
@@ -71,10 +79,28 @@ class DownloaderApp:
         self.create_footer()
 
     def create_header(self):
-        header_frame = ctk.CTkFrame(self.root)
+        header_frame = ctk.CTkFrame(self.root, fg_color="transparent")
         header_frame.pack(fill="x", pady=10)
         
-        title_label = ctk.CTkLabel(header_frame, text=APP_CONFIG["app_title"], font=APP_CONFIG["font_title"])
+        # Tạo frame cho tiêu đề và nút chuyển đổi
+        title_frame = ctk.CTkFrame(header_frame, fg_color="transparent")
+        title_frame.pack(fill="x", padx=10)
+        
+        # Thêm nút chuyển đổi giao diện bên phải
+        self.theme_button = ctk.CTkButton(
+            title_frame,
+            text="L",  # Bắt đầu với Dark mode, nên hiển thị L
+            width=30,
+            height=30,
+            command=self.toggle_theme,
+            font=("Arial", 14, "bold"),
+            fg_color="#E0E0E0",  # Màu nền sáng cho Dark mode
+            text_color="gray",    # Màu chữ xám cho Dark mode
+            hover_color="#CCCCCC"  # Màu hover cho Dark mode
+        )
+        self.theme_button.pack(side="right", padx=5)
+        
+        title_label = ctk.CTkLabel(title_frame, text=APP_CONFIG["app_title"], font=APP_CONFIG["font_title"])
         title_label.pack(pady=5)
         
         subtitle_label = ctk.CTkLabel(header_frame, text="Tải Video & Audio cực kỳ Pro Max", font=APP_CONFIG["font_subtitle"])
@@ -85,7 +111,7 @@ class DownloaderApp:
         self.main_frame.pack(fill="both", expand=True, padx=20, pady=10)
         
         ctk.CTkLabel(self.main_frame, text="Link video:", font=APP_CONFIG["font_normal"]).grid(row=0, column=0, sticky="w", pady=5, padx=15)
-        self.url_entry = ctk.CTkEntry(self.main_frame, width=350, placeholder_text="Facebook, Instagram, TikTok, Youtube, ...")
+        self.url_entry = ctk.CTkEntry(self.main_frame, width=350, placeholder_text="Facebook, Instagram, TikTok, Youtube ...")
         self.url_entry.grid(row=0, column=1, columnspan=2, pady=5, sticky="w")
         
         ctk.CTkLabel(self.main_frame, text="Tên file:", font=APP_CONFIG["font_normal"]).grid(row=1, column=0, sticky="w", pady=5, padx=15)
@@ -106,23 +132,31 @@ class DownloaderApp:
         
         ctk.CTkLabel(self.main_frame, text="Định dạng:", font=APP_CONFIG["font_normal"]).grid(row=3, column=0, sticky="w", pady=5, padx=15)
         
-        mp4_button = ctk.CTkButton(self.main_frame, text="MP4", command=lambda: self.toggle_format("mp4"), width=80, fg_color="green" if self.mp4_selected.get() else "gray", state="normal")
+        mp4_button = ctk.CTkButton(self.main_frame, text="MP4", command=lambda: self.toggle_format("mp4"), width=80, fg_color=("green", "#1D6F42") if self.mp4_selected.get() else "gray", state="normal")
         mp4_button.grid(row=3, column=1, pady=5, padx=0, sticky="w")
         
-        mp3_button = ctk.CTkButton(self.main_frame, text="MP3", command=lambda: self.toggle_format("mp3"), width=80, fg_color="green" if self.mp3_selected.get() else "gray", state="normal")
+        mp3_button = ctk.CTkButton(self.main_frame, text="MP3", command=lambda: self.toggle_format("mp3"), width=80, fg_color=("green", "#1D6F42") if self.mp3_selected.get() else "gray", state="normal")
         mp3_button.grid(row=3, column=1, pady=5, padx=85, sticky="w")
         
         ctk.CTkLabel(self.main_frame, text="Tiến trình:", font=APP_CONFIG["font_normal"]).grid(row=4, column=0, sticky="w", pady=5, padx=15)
-        self.progress_bar = ctk.CTkProgressBar(self.main_frame, width=350)
+        self.progress_bar = ctk.CTkProgressBar(
+            self.main_frame,
+            width=350,
+            height=15,
+            corner_radius=8,
+            border_width=0,
+            progress_color=("green", "#1D6F42"),
+            fg_color=("gray85", "gray20")
+        )
         self.progress_bar.set(0)
-        self.progress_bar.grid(row=4, column=1, columnspan=2, pady=5, sticky="w")
+        self.progress_bar.grid(row=4, column=1, columnspan=2, pady=10, sticky="w")
         
         self.main_frame.columnconfigure(1, weight=1)
         self.mp4_selected.trace("w", self.update_button_colors)
         self.mp3_selected.trace("w", self.update_button_colors)
 
     def create_buttons(self):
-        button_frame = ctk.CTkFrame(self.root)
+        button_frame = ctk.CTkFrame(self.root, fg_color="transparent")
         button_frame.pack(pady=10)
 
         self.download_button = ctk.CTkButton(button_frame, text="Tải ngay", command=self.start_download, font=APP_CONFIG["button_font"])
@@ -151,7 +185,7 @@ class DownloaderApp:
                 mp4_button = widget
                 break
         if mp4_button:
-            mp4_button.configure(fg_color="green" if self.mp4_selected.get() else "gray", state="normal")
+            mp4_button.configure(fg_color=("green", "#1D6F42") if self.mp4_selected.get() else "gray", state="normal")
         else:
             logging.warning("Không tìm thấy nút MP4 tại row=3, column=1 với padx=0")
         
@@ -162,7 +196,7 @@ class DownloaderApp:
                 mp3_button = widget
                 break
         if mp3_button:
-            mp3_button.configure(fg_color="green" if self.mp3_selected.get() else "gray", state="normal")
+            mp3_button.configure(fg_color=("green", "#1D6F42") if self.mp3_selected.get() else "gray", state="normal")
         else:
             logging.warning("Không tìm thấy nút MP3 tại row=3, column=1 với padx=85")
 
@@ -560,6 +594,28 @@ class DownloaderApp:
         except Exception as e:
             logging.error(f"Không thể đọc thứ tự cột: {e}")
             return DEFAULT_COLUMNS
+
+    def toggle_theme(self):
+        """Chuyển đổi giữa giao diện sáng và tối"""
+        current_mode = ctk.get_appearance_mode()
+        if current_mode == "Dark":
+            ctk.set_appearance_mode("Light")
+            # Cấu hình cho Light mode: chữ D, nền tối, chữ trắng
+            self.theme_button.configure(
+                text="D",
+                fg_color="#2D2D2D",
+                text_color="white",
+                hover_color="#333333"
+            )
+        else:
+            ctk.set_appearance_mode("Dark")
+            # Cấu hình cho Dark mode: chữ L, nền sáng, chữ xám
+            self.theme_button.configure(
+                text="L",
+                fg_color="#E0E0E0",
+                text_color="gray",
+                hover_color="#CCCCCC"
+            )
 
 def run_app():
     ctk.set_appearance_mode("dark")
