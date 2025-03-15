@@ -235,34 +235,36 @@ class DownloaderApp:
                 self.progress_bar.set(progress)
 
     def download_thread(self, url, file_type, final_path, parent_window):
-        history_added = False  # Biến cờ để theo dõi việc ghi lịch sử
         try:
-            # Chọn chất lượng tải
-            quality = "bestvideo+bestaudio/best" if file_type == "mp4" else "bestaudio/best"
-            download_video(url, file_type, final_path, parent_window)  # Gọi hàm tải từ downloader.py
+            downloaded_file = download_video(url, file_type, final_path, parent_window)
             
-            # Tính kích thước tệp và đường dẫn thư mục
-            size = f"{os.path.getsize(final_path) / 1024 / 1024:.2f} MB" if os.path.exists(final_path) else "Không rõ"
-            folder_path = os.path.dirname(final_path).replace("/", "\\") if os.path.exists(final_path) else "Không rõ"
-            
-            # Ghi lịch sử tải với trạng thái "Thành công"
-            parent_window.after(0, lambda: add_download_history(url, file_type, final_path, size=size, status="Thành công", folder_path=folder_path))
-            history_added = True  # Đánh dấu lịch sử đã được ghi
+            if downloaded_file and os.path.exists(downloaded_file):
+                # Tính kích thước file
+                size = f"{os.path.getsize(downloaded_file) / 1024 / 1024:.2f} MB"
+                folder_path = os.path.dirname(downloaded_file).replace("/", "\\")
+                
+                # Ghi lịch sử tải ONLY HERE
+                parent_window.after(0, lambda: add_download_history(
+                    url, file_type, downloaded_file, 
+                    size=size,
+                    status="Thành công",
+                    folder_path=folder_path
+                ))
+                
         except Exception as e:
-            # Hiển thị thông báo lỗi
-            parent_window.after(0, lambda e=e: messagebox.showerror("Lỗi", f"Tải thất bại: {e}"))
-            
-            # Nếu lịch sử chưa được ghi, ghi với trạng thái "Thất bại"
-            if not history_added:
-                parent_window.after(0, lambda: add_download_history(url, file_type, final_path, size="Không rõ", status="Thất bại", folder_path="Không rõ"))
-                history_added = True  # Đánh dấu lịch sử đã được ghi
+            # Ghi lịch sử thất bại
+            parent_window.after(0, lambda: add_download_history(
+                url, file_type, final_path,
+                size="Không rõ",
+                status="Thất bại",
+                folder_path="Không rõ"
+            ))
         finally:
-            # Đặt lại trạng thái giao diện
             self.is_downloading = False
             parent_window.after(0, lambda: self.download_button.configure(state="normal"))
             self.url_entry.delete(0, ctk.END)
             self.filename_entry.delete(0, ctk.END)
-            
+
     def start_download(self):
         if self.is_downloading:
             messagebox.showinfo("Thông báo", "Đang tải, vui lòng chờ!")

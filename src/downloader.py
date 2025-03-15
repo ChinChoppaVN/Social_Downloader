@@ -21,7 +21,6 @@ def download_video(url, file_type, output_path, parent_window, progress_callback
         parent_window: Cửa sổ gốc để hiển thị thông báo
         progress_callback: Hàm callback cập nhật tiến trình
     """
-    # Đảm bảo output_path không có đuôi
     folder = os.path.dirname(output_path)
     filename = os.path.basename(output_path)
     if filename.lower().endswith((".mp3", ".mp4")):
@@ -29,7 +28,7 @@ def download_video(url, file_type, output_path, parent_window, progress_callback
     outtmpl = os.path.join(folder, filename)
 
     ydl_opts = {
-        'outtmpl': outtmpl + ".%(ext)s",  # Cho phép yt_dlp thêm đuôi tự động
+        'outtmpl': outtmpl + ".%(ext)s",
         'noplaylist': True,
     }
     if progress_callback is not None:
@@ -58,7 +57,6 @@ def download_video(url, file_type, output_path, parent_window, progress_callback
             downloaded_filename = ydl.prepare_filename(info_dict)
             base, downloaded_ext = os.path.splitext(downloaded_filename)
             
-            # Chuẩn hóa tên file để chỉ giữ một đuôi
             final_filename = f"{base}.{file_type}"
             if os.path.exists(downloaded_filename) and downloaded_filename != final_filename:
                 try:
@@ -66,13 +64,14 @@ def download_video(url, file_type, output_path, parent_window, progress_callback
                 except OSError as e:
                     show_error_on_main_thread(parent_window, f"Không thể đổi tên file: {e}")
 
-        # Lưu lịch sử tải và hiển thị popup hoàn thành
-        parent_window.after(0, lambda: add_download_history(url, file_type, final_filename))
+        # Chỉ hiển thị popup hoàn thành, KHÔNG ghi lịch sử ở đây
         parent_window.after(0, lambda: show_download_complete_popup(final_filename, parent_window))
+        return final_filename  # Trả về tên file để ghi lịch sử ở UI
 
     except Exception as e:
         error_msg = f"Có lỗi xảy ra:\n{traceback.format_exc()}"
         show_error_on_main_thread(parent_window, error_msg)
+        raise  # Ném lại exception để UI xử lý
 
 def show_error_on_main_thread(parent_window, message):
     """Hiển thị thông báo lỗi trên main thread"""

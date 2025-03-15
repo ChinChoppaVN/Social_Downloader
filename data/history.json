@@ -508,5 +508,32 @@
         "timestamp": "14/03/2025 23:57:50",
         "status": "Thành công",
         "folder_path": "D:\\Code app\\Test"
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=hI__7PAmdjU&ab_channel=8S%C3%A0iG%C3%B2n",
+        "file_type": "mp4",
+        "file_path": "D:\\Code app\\Test\\Ưng_Đại_Vệ_và_Nguyễn_Văn_Chung_chia_sẻ_cách_xử_lí_khi_con_kén_ăn.mp4",
+        "size": "58.62 MB",
+        "timestamp": "15/03/2025 16:13:47",
+        "status": "Thành công",
+        "folder_path": "D:\\Code app\\Test"
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=hI__7PAmdjU&ab_channel=8S%C3%A0iG%C3%B2n",
+        "file_type": "mp4",
+        "file_path": "D:/Code app/Test\\Ưng_Đại_Vệ_và_Nguyễn_Văn_Chung_chia_sẻ_cách_xử_lí_khi_con_kén_ăn.mp4",
+        "size": "58.62 MB",
+        "timestamp": "15/03/2025 16:13:47",
+        "status": "Thành công",
+        "folder_path": "D:\\Code app\\Test"
+    },
+    {
+        "url": "https://www.youtube.com/shorts/UoYxugo_2Ds",
+        "file_type": "mp4",
+        "file_path": "D:\\Code app\\Test\\Batman_dùng_ghế_mobius_đi_bắt_cướp.mp4",
+        "size": "22.21 MB",
+        "timestamp": "15/03/2025 16:22:06",
+        "status": "Thành công",
+        "folder_path": "D:\\Code app\\Test"
     }
 ]
