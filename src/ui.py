@@ -26,7 +26,7 @@ if not os.path.exists(DATA_DIR):
 
 CONFIG = {
     "app_title": "Social Media Downloader",
-    "app_size": "600x400",
+    "app_size": "600x500",
     "max_history_display": 50,
     "font_title": ("Arial", 24, "bold"),
     "font_subtitle": ("Arial", 14),
@@ -83,23 +83,9 @@ class DownloaderApp:
         header_frame = ctk.CTkFrame(self.root, fg_color="transparent")
         header_frame.pack(fill="x", pady=10)
         
-        # Tạo frame cho tiêu đề và nút chuyển đổi
+        # Tạo frame cho tiêu đề
         title_frame = ctk.CTkFrame(header_frame, fg_color="transparent")
         title_frame.pack(fill="x", padx=10)
-        
-        # Thêm nút chuyển đổi giao diện bên phải
-        self.theme_button = ctk.CTkButton(
-            title_frame,
-            text="L",  # Bắt đầu với Dark mode, nên hiển thị L
-            width=30,
-            height=30,
-            command=self.toggle_theme,
-            font=("Arial", 14, "bold"),
-            fg_color="#E0E0E0",  # Màu nền sáng cho Dark mode
-            text_color="gray",    # Màu chữ xám cho Dark mode
-            hover_color="#CCCCCC"  # Màu hover cho Dark mode
-        )
-        self.theme_button.pack(side="right", padx=5)
         
         title_label = ctk.CTkLabel(title_frame, text=APP_CONFIG["app_title"], font=APP_CONFIG["font_title"])
         title_label.pack(pady=5)
@@ -113,7 +99,16 @@ class DownloaderApp:
         
         ctk.CTkLabel(self.main_frame, text="Link video:", font=APP_CONFIG["font_normal"]).grid(row=0, column=0, sticky="w", pady=5, padx=15)
         self.url_entry = ctk.CTkEntry(self.main_frame, width=350, placeholder_text="Facebook, Instagram, TikTok, Youtube ...")
-        self.url_entry.grid(row=0, column=1, columnspan=2, pady=5, sticky="w")
+        self.url_entry.grid(row=0, column=1, pady=5, sticky="w")
+        
+        paste_button = ctk.CTkButton(
+            self.main_frame, 
+            text="Dán", 
+            width=80,
+            command=self.paste_url,
+            font=APP_CONFIG["font_normal"]
+        )
+        paste_button.grid(row=0, column=2, pady=5, padx=15, sticky="w")
         
         ctk.CTkLabel(self.main_frame, text="Tên file:", font=APP_CONFIG["font_normal"]).grid(row=1, column=0, sticky="w", pady=5, padx=15)
         self.filename_entry = ctk.CTkEntry(self.main_frame, width=350, placeholder_text="Để trống để sử dụng tên mặc định")
@@ -139,9 +134,22 @@ class DownloaderApp:
         mp3_button = ctk.CTkButton(self.main_frame, text="MP3", command=lambda: self.toggle_format("mp3"), width=80, fg_color=("green", "#1D6F42") if self.mp3_selected.get() else "gray", state="normal")
         mp3_button.grid(row=3, column=1, pady=5, padx=85, sticky="w")
         
-        ctk.CTkLabel(self.main_frame, text="Tiến trình:", font=APP_CONFIG["font_normal"]).grid(row=4, column=0, sticky="w", pady=5, padx=15)
+        # Progress Frame mới
+        progress_frame = ctk.CTkFrame(self.main_frame)
+        progress_frame.grid(row=4, column=0, columnspan=3, sticky="ew", padx=15, pady=5)
+        
+        # Label cho tiến trình
+        self.progress_status = ctk.CTkLabel(
+            progress_frame, 
+            text="Sẵn sàng tải xuống", 
+            font=APP_CONFIG["font_small"],
+            anchor="w"
+        )
+        self.progress_status.pack(fill="x", padx=5, pady=(5,0))
+        
+        # Progress bar với màu gradient và bo góc
         self.progress_bar = ctk.CTkProgressBar(
-            self.main_frame,
+            progress_frame,
             width=350,
             height=15,
             corner_radius=8,
@@ -150,16 +158,33 @@ class DownloaderApp:
             fg_color=("gray85", "gray20")
         )
         self.progress_bar.set(0)
-        self.progress_bar.grid(row=4, column=1, columnspan=2, pady=(10,0), sticky="w")
+        self.progress_bar.pack(fill="x", padx=5, pady=5)
         
-        # Thêm label hiển thị thông tin tải xuống
-        self.download_info_label = ctk.CTkLabel(
-            self.main_frame,
-            text="",
-            font=APP_CONFIG["font_small"],
-            text_color=("gray50", "gray70")
+        # Frame cho thông tin chi tiết
+        info_frame = ctk.CTkFrame(progress_frame, fg_color="transparent")
+        info_frame.pack(fill="x", padx=5, pady=(0,5))
+        
+        # Labels cho thông tin tải
+        self.speed_label = ctk.CTkLabel(
+            info_frame, 
+            text="Tốc độ: --", 
+            font=APP_CONFIG["font_small"]
         )
-        self.download_info_label.grid(row=5, column=1, columnspan=2, pady=(0,10), sticky="w")
+        self.speed_label.pack(side="left", padx=5)
+        
+        self.size_label = ctk.CTkLabel(
+            info_frame, 
+            text="| Dung lượng: --", 
+            font=APP_CONFIG["font_small"]
+        )
+        self.size_label.pack(side="left", padx=5)
+        
+        self.time_label = ctk.CTkLabel(
+            info_frame, 
+            text="| Thời gian còn lại: --", 
+            font=APP_CONFIG["font_small"]
+        )
+        self.time_label.pack(side="left", padx=5)
         
         self.main_frame.columnconfigure(1, weight=1)
         self.mp4_selected.trace("w", self.update_button_colors)
@@ -237,47 +262,68 @@ class DownloaderApp:
             self.file_status_label.configure(text="")
 
     def progress_callback(self, d):
-        if d.get("status") == "downloading":
-            total = d.get("total_bytes") or d.get("total_bytes_estimate")
-            downloaded = d.get("downloaded_bytes", 0)
+        if d['status'] == 'downloading':
+            # Tính toán phần trăm
+            total = d.get('total_bytes') or d.get('total_bytes_estimate', 0)
+            downloaded = d.get('downloaded_bytes', 0)
             
-            if total:
+            if total > 0:
+                # Cập nhật progress bar
                 progress = downloaded / total
                 self.progress_bar.set(progress)
                 
-                # Tính toán tốc độ và thời gian
-                speed = d.get("speed", 0)
-                if speed:
-                    # Chuyển đổi tốc độ sang MB/s
-                    speed_mb = speed / 1024 / 1024
-                    
-                    # Tính thời gian còn lại
-                    remaining_bytes = total - downloaded
-                    eta_seconds = remaining_bytes / speed if speed > 0 else 0
-                    
-                    # Định dạng thời gian
-                    if eta_seconds < 60:
-                        eta_str = f"{int(eta_seconds)}s"
-                    elif eta_seconds < 3600:
-                        eta_str = f"{int(eta_seconds/60)}m {int(eta_seconds%60)}s"
-                    else:
-                        eta_str = f"{int(eta_seconds/3600)}h {int((eta_seconds%3600)/60)}m"
-                    
-                    # Cập nhật label thông tin
-                    progress_percent = progress * 100
-                    info_text = f"{progress_percent:.1f}% • {speed_mb:.1f} MB/s • Còn lại: {eta_str}"
-                    self.download_info_label.configure(text=info_text)
-                else:
-                    progress_percent = progress * 100
-                    self.download_info_label.configure(text=f"{progress_percent:.1f}%")
-            else:
-                # Nếu không có thông tin về kích thước tổng
+                # Hiển thị phần trăm
+                percent = progress * 100
                 downloaded_mb = downloaded / 1024 / 1024
-                self.download_info_label.configure(text=f"Đã tải: {downloaded_mb:.1f} MB")
-        elif d.get("status") == "finished":
-            self.download_info_label.configure(text="Đang xử lý...")
-        elif d.get("status") == "error":
-            self.download_info_label.configure(text="Lỗi tải xuống!")
+                total_mb = total / 1024 / 1024
+                self.progress_status.configure(
+                    text=f"Đang tải: {percent:.1f}% ({downloaded_mb:.1f}MB/{total_mb:.1f}MB)"
+                )
+                
+                # Hiển thị tốc độ
+                speed = d.get('speed', 0)
+                if speed:
+                    speed_mb = speed / 1024 / 1024
+                    self.speed_label.configure(text=f"Tốc độ: {speed_mb:.1f} MB/s")
+                
+                # Hiển thị thời gian còn lại
+                eta = d.get('eta', 0)
+                if eta:
+                    if eta > 60:
+                        time_left = f"{eta // 60}p {eta % 60}s"
+                    else:
+                        time_left = f"{eta}s"
+                    self.time_label.configure(text=f"| Thời gian còn lại: {time_left}")
+                
+                # Hiển thị kích thước
+                self.size_label.configure(
+                    text=f"| Dung lượng: {downloaded_mb:.1f}MB/{total_mb:.1f}MB"
+                )
+                
+        elif d['status'] == 'finished':
+            self.progress_status.configure(text="Đang xử lý...")
+            self.speed_label.configure(text="Tốc độ: --")
+            self.time_label.configure(text="| Thời gian còn lại: --")
+            self.size_label.configure(text="| Dung lượng: --")
+            
+        elif d['status'] == 'error':
+            self.progress_status.configure(text="Lỗi tải xuống!")
+            self.progress_bar.set(0)
+            self.speed_label.configure(text="Tốc độ: --")
+            self.time_label.configure(text="| Thời gian còn lại: --")
+            self.size_label.configure(text="| Dung lượng: --")
+
+    def reset_ui_state(self):
+        """Reset tất cả trạng thái UI về mặc định"""
+        self.progress_bar.set(0)
+        self.progress_status.configure(text="Sẵn sàng tải xuống")
+        self.speed_label.configure(text="Tốc độ: --")
+        self.time_label.configure(text="| Thời gian còn lại: --")
+        self.size_label.configure(text="| Dung lượng: --")
+        self.url_entry.delete(0, ctk.END)
+        self.url_entry.configure(placeholder_text="Facebook, Instagram, TikTok, Youtube ...")
+        self.filename_entry.delete(0, ctk.END)
+        self.filename_entry.configure(placeholder_text="Để trống để sử dụng tên mặc định")
 
     def download_thread(self, url, file_type, final_path, parent_window):
         try:
@@ -307,9 +353,7 @@ class DownloaderApp:
         finally:
             self.is_downloading = False
             parent_window.after(0, lambda: self.download_button.configure(state="normal"))
-            parent_window.after(0, lambda: self.download_info_label.configure(text=""))
-            self.url_entry.delete(0, ctk.END)
-            self.filename_entry.delete(0, ctk.END)
+            parent_window.after(0, lambda: self.reset_ui_state())
 
     def start_download(self):
         if self.is_downloading:
@@ -340,7 +384,7 @@ class DownloaderApp:
 
         # Reset thanh tiến trình và thông tin
         self.progress_bar.set(0)
-        self.download_info_label.configure(text="Đang chuẩn bị...")
+        self.progress_status.configure(text="Đang chuẩn bị...")
         self.download_start_time = None
 
         # Chuẩn hóa tên file trước khi tạo final_path
@@ -409,7 +453,29 @@ class DownloaderApp:
 
         for col in columns:
             tree.heading(col, text=col, command=lambda _col=col: self.treeview_sort_column(tree, _col, False))
-            tree.column(col, width=100, anchor="w")
+            # Thiết lập kích thước cố định cho từng cột
+            if col == "STT":
+                tree.column(col, width=30, minwidth=30, anchor="w")
+            elif col == "URL":
+                tree.column(col, width=200, minwidth=30, anchor="w")
+            elif col == "Tên file":
+                tree.column(col, width=200, minwidth=30, anchor="w")
+            elif col == "Định dạng":
+                tree.column(col, width=70, minwidth=30, anchor="w")
+            elif col == "Kích thước":
+                tree.column(col, width=80, minwidth=30, anchor="w")
+            elif col == "Thời gian":
+                tree.column(col, width=120, minwidth=30, anchor="w")
+            elif col == "Trạng thái":
+                tree.column(col, width=80, minwidth=30, anchor="w")
+            elif col == "Thư mục lưu":
+                tree.column(col, width=200, minwidth=30, anchor="w")
+            
+            # Thêm sự kiện thay đổi kích thước cho từng cột
+            def on_column_resize(event, column=col):
+                if event.widget.identify_region(event.x, event.y) == "separator":
+                    self.save_column_widths(tree)
+            tree.bind(f'<ButtonRelease-1>', on_column_resize)
 
         if not history:
             empty_values = ["Chưa có lịch sử tải nào."] + [""] * (len(columns) - 1)
@@ -646,30 +712,18 @@ class DownloaderApp:
             logging.error(f"Không thể đọc thứ tự cột: {e}")
             return DEFAULT_COLUMNS
 
-    def toggle_theme(self):
-        """Chuyển đổi giữa giao diện sáng và tối"""
-        current_mode = ctk.get_appearance_mode()
-        if current_mode == "Dark":
-            ctk.set_appearance_mode("Light")
-            # Cấu hình cho Light mode: chữ D, nền tối, chữ trắng
-            self.theme_button.configure(
-                text="D",
-                fg_color="#2D2D2D",
-                text_color="white",
-                hover_color="#333333"
-            )
-        else:
-            ctk.set_appearance_mode("Dark")
-            # Cấu hình cho Dark mode: chữ L, nền sáng, chữ xám
-            self.theme_button.configure(
-                text="L",
-                fg_color="#E0E0E0",
-                text_color="gray",
-                hover_color="#CCCCCC"
-            )
+    def paste_url(self):
+        """Dán link từ clipboard vào ô nhập URL"""
+        try:
+            url = self.root.clipboard_get()
+            self.url_entry.delete(0, ctk.END)
+            self.url_entry.insert(0, url)
+        except Exception as e:
+            logging.error(f"Không thể dán từ clipboard: {e}")
+            messagebox.showerror("Lỗi", "Không thể dán từ clipboard!")
 
 def run_app():
-    ctk.set_appearance_mode("dark")
+    ctk.set_appearance_mode("dark")  # Mặc định dark mode
     ctk.set_default_color_theme("green")
 
     root = ctk.CTk()

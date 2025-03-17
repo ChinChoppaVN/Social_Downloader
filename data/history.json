@@ -553,5 +553,32 @@
         "timestamp": "15/03/2025 23:43:14",
         "status": "Thành công",
         "folder_path": "D:\\Code app\\Test"
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=lxA7i6xyxmo&ab_channel=%EC%9C%A0%EB%85%B8%EC%98%88%EC%A7%80UknowYeaJi",
+        "file_type": "mp4",
+        "file_path": "D:\\Code app\\Test\\Điên_thật_rồi…_Nếu_không_xem_sân_khấu_này_thì_sẽ_hối_hận_🔥_Reaction_Dẫu_Có_Lỗi_Lầm.mp4",
+        "size": "217.10 MB",
+        "timestamp": "17/03/2025 11:57:30",
+        "status": "Thành công",
+        "folder_path": "D:\\Code app\\Test"
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=EXQ50ElYjLs&ab_channel=1900LETH%C3%89%C3%82TRE",
+        "file_type": "mp4",
+        "file_path": "D:\\Code app\\Test\\SOOBIN_DANCING_IN_THE_DARK_[LIVE_@1900_xChandon_Supernova_Future_Hits_Thursday_03102024].mp4",
+        "size": "179.87 MB",
+        "timestamp": "17/03/2025 18:08:11",
+        "status": "Thành công",
+        "folder_path": "D:\\Code app\\Test"
+    },
+    {
+        "url": "https://www.youtube.com/shorts/ytQB1WwdpHQ",
+        "file_type": "mp4",
+        "file_path": "D:\\Code app\\Test\\Vía_top_trending_💯_điểm.mp4",
+        "size": "4.63 MB",
+        "timestamp": "17/03/2025 18:18:56",
+        "status": "Thành công",
+        "folder_path": "D:\\Code app\\Test"
     }
 ]
