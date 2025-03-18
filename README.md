@@ -6,7 +6,16 @@
 
 - Tải video với chất lượng cao nhất có thể
 - Tải audio (MP3) với chất lượng tốt
-- Giao diện người dùng thân thiện
+- Giao diện người dùng thân thiện, chế độ tối (Dark mode)
+- Hiển thị chi tiết tiến trình tải xuống:
+  - Phần trăm hoàn thành
+  - Tốc độ tải (MB/s)
+  - Thời gian còn lại
+  - Kích thước file
+- Điều khiển tải xuống:
+  - Tạm dừng/Tiếp tục tải
+  - Hủy tải
+  - Nút dán link nhanh
 - Lưu lịch sử tải xuống
 - Tự động lấy tên file từ tiêu đề video
 - Hỗ trợ nhiều nền tảng mạng xã hội
