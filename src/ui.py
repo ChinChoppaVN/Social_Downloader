@@ -63,6 +63,9 @@ class DownloaderApp:
         self.mp3_selected = ctk.BooleanVar(value=False)
         self.download_start_time = None
         
+        # Biến theo dõi trạng thái sắp xếp
+        self.current_sort_reverse = False
+        
         self.create_widgets()
 
     def center_window(self):
@@ -390,7 +393,7 @@ class DownloaderApp:
                 size = f"{os.path.getsize(downloaded_file) / 1024 / 1024:.2f} MB"
                 folder_path = os.path.dirname(downloaded_file).replace("/", "\\")
                 
-                # Ghi lịch sử tải ONLY HERE
+                # Ghi lịch sử tải
                 parent_window.after(0, lambda: add_download_history(
                     url, file_type, downloaded_file, 
                     size=size,
@@ -401,6 +404,10 @@ class DownloaderApp:
                 # Cập nhật UI khi hoàn thành
                 parent_window.after(0, lambda: self.progress_status.configure(text="Tải xuống hoàn tất"))
                 parent_window.after(0, lambda: self.update_control_buttons("finished"))
+                
+                # Hiển thị popup hoàn thành từ downloader.py
+                from downloader import show_download_complete_popup
+                parent_window.after(0, lambda: show_download_complete_popup(downloaded_file, parent_window))
                 
         except Exception as e:
             if str(e) == "Download cancelled":
@@ -547,7 +554,7 @@ class DownloaderApp:
             tree.heading(col, text=col, command=lambda _col=col: self.treeview_sort_column(tree, _col, False))
             # Thiết lập kích thước cố định cho từng cột
             if col == "STT":
-                tree.column(col, width=30, minwidth=30, anchor="w")
+                tree.column(col, width=20, minwidth=20, anchor="w")
             elif col == "URL":
                 tree.column(col, width=200, minwidth=30, anchor="w")
             elif col == "Tên file":
@@ -561,12 +568,12 @@ class DownloaderApp:
             elif col == "Trạng thái":
                 tree.column(col, width=80, minwidth=30, anchor="w")
             elif col == "Thư mục lưu":
-                tree.column(col, width=200, minwidth=30, anchor="w")
+                tree.column(col, width=100, minwidth=30, anchor="w")
             
             # Thêm sự kiện thay đổi kích thước cho từng cột
             def on_column_resize(event, column=col):
                 if event.widget.identify_region(event.x, event.y) == "separator":
-                    self.save_column_widths(tree)
+                    self.save_column_order(tree)
             tree.bind(f'<ButtonRelease-1>', on_column_resize)
 
         if not history:
@@ -734,14 +741,23 @@ class DownloaderApp:
             
             file_name = values_dict["Tên file"]
             folder_path = values_dict["Thư mục lưu"]
+            url = values_dict["URL"]
             file_path = os.path.join(folder_path, file_name) if folder_path != "Không rõ" else None
 
             context_menu = Menu(self.root, tearoff=0)
             context_menu.add_command(label="Mở File", command=lambda: self.open_file(file_path))
             context_menu.add_command(label="Mở Folder", command=lambda: self.open_folder_with_highlight(file_path))
             context_menu.add_separator()
+            context_menu.add_command(label="Copy URL", command=lambda: self.copy_url_from_history(url))
+            context_menu.add_separator()
             context_menu.add_command(label="Xóa", command=lambda: self.delete_selected(tree, self.root))
             context_menu.tk_popup(event.x_root, event.y_root)
+
+    def copy_url_from_history(self, url):
+        """Copy URL vào clipboard"""
+        if url:
+            self.root.clipboard_clear()
+            self.root.clipboard_append(url)
 
     def open_file(self, file_path):
         """Mở file được chọn"""
@@ -758,6 +774,10 @@ class DownloaderApp:
         if file_path and os.path.exists(file_path):
             try:
                 if platform.system() == "Windows":
+                    # Chuẩn hóa đường dẫn sang định dạng Windows
+                    file_path = os.path.abspath(file_path)  # Chuyển đổi thành đường dẫn tuyệt đối
+                    file_path = os.path.normpath(file_path)  # Chuẩn hóa đường dẫn
+                    # Sử dụng explorer để mở và highlight file
                     subprocess.run(['explorer', '/select,', file_path])
                 else:
                     subprocess.run(["xdg-open", os.path.dirname(file_path)], check=True)
@@ -768,7 +788,7 @@ class DownloaderApp:
 
     def reorder_columns(self, tree):
         current_columns = list(tree["columns"])
-        new_order = simpledialog.askstring("Sắp xếp cột", "Nhập thứ tự cột (cách nhau bởi dấu phẩy, ví dụ: STT,URL,Tên file,Định dạng,Kích thước,Thời gian,Trạng thái,Thư mục lưu):", parent=self.root)
+        new_order = simpledialog.askstring("Sắp xếp cột", "Nhập thứ tự cột (cách nhau bởi dấu phẩy, ví dụ: STT,URL,Tên file,Định dạng,Kích thước,Thời gian,Trạng thái,Thư mục):", parent=self.root)
         if new_order:
             try:
                 new_order = [col.strip() for col in new_order.split(",")]

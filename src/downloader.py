@@ -14,34 +14,96 @@ from utils import add_download_history
 def download_video(url, file_type, final_path, parent_window, progress_callback=None):
     """Tải video từ URL"""
     try:
-        ydl_opts = {
-            'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' if file_type == 'mp4' else 'bestaudio/best',
-            'outtmpl': final_path,
-            'progress_hooks': [progress_callback] if progress_callback else [],
-            'postprocessors': [{
-                'key': 'FFmpegExtractAudio',
-                'preferredcodec': 'mp3',
-                'preferredquality': '192',
-            }] if file_type == 'mp3' else [],
-            'quiet': True,
-            'no_warnings': True
-        }
+        if file_type == 'mp3':
+            # Đảm bảo final_path có đuôi .mp3
+            if not final_path.endswith('.mp3'):
+                final_path = final_path + '.mp3'
+                
+            # Cấu hình đơn giản hóa cho MP3
+            ydl_opts = {
+                'format': 'bestaudio',
+                'outtmpl': final_path,
+                'progress_hooks': [progress_callback] if progress_callback else [],
+                'postprocessors': [{
+                    'key': 'FFmpegExtractAudio',
+                    'preferredcodec': 'mp3',
+                    'preferredquality': '192',
+                }],
+                'quiet': True,
+                'no_warnings': True
+            }
+
+            # Xóa file cũ nếu tồn tại
+            if os.path.exists(final_path):
+                try:
+                    os.remove(final_path)
+                except:
+                    pass
+
+        else:
+            ydl_opts = {
+                'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best',
+                'outtmpl': final_path,
+                'progress_hooks': [progress_callback] if progress_callback else [],
+                'quiet': True,
+                'no_warnings': True
+            }
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             try:
-                info_dict = ydl.extract_info(url, download=True)
+                # Tải thông tin video trước
+                info_dict = ydl.extract_info(url, download=False)
+                if not info_dict:
+                    raise Exception("Không thể lấy thông tin video")
+
+                # Tiến hành tải
+                ydl.download([url])
+                
+                if file_type == 'mp3':
+                    # Kiểm tra file MP3 sau khi tải
+                    if os.path.exists(final_path):
+                        if os.path.getsize(final_path) > 0:
+                            return final_path
+                        else:
+                            if os.path.exists(final_path):
+                                os.remove(final_path)
+                            raise Exception("File MP3 tạo ra bị lỗi (kích thước = 0)")
+                    else:
+                        # Kiểm tra các file tạm và file trung gian
+                        dir_path = os.path.dirname(final_path)
+                        base_name = os.path.splitext(os.path.basename(final_path))[0]
+                        
+                        # Tìm file MP3 có thể đã được tạo với tên khác
+                        for file in os.listdir(dir_path):
+                            if file.startswith(base_name) and file.endswith('.mp3'):
+                                mp3_path = os.path.join(dir_path, file)
+                                # Đổi tên file thành tên mong muốn
+                                try:
+                                    os.rename(mp3_path, final_path)
+                                    return final_path
+                                except:
+                                    if os.path.exists(mp3_path):
+                                        return mp3_path
+                        
+                        # Nếu không tìm thấy file MP3 nào
+                        raise Exception("Không thể tạo file MP3. Vui lòng thử lại.")
                 return final_path
+                
             except Exception as e:
                 if "Download cancelled" in str(e):
                     raise Exception("Download cancelled")
                 else:
-                    logging.error(f"Lỗi khi tải video: {e}")
+                    error_msg = f"Lỗi khi tải: {str(e)}"
+                    logging.error(error_msg)
+                    logging.error(traceback.format_exc())
+                    parent_window.after(0, lambda: show_error_on_main_thread(parent_window, error_msg))
                     return None
     except Exception as e:
         if "Download cancelled" in str(e):
             raise Exception("Download cancelled")
         else:
-            logging.error(f"Lỗi khi tải video: {e}")
+            logging.error(f"Lỗi khi tải video: {str(e)}")
+            parent_window.after(0, lambda: show_error_on_main_thread(parent_window, f"Lỗi khi tải: {str(e)}"))
             return None
 
 def show_error_on_main_thread(parent_window, message):
@@ -98,10 +160,19 @@ def show_download_complete_popup(file_path, parent_window):
         """Mở thư mục chứa file và highlight file"""
         try:
             if platform.system() == "Windows":
+                # Chuẩn hóa đường dẫn sang định dạng Windows
+                path = os.path.abspath(path)  # Chuyển đổi thành đường dẫn tuyệt đối
+                path = os.path.normpath(path)  # Chuẩn hóa đường dẫn
+                # Kiểm tra xem file có tồn tại không
+                if not os.path.exists(path):
+                    raise FileNotFoundError(f"Không tìm thấy file: {path}")
+                # Sử dụng explorer để mở và highlight file
                 subprocess.run(['explorer', '/select,', path])
             else:
                 subprocess.run(["xdg-open", os.path.dirname(path)], check=True)
             popup.destroy()
+        except FileNotFoundError as e:
+            messagebox.showerror("Lỗi", str(e))
         except Exception as e:
             messagebox.showerror("Lỗi", f"Không thể mở thư mục: {e}")
 
