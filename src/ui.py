@@ -76,7 +76,6 @@ class DownloaderApp:
     def create_widgets(self):
         self.create_header()
         self.create_main_frame()
-        self.create_buttons()
         self.create_footer()
 
     def create_header(self):
@@ -137,7 +136,7 @@ class DownloaderApp:
         # Progress Frame mới
         progress_frame = ctk.CTkFrame(self.main_frame)
         progress_frame.grid(row=4, column=0, columnspan=3, sticky="ew", padx=15, pady=5)
-        
+
         # Label cho tiến trình
         self.progress_status = ctk.CTkLabel(
             progress_frame, 
@@ -163,34 +162,41 @@ class DownloaderApp:
         # Frame cho thông tin chi tiết
         info_frame = ctk.CTkFrame(progress_frame, fg_color="transparent")
         info_frame.pack(fill="x", padx=5, pady=(0,5))
-        
-        # Labels cho thông tin tải
+
+        # Cấu hình grid cho info_frame
+        info_frame.grid_columnconfigure(0, weight=1)
+        info_frame.grid_columnconfigure(1, weight=1)
+        info_frame.grid_columnconfigure(2, weight=1)
+
+        # Labels cho thông tin tải với chiều rộng cố định
         self.speed_label = ctk.CTkLabel(
             info_frame, 
             text="Tốc độ: --", 
-            font=APP_CONFIG["font_small"]
+            font=APP_CONFIG["font_small"],
+            width=120,
+            anchor="w"
         )
-        self.speed_label.pack(side="left", padx=5)
+        self.speed_label.grid(row=0, column=0, padx=5)
         
         self.size_label = ctk.CTkLabel(
             info_frame, 
-            text="| Dung lượng: --", 
-            font=APP_CONFIG["font_small"]
+            text="Dung lượng: --", 
+            font=APP_CONFIG["font_small"],
+            width=180,
+            anchor="w"
         )
-        self.size_label.pack(side="left", padx=5)
+        self.size_label.grid(row=0, column=1, padx=5)
         
         self.time_label = ctk.CTkLabel(
-            info_frame, 
-            text="| Thời gian còn lại: --", 
-            font=APP_CONFIG["font_small"]
+            info_frame,
+            text="Thời gian: --",
+            font=APP_CONFIG["font_small"],
+            width=150,
+            anchor="w"
         )
-        self.time_label.pack(side="left", padx=5)
-        
-        self.main_frame.columnconfigure(1, weight=1)
-        self.mp4_selected.trace("w", self.update_button_colors)
-        self.mp3_selected.trace("w", self.update_button_colors)
+        self.time_label.grid(row=0, column=2, padx=5)
 
-    def create_buttons(self):
+        # Tạo frame cho các nút điều khiển
         button_frame = ctk.CTkFrame(self.root, fg_color="transparent")
         button_frame.pack(pady=10)
 
@@ -199,6 +205,10 @@ class DownloaderApp:
 
         self.history_button = ctk.CTkButton(button_frame, text="Lịch sử tải", command=self.show_download_history, font=APP_CONFIG["button_font"])
         self.history_button.grid(row=0, column=1, padx=5, pady=0, sticky="w")
+        
+        self.main_frame.columnconfigure(1, weight=1)
+        self.mp4_selected.trace("w", self.update_button_colors)
+        self.mp3_selected.trace("w", self.update_button_colors)
 
     def create_footer(self):
         footer_label = ctk.CTkLabel(self.root, text="© 2025 Thắng MupMip. All rights reserved.", font=("Arial", 12))
@@ -289,37 +299,36 @@ class DownloaderApp:
                 # Hiển thị thời gian còn lại
                 eta = d.get('eta', 0)
                 if eta:
-                    if eta > 60:
-                        time_left = f"{eta // 60}p {eta % 60}s"
-                    else:
-                        time_left = f"{eta}s"
-                    self.time_label.configure(text=f"| Thời gian còn lại: {time_left}")
+                    minutes = int(eta // 60)
+                    seconds = int(eta % 60)
+                    time_left = f"{minutes:02d}:{seconds:02d}"
+                    self.time_label.configure(text=f"Thời gian: {time_left}")
                 
                 # Hiển thị kích thước
                 self.size_label.configure(
-                    text=f"| Dung lượng: {downloaded_mb:.1f}MB/{total_mb:.1f}MB"
+                    text=f"Dung lượng: {downloaded_mb:.1f}MB/{total_mb:.1f}MB"
                 )
                 
         elif d['status'] == 'finished':
             self.progress_status.configure(text="Đang xử lý...")
             self.speed_label.configure(text="Tốc độ: --")
-            self.time_label.configure(text="| Thời gian còn lại: --")
-            self.size_label.configure(text="| Dung lượng: --")
+            self.time_label.configure(text="Thời gian: --")
+            self.size_label.configure(text="Dung lượng: --")
             
         elif d['status'] == 'error':
             self.progress_status.configure(text="Lỗi tải xuống!")
             self.progress_bar.set(0)
             self.speed_label.configure(text="Tốc độ: --")
-            self.time_label.configure(text="| Thời gian còn lại: --")
-            self.size_label.configure(text="| Dung lượng: --")
+            self.time_label.configure(text="Thời gian: --")
+            self.size_label.configure(text="Dung lượng: --")
 
     def reset_ui_state(self):
         """Reset tất cả trạng thái UI về mặc định"""
         self.progress_bar.set(0)
         self.progress_status.configure(text="Sẵn sàng tải xuống")
         self.speed_label.configure(text="Tốc độ: --")
-        self.time_label.configure(text="| Thời gian còn lại: --")
-        self.size_label.configure(text="| Dung lượng: --")
+        self.time_label.configure(text="Thời gian: --")
+        self.size_label.configure(text="Dung lượng: --")
         self.url_entry.delete(0, ctk.END)
         self.url_entry.configure(placeholder_text="Facebook, Instagram, TikTok, Youtube ...")
         self.filename_entry.delete(0, ctk.END)
