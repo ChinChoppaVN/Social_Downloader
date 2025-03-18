@@ -7,73 +7,42 @@ import platform
 import subprocess
 import shutil
 from functools import partial
+import logging
 
 from utils import add_download_history
 
-def download_video(url, file_type, output_path, parent_window, progress_callback=None):
-    """
-    Tải video/audio từ URL và lưu vào output_path
-    
-    Args:
-        url: URL của video
-        file_type: 'mp4' hoặc 'mp3'
-        output_path: Đường dẫn lưu file (không bao gồm đuôi)
-        parent_window: Cửa sổ gốc để hiển thị thông báo
-        progress_callback: Hàm callback cập nhật tiến trình
-    """
-    folder = os.path.dirname(output_path)
-    filename = os.path.basename(output_path)
-    if filename.lower().endswith((".mp3", ".mp4")):
-        filename = filename.rsplit(".", 1)[0]
-    outtmpl = os.path.join(folder, filename)
-
-    ydl_opts = {
-        'outtmpl': outtmpl + ".%(ext)s",
-        'noplaylist': True,
-    }
-    
-    # Thêm callback tiến trình nếu được cung cấp
-    if progress_callback is not None:
-        ydl_opts['progress_hooks'] = [progress_callback]
-
-    if file_type == "mp3":
-        if not shutil.which("ffmpeg"):
-            raise Exception("FFmpeg không được cài đặt. Vui lòng cài FFmpeg để tải mp3.")
-        ydl_opts.update({
-            'format': 'bestaudio/best',
+def download_video(url, file_type, final_path, parent_window, progress_callback=None):
+    """Tải video từ URL"""
+    try:
+        ydl_opts = {
+            'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' if file_type == 'mp4' else 'bestaudio/best',
+            'outtmpl': final_path,
+            'progress_hooks': [progress_callback] if progress_callback else [],
             'postprocessors': [{
                 'key': 'FFmpegExtractAudio',
                 'preferredcodec': 'mp3',
                 'preferredquality': '192',
-            }],
-        })
-    else:  # mp4
-        ydl_opts.update({
-            'format': 'bestvideo+bestaudio/best',
-            'merge_output_format': 'mp4'
-        })
+            }] if file_type == 'mp3' else [],
+            'quiet': True,
+            'no_warnings': True
+        }
 
-    try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            info_dict = ydl.extract_info(url, download=True)
-            downloaded_filename = ydl.prepare_filename(info_dict)
-            base, downloaded_ext = os.path.splitext(downloaded_filename)
-            
-            final_filename = f"{base}.{file_type}"
-            if os.path.exists(downloaded_filename) and downloaded_filename != final_filename:
-                try:
-                    os.rename(downloaded_filename, final_filename)
-                except OSError as e:
-                    show_error_on_main_thread(parent_window, f"Không thể đổi tên file: {e}")
-
-        # Chỉ hiển thị popup hoàn thành, KHÔNG ghi lịch sử ở đây
-        parent_window.after(0, lambda: show_download_complete_popup(final_filename, parent_window))
-        return final_filename  # Trả về tên file để ghi lịch sử ở UI
-
+            try:
+                info_dict = ydl.extract_info(url, download=True)
+                return final_path
+            except Exception as e:
+                if "Download cancelled" in str(e):
+                    raise Exception("Download cancelled")
+                else:
+                    logging.error(f"Lỗi khi tải video: {e}")
+                    return None
     except Exception as e:
-        error_msg = f"Có lỗi xảy ra:\n{traceback.format_exc()}"
-        show_error_on_main_thread(parent_window, error_msg)
-        raise  # Ném lại exception để UI xử lý
+        if "Download cancelled" in str(e):
+            raise Exception("Download cancelled")
+        else:
+            logging.error(f"Lỗi khi tải video: {e}")
+            return None
 
 def show_error_on_main_thread(parent_window, message):
     """Hiển thị thông báo lỗi trên main thread"""

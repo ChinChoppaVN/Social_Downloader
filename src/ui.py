@@ -146,9 +146,13 @@ class DownloaderApp:
         )
         self.progress_status.pack(fill="x", padx=5, pady=(5,0))
         
+        # Frame cho progress bar và nút điều khiển
+        progress_control_frame = ctk.CTkFrame(progress_frame, fg_color="transparent")
+        progress_control_frame.pack(fill="x", padx=5, pady=5)
+        
         # Progress bar với màu gradient và bo góc
         self.progress_bar = ctk.CTkProgressBar(
-            progress_frame,
+            progress_control_frame,
             width=350,
             height=15,
             corner_radius=8,
@@ -156,8 +160,36 @@ class DownloaderApp:
             progress_color=("green", "#1D6F42"),
             fg_color=("gray85", "gray20")
         )
+        self.progress_bar.pack(side="left", fill="x", expand=True, padx=(0,10))
         self.progress_bar.set(0)
-        self.progress_bar.pack(fill="x", padx=5, pady=5)
+        
+        # Frame cho các nút điều khiển
+        control_buttons_frame = ctk.CTkFrame(progress_control_frame, fg_color="transparent")
+        control_buttons_frame.pack(side="right")
+        
+        # Nút pause/play gộp
+        self.pause_play_button = ctk.CTkButton(
+            control_buttons_frame,
+            text="⏸",
+            width=30,
+            height=25,
+            command=self.toggle_download,
+            font=("Arial", 14)
+        )
+        self.pause_play_button.pack(side="left", padx=2)
+        self.pause_play_button.configure(state="disabled")
+        
+        # Nút cancel
+        self.cancel_button = ctk.CTkButton(
+            control_buttons_frame,
+            text="✕",
+            width=30,
+            height=25,
+            command=self.cancel_download,
+            font=("Arial", 14)
+        )
+        self.cancel_button.pack(side="left", padx=2)
+        self.cancel_button.configure(state="disabled")
         
         # Frame cho thông tin chi tiết
         info_frame = ctk.CTkFrame(progress_frame, fg_color="transparent")
@@ -273,6 +305,17 @@ class DownloaderApp:
 
     def progress_callback(self, d):
         if d['status'] == 'downloading':
+            if hasattr(self, 'is_cancelled') and self.is_cancelled:
+                raise Exception("Download cancelled")
+                
+            if hasattr(self, 'is_paused') and self.is_paused:
+                while self.is_paused and not self.is_cancelled:
+                    self.root.update()  # Cập nhật giao diện trong khi tạm dừng
+                    self.root.after(100)  # Chờ 100ms
+                if self.is_cancelled:
+                    raise Exception("Download cancelled")
+                return
+            
             # Tính toán phần trăm
             total = d.get('total_bytes') or d.get('total_bytes_estimate', 0)
             downloaded = d.get('downloaded_bytes', 0)
@@ -284,10 +327,8 @@ class DownloaderApp:
                 
                 # Hiển thị phần trăm
                 percent = progress * 100
-                downloaded_mb = downloaded / 1024 / 1024
-                total_mb = total / 1024 / 1024
                 self.progress_status.configure(
-                    text=f"Đang tải: {percent:.1f}% ({downloaded_mb:.1f}MB/{total_mb:.1f}MB)"
+                    text=f"Đang tải: {percent:.1f}%"
                 )
                 
                 # Hiển thị tốc độ
@@ -305,22 +346,28 @@ class DownloaderApp:
                     self.time_label.configure(text=f"Thời gian: {time_left}")
                 
                 # Hiển thị kích thước
+                downloaded_mb = downloaded / 1024 / 1024
+                total_mb = total / 1024 / 1024
                 self.size_label.configure(
                     text=f"Dung lượng: {downloaded_mb:.1f}MB/{total_mb:.1f}MB"
                 )
                 
         elif d['status'] == 'finished':
-            self.progress_status.configure(text="Đang xử lý...")
-            self.speed_label.configure(text="Tốc độ: --")
-            self.time_label.configure(text="Thời gian: --")
-            self.size_label.configure(text="Dung lượng: --")
+            if not self.is_cancelled:  # Chỉ cập nhật nếu không phải do hủy
+                self.progress_status.configure(text="Đang xử lý...")
+                self.speed_label.configure(text="Tốc độ: --")
+                self.time_label.configure(text="Thời gian: --")
+                self.size_label.configure(text="Dung lượng: --")
+                self.update_control_buttons("finished")
             
         elif d['status'] == 'error':
-            self.progress_status.configure(text="Lỗi tải xuống!")
-            self.progress_bar.set(0)
-            self.speed_label.configure(text="Tốc độ: --")
-            self.time_label.configure(text="Thời gian: --")
-            self.size_label.configure(text="Dung lượng: --")
+            if not self.is_cancelled:  # Chỉ hiển thị lỗi nếu không phải do hủy
+                self.progress_status.configure(text="Lỗi tải xuống!")
+                self.progress_bar.set(0)
+                self.speed_label.configure(text="Tốc độ: --")
+                self.time_label.configure(text="Thời gian: --")
+                self.size_label.configure(text="Dung lượng: --")
+                self.update_control_buttons("ready")
 
     def reset_ui_state(self):
         """Reset tất cả trạng thái UI về mặc định"""
@@ -328,7 +375,7 @@ class DownloaderApp:
         self.progress_status.configure(text="Sẵn sàng tải xuống")
         self.speed_label.configure(text="Tốc độ: --")
         self.time_label.configure(text="Thời gian: --")
-        self.size_label.configure(text="Dung lượng: --")
+        self.size_label.configure(text="Dung lượng: --")     
         self.url_entry.delete(0, ctk.END)
         self.url_entry.configure(placeholder_text="Facebook, Instagram, TikTok, Youtube ...")
         self.filename_entry.delete(0, ctk.END)
@@ -351,14 +398,42 @@ class DownloaderApp:
                     folder_path=folder_path
                 ))
                 
+                # Cập nhật UI khi hoàn thành
+                parent_window.after(0, lambda: self.progress_status.configure(text="Tải xuống hoàn tất"))
+                parent_window.after(0, lambda: self.update_control_buttons("finished"))
+                
         except Exception as e:
-            # Ghi lịch sử thất bại
-            parent_window.after(0, lambda: add_download_history(
-                url, file_type, final_path,
-                size="Không rõ",
-                status="Thất bại",
-                folder_path="Không rõ"
-            ))
+            if str(e) == "Download cancelled":
+                # Ghi lịch sử thất bại do hủy
+                parent_window.after(0, lambda: add_download_history(
+                    url, file_type, final_path,
+                    size="Không rõ",
+                    status="Đã hủy",
+                    folder_path="Không rõ"
+                ))
+                # Reset UI khi hủy
+                parent_window.after(0, lambda: self.progress_status.configure(text="Đã hủy tải xuống"))
+                parent_window.after(0, lambda: self.progress_bar.set(0))
+                parent_window.after(0, lambda: self.speed_label.configure(text="Tốc độ: --"))
+                parent_window.after(0, lambda: self.time_label.configure(text="Thời gian: --"))
+                parent_window.after(0, lambda: self.size_label.configure(text="Dung lượng: --"))
+                parent_window.after(0, lambda: self.update_control_buttons("ready"))
+            else:
+                # Ghi lịch sử thất bại
+                parent_window.after(0, lambda: add_download_history(
+                    url, file_type, final_path,
+                    size="Không rõ",
+                    status="Thất bại",
+                    folder_path="Không rõ"
+                ))
+                # Hiển thị thông báo lỗi
+                parent_window.after(0, lambda: self.progress_status.configure(text="Lỗi tải xuống!"))
+                parent_window.after(0, lambda: self.progress_bar.set(0))
+                parent_window.after(0, lambda: self.speed_label.configure(text="Tốc độ: --"))
+                parent_window.after(0, lambda: self.time_label.configure(text="Thời gian: --"))
+                parent_window.after(0, lambda: self.size_label.configure(text="Dung lượng: --"))
+                parent_window.after(0, lambda: self.update_control_buttons("ready"))
+                
         finally:
             self.is_downloading = False
             parent_window.after(0, lambda: self.download_button.configure(state="normal"))
@@ -391,10 +466,18 @@ class DownloaderApp:
         if not name_input:
             name_input = fetch_video_title(url)
 
+        # Reset các biến điều khiển
+        self.is_paused = False
+        self.is_cancelled = False
+        
         # Reset thanh tiến trình và thông tin
         self.progress_bar.set(0)
         self.progress_status.configure(text="Đang chuẩn bị...")
         self.download_start_time = None
+        
+        # Kích hoạt các nút điều khiển ngay khi bắt đầu tải
+        self.pause_play_button.configure(state="normal")
+        self.cancel_button.configure(state="normal")
 
         # Chuẩn hóa tên file trước khi tạo final_path
         if self.mp4_selected.get():
@@ -730,6 +813,45 @@ class DownloaderApp:
         except Exception as e:
             logging.error(f"Không thể dán từ clipboard: {e}")
             messagebox.showerror("Lỗi", "Không thể dán từ clipboard!")
+
+    def toggle_download(self):
+        """Chuyển đổi giữa tạm dừng và tiếp tục tải"""
+        if not hasattr(self, 'is_paused'):
+            self.is_paused = False
+            
+        self.is_paused = not self.is_paused
+        
+        if self.is_paused:
+            self.pause_play_button.configure(text="▶")  # Chuyển sang nút play
+            self.progress_status.configure(text="Đã tạm dừng")
+        else:
+            self.pause_play_button.configure(text="⏸")  # Chuyển sang nút pause
+            self.progress_status.configure(text="Đang tải...")
+
+    def cancel_download(self):
+        """Hủy quá trình tải xuống"""
+        if messagebox.askyesno("Xác nhận", "Bạn có chắc muốn hủy tải xuống?"):
+            self.is_cancelled = True
+            self.is_downloading = False
+            self.progress_status.configure(text="Đã hủy tải xuống")
+            self.progress_bar.set(0)
+            self.speed_label.configure(text="Tốc độ: --")
+            self.time_label.configure(text="Thời gian: --")
+            self.size_label.configure(text="Dung lượng: --")
+            self.update_control_buttons("ready")
+            self.download_button.configure(state="normal")
+
+    def update_control_buttons(self, status="ready"):
+        """Cập nhật trạng thái các nút điều khiển"""
+        if status == "ready":  # Sẵn sàng tải
+            self.pause_play_button.configure(state="disabled")
+            self.cancel_button.configure(state="disabled")
+        elif status == "downloading":  # Đang tải
+            self.pause_play_button.configure(state="normal")
+            self.cancel_button.configure(state="normal")
+        elif status == "finished":  # Hoàn thành
+            self.pause_play_button.configure(state="disabled")
+            self.cancel_button.configure(state="disabled")
 
 def run_app():
     ctk.set_appearance_mode("dark")  # Mặc định dark mode

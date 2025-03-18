@@ -580,5 +580,113 @@
         "timestamp": "17/03/2025 18:18:56",
         "status": "Thành công",
         "folder_path": "D:\\Code app\\Test"
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=yA9ApxSp0NM&ab_channel=S%E1%BB%B1Th%E1%BA%ADt404",
+        "file_type": "mp4",
+        "file_path": "D:\\Code app\\Test\\Sốc_Kim_Tự_Tháp_Là_Do_Người_Ngoài_Hành_Tinh_Xây_Dưng_Sự_Thật_404.mp4",
+        "size": "71.33 MB",
+        "timestamp": "18/03/2025 10:00:47",
+        "status": "Thành công",
+        "folder_path": "D:\\Code app\\Test"
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=yA9ApxSp0NM&ab_channel=S%E1%BB%B1Th%E1%BA%ADt404",
+        "file_type": "mp4",
+        "file_path": "D:\\Code app\\Test\\aaa.mp4",
+        "size": "71.33 MB",
+        "timestamp": "18/03/2025 10:31:40",
+        "status": "Thành công",
+        "folder_path": "D:\\Code app\\Test"
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=yA9ApxSp0NM&ab_channel=S%E1%BB%B1Th%E1%BA%ADt404",
+        "file_type": "mp4",
+        "file_path": "D:\\Code app\\Test\\adwds.mp4",
+        "size": "71.33 MB",
+        "timestamp": "18/03/2025 10:36:07",
+        "status": "Thành công",
+        "folder_path": "D:\\Code app\\Test"
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=loNL2_jF0Wg&ab_channel=G%E1%BA%B7pnhaucu%E1%BB%91itu%E1%BA%A7n",
+        "file_type": "mp4",
+        "file_path": "D:\\Code app\\Test\\yui.mp4",
+        "size": "742.99 MB",
+        "timestamp": "18/03/2025 11:32:20",
+        "status": "Thành công",
+        "folder_path": "D:\\Code app\\Test"
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=loNL2_jF0Wg&ab_channel=G%E1%BA%B7pnhaucu%E1%BB%91itu%E1%BA%A7n",
+        "file_type": "mp4",
+        "file_path": "D:\\Code app\\Test\\123456.mp4",
+        "size": "742.99 MB",
+        "timestamp": "18/03/2025 11:47:45",
+        "status": "Thành công",
+        "folder_path": "D:\\Code app\\Test"
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=loNL2_jF0Wg&ab_channel=G%E1%BA%B7pnhaucu%E1%BB%91itu%E1%BA%A7n",
+        "file_type": "mp4",
+        "file_path": "D:/Code app/Test\\12345679.mp4",
+        "size": "Không rõ",
+        "timestamp": "18/03/2025 11:48:19",
+        "status": "Đã hủy",
+        "folder_path": "Không rõ"
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=FG7FPeBlhTQ&ab_channel=Tri%E1%BA%BFtLu%E1%BA%ADnNh%C3%A2nSinh",
+        "file_type": "mp4",
+        "file_path": "D:/Code app/Test\\Kiểu_Người_Dễ_Gặp_Quý_Nhân_Nhưng_Cũng_Dễ_Bị_Tiểu_Nhân_Hãm_Hại_Triết_Luận_Nhân_Sinh.mp4",
+        "size": "Không rõ",
+        "timestamp": "18/03/2025 12:00:42",
+        "status": "Đã hủy",
+        "folder_path": "Không rõ"
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=FG7FPeBlhTQ&ab_channel=Tri%E1%BA%BFtLu%E1%BA%ADnNh%C3%A2nSinh",
+        "file_type": "mp4",
+        "file_path": "D:/Code app/Test\\12345678.mp4",
+        "size": "Không rõ",
+        "timestamp": "18/03/2025 12:03:17",
+        "status": "Đã hủy",
+        "folder_path": "Không rõ"
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=FG7FPeBlhTQ&ab_channel=Tri%E1%BA%BFtLu%E1%BA%ADnNh%C3%A2nSinh",
+        "file_type": "mp4",
+        "file_path": "D:/Code app/Test\\aaaaaaaaaa.mp4",
+        "size": "Không rõ",
+        "timestamp": "18/03/2025 12:04:08",
+        "status": "Đã hủy",
+        "folder_path": "Không rõ"
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=FG7FPeBlhTQ&ab_channel=Tri%E1%BA%BFtLu%E1%BA%ADnNh%C3%A2nSinh",
+        "file_type": "mp4",
+        "file_path": "D:/Code app/Test\\1231233.mp4",
+        "size": "Không rõ",
+        "timestamp": "18/03/2025 12:07:56",
+        "status": "Đã hủy",
+        "folder_path": "Không rõ"
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=FG7FPeBlhTQ&ab_channel=Tri%E1%BA%BFtLu%E1%BA%ADnNh%C3%A2nSinh",
+        "file_type": "mp4",
+        "file_path": "D:/Code app/Test\\13232.mp4",
+        "size": "Không rõ",
+        "timestamp": "18/03/2025 12:11:30",
+        "status": "Đã hủy",
+        "folder_path": "Không rõ"
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=FG7FPeBlhTQ&ab_channel=Tri%E1%BA%BFtLu%E1%BA%ADnNh%C3%A2nSinh",
+        "file_type": "mp4",
+        "file_path": "D:/Code app/Test\\456456.mp4",
+        "size": "Không rõ",
+        "timestamp": "18/03/2025 12:16:14",
+        "status": "Đã hủy",
+        "folder_path": "Không rõ"
     }
 ]
