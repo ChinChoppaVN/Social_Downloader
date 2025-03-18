@@ -18,7 +18,7 @@ def check_requirements():
         os.path.join(current_dir, "assets", "ffmpeg.exe"),
         os.path.join(current_dir, "assets", "ffprobe.exe"),
         os.path.join(current_dir, "assets", "ffplay.exe"),
-        os.path.join(current_dir, "src", "Main.py")
+        os.path.join(current_dir, "src", "main.py")
     ]
     
     missing_files = []
@@ -69,14 +69,14 @@ def main():
         
         # Đường dẫn tới các file cần thiết
         icon_path = os.path.join(current_dir, "assets", "CH.ico")
-        main_script = os.path.join(current_dir, "src", "Main.py")
+        main_script = os.path.join(current_dir, "src", "main.py")
         
         # Các file và thư mục cần được đóng gói cùng
         additional_files = [
             (os.path.join(current_dir, "assets"), "assets"),  # Copy toàn bộ thư mục assets
-            (os.path.join(current_dir, "config"), "config"),  # Copy thư mục config
             (os.path.join(current_dir, "data"), "data"),      # Copy thư mục data
             (os.path.join(current_dir, "src"), "src"),        # Copy toàn bộ thư mục src
+            (os.path.join(current_dir, "app_config.py"), "app_config.py"),  # Copy file cấu hình
         ]
         
         # Tạo chuỗi dữ liệu cho additional files
@@ -114,10 +114,8 @@ def main():
             "--hidden-import=src.ui",          # Import ẩn các module từ src
             "--hidden-import=src.downloader",
             "--hidden-import=src.utils",
-            "--hidden-import=config.app_config",
             "--collect-submodules=PIL",        # Thu thập tất cả submodules của PIL
             "--collect-submodules=src",        # Thu thập tất cả submodules từ src
-            "--collect-submodules=config",     # Thu thập tất cả submodules từ config
             "--add-binary=assets/ffmpeg.exe;.",    # Thêm ffmpeg
             "--add-binary=assets/ffprobe.exe;.",   # Thêm ffprobe
             "--add-binary=assets/ffplay.exe;.",    # Thêm ffplay

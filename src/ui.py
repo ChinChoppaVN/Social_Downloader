@@ -1,37 +1,29 @@
 import os
-import sys
 import json
-import csv
-import threading
-import customtkinter as ctk
-from datetime import datetime
-from tkinter import filedialog, messagebox, simpledialog, ttk, Menu
 import logging
+from datetime import datetime
 import shutil
 import platform
 import subprocess
+import re
+import sys
+import threading
+import time
+import yt_dlp
+from PIL import Image, ImageTk
+import customtkinter as ctk
+from tkinter import messagebox, filedialog, ttk, Menu
+import csv
 from functools import partial
 
 # Thêm thư mục gốc vào sys.path
-root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-if root_dir not in sys.path:
-    sys.path.append(root_dir)
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if ROOT_DIR not in sys.path:
+    sys.path.append(ROOT_DIR)
 
-# Import PIL một cách an toàn
-try:
-    from PIL import Image, ImageTk
-except ImportError:
-    logging.error("Không thể import PIL. Đang cài đặt Pillow...")
-    try:
-        import subprocess
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "Pillow"])
-        from PIL import Image, ImageTk
-    except Exception as e:
-        logging.error(f"Không thể cài đặt Pillow: {e}")
-        messagebox.showerror("Lỗi", "Không thể tải thư viện PIL. Vui lòng cài đặt thủ công: pip install Pillow")
-        sys.exit(1)
-
-import re
+# Đường dẫn
+ASSETS_DIR = os.path.join(ROOT_DIR, "assets")
+DATA_DIR = os.path.join(ROOT_DIR, "data")
 
 # Import các module từ thư mục src
 from src.downloader import download_video
@@ -39,17 +31,11 @@ from src.utils import (
     get_clean_filename, load_last_folder, save_last_folder, 
     fetch_video_title, validate_url, add_download_history, 
     get_download_history, clear_download_history, export_download_history,
-    DATA_DIR
+    DATA_DIR, HISTORY_FILE
 )
 
-# Import config từ thư mục config
-from config.app_config import APP_CONFIG, ASSETS_DIR, DEFAULT_COLUMNS
-
-# Tạo thư mục data nếu chưa tồn tại
-if not os.path.exists(DATA_DIR):
-    os.makedirs(DATA_DIR)
-
-CONFIG = {
+# Cấu hình ứng dụng
+APP_CONFIG = {
     "app_title": "Social Media Downloader",
     "app_size": "600x500",
     "max_history_display": 50,
@@ -60,6 +46,22 @@ CONFIG = {
     "button_font": ("Arial", 16, "bold"),
     "platforms": ["YouTube", "TikTok", "Vimeo", "SoundCloud"]
 }
+
+# Thứ tự cột mặc định cho bảng lịch sử
+DEFAULT_COLUMNS = [
+    "STT",
+    "Tên file",
+    "Định dạng",
+    "Kích thước",
+    "Thư mục lưu", 
+    "Thời gian",
+    "Trạng thái",
+    "URL"
+]
+
+# Tạo thư mục data nếu chưa tồn tại
+if not os.path.exists(DATA_DIR):
+    os.makedirs(DATA_DIR)
 
 class DownloaderApp:
     def __init__(self, root):
@@ -473,25 +475,25 @@ class DownloaderApp:
 
     def start_download(self):
         if self.is_downloading:
-            messagebox.showinfo("Thông báo", "Đang tải, vui lòng chờ!")
+            self.show_message("Thông báo", "Đang tải, vui lòng chờ!")
             return
 
         url = self.url_entry.get().strip()
         if not url:
-            messagebox.showerror("Lỗi", "Vui lòng nhập link video!")
+            self.show_message("Lỗi", "Vui lòng nhập link video!", "error")
             return
             
         if not validate_url(url):
-            messagebox.showerror("Lỗi", "Link video không hợp lệ!")
+            self.show_message("Lỗi", "Link video không hợp lệ!", "error")
             return
             
         folder = self.folder_var.get().strip()
         if not folder:
-            messagebox.showerror("Lỗi", "Vui lòng chọn thư mục lưu!")
+            self.show_message("Lỗi", "Vui lòng chọn thư mục lưu!", "error")
             return
             
         if not shutil.which("ffmpeg"):
-            messagebox.showerror("Lỗi", "FFmpeg không được cài đặt. Vui lòng cài FFmpeg để tải video hoặc audio.")
+            self.show_message("Lỗi", "FFmpeg không được cài đặt. Vui lòng cài FFmpeg để tải video hoặc audio.", "error")
             return
             
         name_input = self.filename_entry.get().strip()
@@ -518,7 +520,7 @@ class DownloaderApp:
             final_path = os.path.join(folder, clean_name)
 
             if os.path.exists(final_path):
-                if not messagebox.askyesno("Xác nhận", f"Tên file MP4 đã tồn tại. Bạn có muốn ghi đè?"):
+                if not self.show_message("Xác nhận", f"Tên file MP4 đã tồn tại. Bạn có muốn ghi đè?", "yesno"):
                     return
 
             self.is_downloading = True
@@ -531,7 +533,7 @@ class DownloaderApp:
             final_path = os.path.join(folder, clean_name)
 
             if os.path.exists(final_path):
-                if not messagebox.askyesno("Xác nhận", f"Tên file MP3 đã tồn tại. Bạn có muốn ghi đè?"):
+                if not self.show_message("Xác nhận", f"Tên file MP3 đã tồn tại. Bạn có muốn ghi đè?", "yesno"):
                     return
 
             self.is_downloading = True
@@ -539,7 +541,7 @@ class DownloaderApp:
             threading.Thread(target=self.download_thread, args=(url, file_type, final_path, self.root), daemon=True).start()
             
         else:
-            messagebox.showwarning("Cảnh báo", "Vui lòng chọn một định dạng (MP4 hoặc MP3)!")
+            self.show_message("Cảnh báo", "Vui lòng chọn một định dạng (MP4 hoặc MP3)!", "warning")
             self.is_downloading = False
 
     def show_download_history(self):
@@ -561,11 +563,20 @@ class DownloaderApp:
         main_frame = ctk.CTkFrame(history_window)
         main_frame.pack(fill="both", expand=True, padx=10, pady=10)
 
-        search_entry = ctk.CTkEntry(main_frame, placeholder_text="Tìm kiếm (URL, Tên file, Thời gian)...", width=300)
-        search_entry.pack(fill="x", pady=(0, 5))
+        # Frame cho thanh tìm kiếm và toolbar
+        top_frame = ctk.CTkFrame(main_frame)
+        top_frame.pack(fill="x", pady=(0, 5))
 
-        column_order = self.load_column_order()
-        columns = tuple(column_order)
+        # Thanh tìm kiếm
+        search_entry = ctk.CTkEntry(top_frame, placeholder_text="Tìm kiếm (URL, Tên file, Thời gian)...", width=300)
+        search_entry.pack(side="left", fill="x", expand=True, padx=(0, 5))
+
+        # Toolbar
+        toolbar_frame = ctk.CTkFrame(top_frame)
+        toolbar_frame.pack(side="right")
+
+        # Treeview
+        columns = tuple(DEFAULT_COLUMNS)
         tree = ttk.Treeview(main_frame, columns=columns, show="headings", height=350)
         tree.pack(fill="both", expand=True, pady=5)
 
@@ -579,7 +590,7 @@ class DownloaderApp:
             tree.heading(col, text=col, command=lambda _col=col: self.treeview_sort_column(tree, _col, False))
             # Thiết lập kích thước cố định cho từng cột
             if col == "STT":
-                tree.column(col, width=20, minwidth=20, anchor="w")
+                tree.column(col, width=30, minwidth=20, anchor="w")
             elif col == "URL":
                 tree.column(col, width=200, minwidth=30, anchor="w")
             elif col == "Tên file":
@@ -594,19 +605,12 @@ class DownloaderApp:
                 tree.column(col, width=80, minwidth=30, anchor="w")
             elif col == "Thư mục lưu":
                 tree.column(col, width=100, minwidth=30, anchor="w")
-            
-            # Thêm sự kiện thay đổi kích thước cho từng cột
-            def on_column_resize(event, column=col):
-                if event.widget.identify_region(event.x, event.y) == "separator":
-                    self.save_column_order(tree)
-            tree.bind(f'<ButtonRelease-1>', on_column_resize)
 
         if not history:
             empty_values = ["Chưa có lịch sử tải nào."] + [""] * (len(columns) - 1)
             tree.insert("", "end", values=empty_values)
         else:
             for i, entry in enumerate(reversed(history[-50:]), 1):
-                # Tạo dictionary ánh xạ tên cột với giá trị
                 values_dict = {
                     "STT": i,
                     "URL": entry['url'],
@@ -617,30 +621,15 @@ class DownloaderApp:
                     "Trạng thái": entry.get('status', 'Thành công'),
                     "Thư mục lưu": entry.get('folder_path', 'Không rõ')
                 }
-                # Lấy giá trị theo thứ tự cột
                 ordered_values = [values_dict[col] for col in columns]
                 tree.insert("", "end", values=ordered_values)
 
-        toolbar_frame = ctk.CTkFrame(main_frame)
-        toolbar_frame.pack(fill="x", pady=5)
+        # Thêm các nút vào toolbar sau khi tạo treeview
+        btn_clear = ctk.CTkButton(toolbar_frame, text="Xóa toàn bộ", width=100, command=lambda: self.clear_history(tree, history_window))
+        btn_clear.pack(side="left", padx=2)
 
-        btn_clear = ctk.CTkButton(toolbar_frame, text="Xóa", command=lambda: self.clear_history(tree, history_window))
-        btn_clear.pack(side="left", padx=5)
-
-        btn_delete_selected = ctk.CTkButton(toolbar_frame, text="Xóa đã chọn", command=lambda: self.delete_selected(tree, history_window))
-        btn_delete_selected.pack(side="left", padx=5)
-
-        btn_export = ctk.CTkButton(toolbar_frame, text="Xuất", command=lambda: self.export_history(history))
-        btn_export.pack(side="left", padx=5)
-
-        btn_filter = ctk.CTkButton(toolbar_frame, text="Lọc", command=lambda: self.filter_history(tree, history, search_entry.get()))
-        btn_filter.pack(side="left", padx=5)
-
-        btn_reorder = ctk.CTkButton(toolbar_frame, text="Sắp xếp cột", command=lambda: self.reorder_columns(tree))
-        btn_reorder.pack(side="left", padx=5)
-
-        btn_close = ctk.CTkButton(toolbar_frame, text="Đóng", command=history_window.destroy)
-        btn_close.pack(side="left", padx=5)
+        btn_delete_selected = ctk.CTkButton(toolbar_frame, text="Xóa đã chọn", width=100, command=lambda: self.delete_selected(tree, history_window))
+        btn_delete_selected.pack(side="left", padx=2)
 
         def on_search(event):
             self.filter_history(tree, history, search_entry.get())
@@ -659,75 +648,57 @@ class DownloaderApp:
         tree.heading(col, command=lambda: self.treeview_sort_column(tree, col, not reverse))
 
     def clear_history(self, tree, history_window):
-        if messagebox.askyesno("Xác nhận", "Bạn có chắc muốn xóa toàn bộ lịch sử tải?"):
+        if self.show_message("Xác nhận", "Bạn có chắc muốn xóa toàn bộ lịch sử tải?", "yesno", history_window):
             try:
                 clear_download_history()
                 for item in tree.get_children():
                     tree.delete(item)
-                empty_values = ["Chưa có lịch sử tải nào."] + [""] * (len(self.load_column_order()) - 1)
+                empty_values = ["Chưa có lịch sử tải nào."] + [""] * (len(DEFAULT_COLUMNS) - 1)
                 tree.insert("", "end", values=empty_values)
             except Exception as e:
-                messagebox.showerror("Lỗi", f"Không thể xóa lịch sử: {e}")
+                self.show_message("Lỗi", f"Không thể xóa lịch sử: {e}", "error", history_window)
             history_window.lift()
 
     def delete_selected(self, tree, history_window):
         selected = tree.selection()
         if not selected:
-            messagebox.showinfo("Thông báo", "Vui lòng chọn ít nhất một mục để xóa!")
+            self.show_message("Thông báo", "Vui lòng chọn ít nhất một mục để xóa!", "info", history_window)
             return
-        if messagebox.askyesno("Xác nhận", "Bạn có chắc muốn xóa các mục đã chọn?"):
+        if self.show_message("Xác nhận", "Bạn có chắc muốn xóa các mục đã chọn?", "yesno", history_window):
             try:
                 history = get_download_history()
                 for item in selected:
                     values = tree.item(item, "values")
-                    url = values[1]
+                    url = values[7]  # URL nằm ở cột thứ 8 (index 7)
                     new_history = [entry for entry in history if entry['url'] != url]
-                    with open("history.json", "w", encoding="utf-8") as f:
+                    with open(os.path.join(DATA_DIR, "history.json"), "w", encoding="utf-8") as f:
                         json.dump(new_history, f, ensure_ascii=False, indent=4)
+                    history = new_history  # Cập nhật lại history sau mỗi lần xóa
+                
+                # Xóa các mục đã chọn khỏi tree
                 for item in selected:
                     tree.delete(item)
+                
+                # Cập nhật lại STT
                 if tree.get_children():
                     for i, item in enumerate(tree.get_children(), 1):
                         tree.item(item, values=(i,) + tuple(tree.item(item, "values")[1:]))
+                else:
+                    # Nếu không còn mục nào, hiển thị thông báo trống
+                    empty_values = ["Chưa có lịch sử tải nào."] + [""] * (len(DEFAULT_COLUMNS) - 1)
+                    tree.insert("", "end", values=empty_values)
+                    
             except Exception as e:
-                messagebox.showerror("Lỗi", f"Không thể xóa mục đã chọn: {e}")
+                self.show_message("Lỗi", f"Không thể xóa mục đã chọn: {e}", "error", history_window)
             history_window.lift()
-
-    def export_history(self, history):
-        if not history:
-            messagebox.showinfo("Thông báo", "Không có lịch sử để xuất!")
-            return
-        try:
-            filename = filedialog.asksaveasfilename(defaultextension=".csv", filetypes=[("CSV files", "*.csv")], title="Lưu lịch sử tải dưới dạng CSV")
-            if filename:
-                with open(filename, "w", newline="", encoding="utf-8") as f:
-                    writer = csv.writer(f)
-                    writer.writerow(["STT", "URL", "Tên file", "Định dạng", "Kích thước", "Thời gian", "Trạng thái", "Thư mục lưu"])
-                    for i, entry in enumerate(reversed(history[-50:]), 1):
-                        writer.writerow([
-                            i,
-                            entry['url'],
-                            os.path.basename(entry['file_path']),
-                            entry['file_type'],
-                            entry.get('size', 'Không rõ'),
-                            entry['timestamp'],
-                            entry.get('status', 'Thành công'),
-                            entry.get('folder_path', 'Không rõ')
-                        ])
-                messagebox.showinfo("Thành công", f"Lịch sử đã được xuất vào file: {filename}")
-        except Exception as e:
-            messagebox.showerror("Lỗi", f"Không thể xuất lịch sử: {e}")
 
     def filter_history(self, tree, history, search_term):
         search_term = search_term.lower()
         for item in tree.get_children():
             tree.delete(item)
         
-        column_order = self.load_column_order()
-        columns = tuple(column_order)
-        
         if not history:
-            empty_values = ["Chưa có lịch sử tải nào."] + [""] * (len(columns) - 1)
+            empty_values = ["Chưa có lịch sử tải nào."] + [""] * (len(DEFAULT_COLUMNS) - 1)
             tree.insert("", "end", values=empty_values)
             return
         
@@ -749,7 +720,7 @@ class DownloaderApp:
                 "Trạng thái": entry.get('status', 'Thành công'),
                 "Thư mục lưu": entry.get('folder_path', 'Không rõ')
             }
-            ordered_values = [values_dict[col] for col in columns]
+            ordered_values = [values_dict[col] for col in DEFAULT_COLUMNS]
             tree.insert("", "end", values=ordered_values)
 
     def show_context_menu(self, event, tree, history):
@@ -761,8 +732,7 @@ class DownloaderApp:
             values = tree.item(item, "values")
             
             # Lấy thông tin file từ values theo thứ tự cột mới
-            column_order = self.load_column_order()
-            values_dict = dict(zip(column_order, values))
+            values_dict = dict(zip(DEFAULT_COLUMNS, values))
             
             file_name = values_dict["Tên file"]
             folder_path = values_dict["Thư mục lưu"]
@@ -790,74 +760,24 @@ class DownloaderApp:
             try:
                 os.startfile(file_path)
             except Exception as e:
-                messagebox.showerror("Lỗi", f"Không thể mở file: {e}")
+                self.show_message("Lỗi", f"Không thể mở file: {e}", "error")
         else:
-            messagebox.showerror("Lỗi", "File không tồn tại!")
+            self.show_message("Lỗi", "File không tồn tại!", "error")
 
     def open_folder_with_highlight(self, file_path):
         """Mở thư mục và highlight file được chọn"""
         if file_path and os.path.exists(file_path):
             try:
                 if platform.system() == "Windows":
-                    # Chuẩn hóa đường dẫn sang định dạng Windows
-                    file_path = os.path.abspath(file_path)  # Chuyển đổi thành đường dẫn tuyệt đối
-                    file_path = os.path.normpath(file_path)  # Chuẩn hóa đường dẫn
-                    # Sử dụng explorer để mở và highlight file
+                    file_path = os.path.abspath(file_path)
+                    file_path = os.path.normpath(file_path)
                     subprocess.run(['explorer', '/select,', file_path])
                 else:
                     subprocess.run(["xdg-open", os.path.dirname(file_path)], check=True)
             except Exception as e:
-                messagebox.showerror("Lỗi", f"Không thể mở thư mục: {e}")
+                self.show_message("Lỗi", f"Không thể mở thư mục: {e}", "error")
         else:
-            messagebox.showerror("Lỗi", "File không tồn tại!")
-
-    def reorder_columns(self, tree):
-        current_columns = list(tree["columns"])
-        new_order = simpledialog.askstring("Sắp xếp cột", "Nhập thứ tự cột (cách nhau bởi dấu phẩy, ví dụ: STT,URL,Tên file,Định dạng,Kích thước,Thời gian,Trạng thái,Thư mục):", parent=self.root)
-        if new_order:
-            try:
-                new_order = [col.strip() for col in new_order.split(",")]
-                if set(new_order) == set(current_columns):
-                    tree["columns"] = new_order
-                    for i, col in enumerate(new_order):
-                        tree.heading(col, text=col, command=lambda _col=col: self.treeview_sort_column(tree, _col, False))
-                        tree.column(col, width=100, anchor="w")
-                    self.save_column_order(new_order)
-                else:
-                    messagebox.showerror("Lỗi", "Thứ tự cột không hợp lệ!")
-            except Exception as e:
-                messagebox.showerror("Lỗi", f"Không thể sắp xếp cột: {e}")
-
-    def save_column_order(self, order):
-        """Lưu thứ tự cột vào config"""
-        try:
-            with open("config.json", "r", encoding="utf-8") as f:
-                config = json.load(f)
-            config["columns"] = order
-            with open("config.json", "w", encoding="utf-8") as f:
-                json.dump(config, f, ensure_ascii=False, indent=4)
-        except Exception as e:
-            logging.error(f"Không thể lưu thứ tự cột: {e}")
-
-    def load_column_order(self):
-        """Đọc thứ tự cột từ config"""
-        try:
-            with open("config.json", "r", encoding="utf-8") as f:
-                config = json.load(f)
-                return config.get("columns", DEFAULT_COLUMNS)
-        except Exception as e:
-            logging.error(f"Không thể đọc thứ tự cột: {e}")
-            return DEFAULT_COLUMNS
-
-    def paste_url(self):
-        """Dán link từ clipboard vào ô nhập URL"""
-        try:
-            url = self.root.clipboard_get()
-            self.url_entry.delete(0, ctk.END)
-            self.url_entry.insert(0, url)
-        except Exception as e:
-            logging.error(f"Không thể dán từ clipboard: {e}")
-            messagebox.showerror("Lỗi", "Không thể dán từ clipboard!")
+            self.show_message("Lỗi", "File không tồn tại!", "error")
 
     def toggle_download(self):
         """Chuyển đổi giữa tạm dừng và tiếp tục tải"""
@@ -875,7 +795,7 @@ class DownloaderApp:
 
     def cancel_download(self):
         """Hủy quá trình tải xuống"""
-        if messagebox.askyesno("Xác nhận", "Bạn có chắc muốn hủy tải xuống?"):
+        if self.show_message("Xác nhận", "Bạn có chắc muốn hủy tải xuống?", "yesno"):
             self.is_cancelled = True
             self.is_downloading = False
             self.progress_status.configure(text="Đã hủy tải xuống")
@@ -897,6 +817,43 @@ class DownloaderApp:
         elif status == "finished":  # Hoàn thành
             self.pause_play_button.configure(state="disabled")
             self.cancel_button.configure(state="disabled")
+
+    def paste_url(self):
+        """Dán link từ clipboard vào ô nhập URL"""
+        try:
+            url = self.root.clipboard_get()
+            self.url_entry.delete(0, ctk.END)
+            self.url_entry.insert(0, url)
+        except Exception as e:
+            logging.error(f"Không thể dán từ clipboard: {e}")
+            self.show_message("Lỗi", "Không thể dán từ clipboard!", "error")
+
+    def show_message(self, title, message, type="info", parent=None):
+        """Hiển thị thông báo luôn ở trên cùng"""
+        if parent is None:
+            parent = self.root
+        if type == "info":
+            messagebox.showinfo(title, message, parent=parent)
+        elif type == "error":
+            messagebox.showerror(title, message, parent=parent)
+        elif type == "warning":
+            messagebox.showwarning(title, message, parent=parent)
+        elif type == "yesno":
+            return messagebox.askyesno(title, message, parent=parent)
+        parent.lift()  # Đảm bảo cửa sổ cha luôn ở trên cùng
+
+    def show_history_message(self, title, message, type="info", parent=None):
+        """Hiển thị thông báo trong cửa sổ lịch sử"""
+        if type == "info":
+            messagebox.showinfo(title, message, parent=parent)
+        elif type == "error":
+            messagebox.showerror(title, message, parent=parent)
+        elif type == "warning":
+            messagebox.showwarning(title, message, parent=parent)
+        elif type == "yesno":
+            return messagebox.askyesno(title, message, parent=parent)
+        if parent:
+            parent.lift()  # Đảm bảo cửa sổ lịch sử luôn ở trên cùng
 
 def run_app():
     ctk.set_appearance_mode("dark")  # Mặc định dark mode

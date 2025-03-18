@@ -1,19 +1,27 @@
 import os
 import json
 import logging
-import csv
 from datetime import datetime
-from tkinter import filedialog
-import yt_dlp
+import shutil
+import platform
+import subprocess
+import re
 import sys
+import threading
+import time
+import yt_dlp
+from PIL import Image, ImageTk
+import customtkinter as ctk
+from tkinter import messagebox, filedialog
+import csv
+
+# Đường dẫn
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_DIR = os.path.join(ROOT_DIR, "data")
 
 # Thêm thư mục gốc vào sys.path
-root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-if root_dir not in sys.path:
-    sys.path.append(root_dir)
-
-# Import các module từ thư mục gốc
-from config.app_config import DATA_DIR
+if ROOT_DIR not in sys.path:
+    sys.path.append(ROOT_DIR)
 
 CONFIG_FILE = os.path.join(DATA_DIR, "config.json")
 HISTORY_FILE = os.path.join(DATA_DIR, "history.json")
@@ -112,65 +120,63 @@ def save_last_folder(folder):
     with open(CONFIG_FILE, "w", encoding="utf-8") as f:
         json.dump(config, f, ensure_ascii=False, indent=4)
 
-def add_download_history(url, file_type, file_path, size=None, status="Thành công", folder_path=None):
-    history = []
-    if os.path.exists(HISTORY_FILE):
-        with open(HISTORY_FILE, "r", encoding="utf-8") as f:
-            history = json.load(f)
-    
-    if size is None and os.path.exists(file_path):
-        size = f"{os.path.getsize(file_path) / 1024 / 1024:.2f} MB"
-    
-    if folder_path is None:
-        folder_path = os.path.dirname(file_path)
-    folder_path = os.path.normpath(folder_path).replace("/", "\\")
-    
-    new_entry = {
-        "url": url,
-        "file_type": file_type,
-        "file_path": file_path,
-        "size": size,
-        "timestamp": datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
-        "status": status,
-        "folder_path": folder_path
-    }
-    
-    history.append(new_entry)
-    with open(HISTORY_FILE, "w", encoding="utf-8") as f:
-        json.dump(history, f, ensure_ascii=False, indent=4)
-
 def get_download_history():
-    if os.path.exists(HISTORY_FILE):
-        with open(HISTORY_FILE, "r", encoding="utf-8") as f:
-            return json.load(f)
+    """Lấy lịch sử tải xuống từ file"""
+    try:
+        if os.path.exists(HISTORY_FILE):
+            with open(HISTORY_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+    except Exception as e:
+        logging.error(f"Lỗi khi đọc lịch sử: {e}")
     return []
 
-def clear_download_history():
-    if os.path.exists(HISTORY_FILE):
-        os.remove(HISTORY_FILE)
+def add_download_history(url, file_type, file_path, size="Không rõ", status="Thành công", folder_path="Không rõ"):
+    """Thêm một mục vào lịch sử tải xuống"""
+    try:
+        history = get_download_history()
+        history.append({
+            "url": url,
+            "file_type": file_type,
+            "file_path": file_path,
+            "size": size,
+            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "status": status,
+            "folder_path": folder_path
+        })
+        with open(HISTORY_FILE, "w", encoding="utf-8") as f:
+            json.dump(history, f, ensure_ascii=False, indent=4)
+    except Exception as e:
+        logging.error(f"Lỗi khi thêm vào lịch sử: {e}")
 
-def export_download_history(filename=None):
-    history = get_download_history()
-    if not history:
-        return False
-    
-    if not filename:
-        filename = filedialog.asksaveasfilename(defaultextension=".csv", filetypes=[("CSV files", "*.csv")], title="Lưu lịch sử tải dưới dạng CSV")
-        if not filename:
+def clear_download_history():
+    """Xóa toàn bộ lịch sử tải xuống"""
+    try:
+        with open(HISTORY_FILE, "w", encoding="utf-8") as f:
+            json.dump([], f)
+    except Exception as e:
+        logging.error(f"Lỗi khi xóa lịch sử: {e}")
+
+def export_download_history(export_path):
+    """Xuất lịch sử tải xuống ra file CSV"""
+    try:
+        history = get_download_history()
+        if not history:
             return False
-    
-    with open(filename, "w", newline="", encoding="utf-8") as f:
-        writer = csv.writer(f)
-        writer.writerow(["STT", "URL", "Tên file", "Định dạng", "Kích thước", "Thời gian", "Trạng thái", "Thư mục lưu"])
-        for i, entry in enumerate(reversed(history[-50:]), 1):
-            writer.writerow([
-                i,
-                entry['url'],
-                os.path.basename(entry['file_path']),
-                entry['file_type'],
-                entry.get('size', 'Không rõ'),
-                entry['timestamp'],
-                entry.get('status', 'Thành công'),
-                entry.get('folder_path', 'Không rõ')
-            ])
-    return True
+            
+        with open(export_path, "w", newline="", encoding="utf-8-sig") as f:
+            writer = csv.writer(f)
+            writer.writerow(["URL", "Loại File", "Đường dẫn", "Kích thước", "Thời gian", "Trạng thái", "Thư mục lưu"])
+            for entry in history:
+                writer.writerow([
+                    entry["url"],
+                    entry["file_type"],
+                    entry["file_path"],
+                    entry.get("size", "Không rõ"),
+                    entry["timestamp"],
+                    entry.get("status", "Thành công"),
+                    entry.get("folder_path", "Không rõ")
+                ])
+        return True
+    except Exception as e:
+        logging.error(f"Lỗi khi xuất lịch sử: {e}")
+        return False
