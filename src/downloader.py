@@ -9,9 +9,14 @@ import shutil
 from functools import partial
 import logging
 import winsound  # Thêm import winsound để phát âm thanh trên Windows
+import sys
 
-from utils import add_download_history
+# Thêm thư mục gốc vào sys.path
+root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if root_dir not in sys.path:
+    sys.path.append(root_dir)
 
+# Import các module từ thư mục gốc
 def download_video(url, file_type, final_path, parent_window, progress_callback=None):
     """Tải video từ URL"""
     try:

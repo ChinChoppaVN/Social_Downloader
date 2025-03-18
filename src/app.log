@@ -97,3 +97,78 @@ AttributeError: 'DownloaderApp' object has no attribute 'create_buttons'
 2025-03-18 10:35:49,468 - ERROR - Không th\u1ec3 dán t\u1eeb clipboard: CLIPBOARD selection doesn't exist or form "STRING" not defined
 2025-03-18 12:03:51,307 - ERROR - Không th\u1ec3 dán t\u1eeb clipboard: CLIPBOARD selection doesn't exist or form "STRING" not defined
 2025-03-18 12:07:32,466 - ERROR - Không th\u1ec3 dán t\u1eeb clipboard: CLIPBOARD selection doesn't exist or form "STRING" not defined
+2025-03-18 13:32:33,023 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 13:32:55,953 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 13:32:58,243 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 13:33:01,720 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 13:33:17,523 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 13:46:02,951 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 13:46:10,057 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 13:47:38,164 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 13:47:41,917 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 13:47:42,916 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 13:49:11,779 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 13:49:13,600 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 13:49:17,783 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 13:55:52,926 - ERROR - Không th\u1ec3 dán t\u1eeb clipboard: CLIPBOARD selection doesn't exist or form "STRING" not defined
+2025-03-18 13:56:21,241 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 13:56:33,764 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 13:58:04,458 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 13:58:05,506 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 13:58:06,145 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 13:58:07,554 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 13:58:52,298 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 14:02:19,966 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 14:02:21,561 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 14:03:26,989 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 14:03:28,241 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 14:03:32,551 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 14:03:38,339 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 14:03:49,836 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 14:09:46,398 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 14:09:57,013 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 14:09:57,964 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 14:10:03,273 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 14:10:04,328 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 14:11:19,767 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 14:14:02,759 - ERROR - File MP3 không \u0111\u01b0\u1ee3c t\u1ea1o t\u1ea1i: D:/Code app/Test\M\u1eb8_YÊU_St_Ph\u01b0\u01a1ng_Uyên_Tu\u1ea5n_H\u01b0ng,_Jun_Ph\u1ea1m,_BB_Tr\u1ea7n,_Duy_Khánh_(Món_quà_83).mp3
+2025-03-18 14:14:02,759 - ERROR - L\u1ed7i khi t\u1ea3i: Không th\u1ec3 t\u1ea1o file MP3
+2025-03-18 14:14:02,760 - ERROR - Traceback (most recent call last):
+  File "D:\Code_app\Social_downloader\src\downloader.py", line 47, in download_video
+    raise Exception("Không th\u1ec3 t\u1ea1o file MP3")
+Exception: Không th\u1ec3 t\u1ea1o file MP3
+
+2025-03-18 14:14:20,288 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 14:14:21,360 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 14:15:03,693 - ERROR - File MP3 không \u0111\u01b0\u1ee3c t\u1ea1o t\u1ea1i: D:/Code app/Test\M\u1eb8_YÊU_St_Ph\u01b0\u01a1ng_Uyên_Tu\u1ea5n_H\u01b0ng,_Jun_Ph\u1ea1m,_BB_Tr\u1ea7n,_Duy_Khánh_(Món_quà_83).mp3
+2025-03-18 14:15:03,693 - ERROR - L\u1ed7i khi t\u1ea3i: Không th\u1ec3 t\u1ea1o file MP3
+2025-03-18 14:15:03,694 - ERROR - Traceback (most recent call last):
+  File "D:\Code_app\Social_downloader\src\downloader.py", line 47, in download_video
+    raise Exception("Không th\u1ec3 t\u1ea1o file MP3")
+Exception: Không th\u1ec3 t\u1ea1o file MP3
+
+2025-03-18 14:18:01,447 - ERROR - Không th\u1ec3 dán t\u1eeb clipboard: CLIPBOARD selection doesn't exist or form "STRING" not defined
+2025-03-18 14:18:14,455 - ERROR - L\u1ed7i khi t\u1ea3i: Không tìm th\u1ea5y file MP3 sau khi t\u1ea3i
+2025-03-18 14:18:14,455 - ERROR - Traceback (most recent call last):
+  File "D:\Code_app\Social_downloader\src\downloader.py", line 57, in download_video
+    raise Exception("Không tìm th\u1ea5y file MP3 sau khi t\u1ea3i")
+Exception: Không tìm th\u1ea5y file MP3 sau khi t\u1ea3i
+
+2025-03-18 14:21:54,774 - ERROR - L\u1ed7i khi t\u1ea3i: Không th\u1ec3 t\u1ea1o file MP3. Vui lòng th\u1eed l\u1ea1i.
+2025-03-18 14:21:54,775 - ERROR - Traceback (most recent call last):
+  File "D:\Code_app\Social_downloader\src\downloader.py", line 77, in download_video
+    raise Exception("Không th\u1ec3 t\u1ea1o file MP3. Vui lòng th\u1eed l\u1ea1i.")
+Exception: Không th\u1ec3 t\u1ea1o file MP3. Vui lòng th\u1eed l\u1ea1i.
+
+2025-03-18 14:28:19,719 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 14:28:22,994 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 14:28:34,194 - ERROR - Không th\u1ec3 l\u01b0u th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 14:28:59,242 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 14:33:53,624 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 14:33:54,860 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 15:21:08,823 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 15:21:10,323 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 15:21:14,455 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 15:21:29,817 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 15:21:32,475 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'
+2025-03-18 17:15:39,036 - ERROR - Không th\u1ec3 \u0111\u1ecdc th\u1ee9 t\u1ef1 c\u1ed9t: [Errno 2] No such file or directory: 'config.json'

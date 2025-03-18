@@ -2,7 +2,14 @@ import os
 import sys
 import shutil
 import logging
-from ui import run_app
+
+# Thêm đường dẫn của thư mục gốc vào sys.path
+root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if root_dir not in sys.path:
+    sys.path.append(root_dir)
+
+# Import các module từ thư mục src
+from src.ui import run_app
 
 def setup_logging():
     """Thiết lập logging cơ bản"""

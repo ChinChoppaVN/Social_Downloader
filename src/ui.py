@@ -1,23 +1,48 @@
-import customtkinter as ctk
-from tkinter import filedialog, messagebox, simpledialog, ttk, Menu
-import threading
 import os
+import sys
 import json
 import csv
+import threading
+import customtkinter as ctk
+from datetime import datetime
+from tkinter import filedialog, messagebox, simpledialog, ttk, Menu
 import logging
 import shutil
 import platform
 import subprocess
-
 from functools import partial
 
-from downloader import download_video
-from utils import (
+# Thêm thư mục gốc vào sys.path
+root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if root_dir not in sys.path:
+    sys.path.append(root_dir)
+
+# Import PIL một cách an toàn
+try:
+    from PIL import Image, ImageTk
+except ImportError:
+    logging.error("Không thể import PIL. Đang cài đặt Pillow...")
+    try:
+        import subprocess
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "Pillow"])
+        from PIL import Image, ImageTk
+    except Exception as e:
+        logging.error(f"Không thể cài đặt Pillow: {e}")
+        messagebox.showerror("Lỗi", "Không thể tải thư viện PIL. Vui lòng cài đặt thủ công: pip install Pillow")
+        sys.exit(1)
+
+import re
+
+# Import các module từ thư mục src
+from src.downloader import download_video
+from src.utils import (
     get_clean_filename, load_last_folder, save_last_folder, 
     fetch_video_title, validate_url, add_download_history, 
     get_download_history, clear_download_history, export_download_history,
     DATA_DIR
 )
+
+# Import config từ thư mục config
 from config.app_config import APP_CONFIG, ASSETS_DIR, DEFAULT_COLUMNS
 
 # Tạo thư mục data nếu chưa tồn tại

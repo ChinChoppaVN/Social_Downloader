@@ -2,17 +2,16 @@
 
 
 a = Analysis(
-    ['D:\\Code_app\\Social_Downloader\\Main.py'],
+    ['D:\\Code_app\\Social_downloader\\src\\Main.py'],
     pathex=[],
-    binaries=[],
-    datas=[('assets', 'assets')],
-    hiddenimports=['customtkinter', 'yt_dlp', 'PIL', 'tkinter', 'json', 'threading'],
+    binaries=[('assets/ffmpeg.exe', '.'), ('assets/ffprobe.exe', '.'), ('assets/ffplay.exe', '.')],
+    datas=[('D:\\Code_app\\Social_downloader\\assets', 'assets'), ('D:\\Code_app\\Social_downloader\\config', 'config'), ('D:\\Code_app\\Social_downloader\\data', 'data'), ('D:\\Code_app\\Social_downloader\\src', 'src')],
+    hiddenimports=['customtkinter', 'yt_dlp', 'PIL', 'tkinter', 'json', 'threading', 'shutil', 'os', 'sys', 'datetime', 're', 'src.ui', 'src.downloader', 'src.utils'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
     excludes=[],
     noarchive=False,
-    optimize=0,
 )
 pyz = PYZ(a.pure)
 
@@ -35,5 +34,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['D:\\Code_app\\Social_Downloader\\assets\\CH.ico'],
+    icon=['D:\\Code_app\\Social_downloader\\assets\\CH.ico'],
 )
