@@ -8,6 +8,7 @@ import subprocess
 import shutil
 from functools import partial
 import logging
+import winsound  # Thêm import winsound để phát âm thanh trên Windows
 
 from utils import add_download_history
 
@@ -109,9 +110,20 @@ def download_video(url, file_type, final_path, parent_window, progress_callback=
 def show_error_on_main_thread(parent_window, message):
     """Hiển thị thông báo lỗi trên main thread"""
     parent_window.after(0, lambda: messagebox.showerror("Lỗi tải", message))
+    # Phát âm thanh lỗi
+    try:
+        winsound.PlaySound("SystemExclamation", winsound.SND_ALIAS)
+    except:
+        pass
 
 def show_download_complete_popup(file_path, parent_window):
     """Hiển thị popup thông báo tải xong"""
+    # Phát âm thanh thông báo tải xong
+    try:
+        winsound.PlaySound("SystemAsterisk", winsound.SND_ALIAS)
+    except:
+        pass
+        
     popup = ctk.CTkToplevel(parent_window)
     popup.title("Tải xong!")
     popup.geometry("400x150") 
