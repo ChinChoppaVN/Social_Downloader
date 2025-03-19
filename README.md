@@ -1,69 +1,89 @@
 # Social Media Downloader
 
-Ứng dụng tải video và audio từ các nền tảng mạng xã hội phổ biến như YouTube, Facebook, TikTok, Instagram, và nhiều nền tảng khác.
+Ứng dụng tải video từ các nền tảng mạng xã hội phổ biến, được viết bằng Python với giao diện người dùng thân thiện.
 
 ## Tính năng
 
-- Tải video với chất lượng cao nhất có thể
-- Tải audio (MP3) với chất lượng tốt
-- Giao diện người dùng thân thiện, chế độ tối (Dark mode)
-- Hiển thị chi tiết tiến trình tải xuống:
-  - Phần trăm hoàn thành
-  - Tốc độ tải (MB/s)
-  - Thời gian còn lại
-  - Kích thước file
-- Điều khiển tải xuống:
-  - Tạm dừng/Tiếp tục tải
-  - Hủy tải
-  - Nút dán link nhanh
-- Lưu lịch sử tải xuống
-- Tự động lấy tên file từ tiêu đề video
-- Hỗ trợ nhiều nền tảng mạng xã hội
+- **Tải video từ nhiều nền tảng:**
+  - YouTube
+  - TikTok
+  - Vimeo
+  - SoundCloud
+  - Và nhiều nền tảng khác được hỗ trợ bởi yt-dlp
+
+- **Tùy chọn tải xuống:**
+  - Tải video với chất lượng cao nhất
+  - Tải video với chất lượng thấp hơn
+  - Tải chỉ âm thanh (MP3)
+  - Tự động chọn định dạng phù hợp
+
+- **Quản lý lịch sử tải xuống:**
+  - Xem lịch sử các video đã tải
+  - Xóa lịch sử
+  - Xuất lịch sử ra file CSV
+  - Mở nhanh file hoặc thư mục chứa file đã tải
+
+- **Tính năng tiện ích:**
+  - Tự động tạo tên file từ tiêu đề video
+  - Lưu vị trí thư mục tải xuống cuối cùng
+  - Nút dán URL nhanh từ clipboard
+  - Hiển thị thông báo khi tải xong
+  - Hỗ trợ tải xuống với FFmpeg
+
+## Yêu cầu hệ thống
+
+- Windows 10 trở lên
+- Không cần cài đặt Python hay các thư viện
+- Không cần cài đặt FFmpeg (đã được tích hợp sẵn)
 
 ## Cài đặt
 
-### Người dùng
-1. Tải file `Social Media Downloader.exe` từ phần [Releases](https://github.com/ChinChoppaVN/Social_Downloader/releases)
-2. Chạy file `Social Media Downloader.exe`
+1. Tải file `Social Media Downloader.exe` từ thư mục `dist`
+2. Chạy file exe (không cần cài đặt)
+3. Bắt đầu sử dụng
 
-### Nhà phát triển
+## Cách sử dụng
 
-1. Clone dự án:
-```bash
-git clone https://github.com/ChinChoppaVN/Social_Downloader.git
-cd Social_Downloader
-```
+1. **Tải video:**
+   - Copy URL video từ trình duyệt
+   - Dán URL vào ô nhập liệu
+   - Chọn định dạng tải xuống
+   - Nhấn nút "Tải xuống"
 
-2. Cài đặt FFmpeg:
-   - Tải FFmpeg từ: https://ffmpeg.org/download.html
-   - Giải nén và copy 3 file sau vào thư mục `assets`:
-     - ffmpeg.exe
-     - ffprobe.exe
-     - ffplay.exe
+2. **Xem lịch sử:**
+   - Nhấn nút "Lịch sử" để mở cửa sổ lịch sử
+   - Xem danh sách các video đã tải
+   - Mở file hoặc thư mục chứa file
+   - Xuất lịch sử ra file CSV
 
-3. Tạo và kích hoạt môi trường ảo:
-```bash
-python -m venv venv
-# Windows
-venv\Scripts\activate
-# Linux/Mac
-source venv/bin/activate
-```
+3. **Quản lý lịch sử:**
+   - Chọn các mục cần xóa
+   - Nhấn nút "Xóa" để xóa mục đã chọn
+   - Nhấn nút "Xóa tất cả" để xóa toàn bộ lịch sử
 
-4. Cài đặt các thư viện Python:
-```bash
-pip install -r requirements.txt
-```
+## Lưu ý
 
-5. Chạy ứng dụng từ source code:
-```bash
-python src/Main.py
-```
+- File tải xuống được lưu trong thư mục được chọn
+- Lịch sử tải xuống được lưu trong thư mục `data`
+- Có thể xuất lịch sử ra file CSV để lưu trữ
 
-6. Build ứng dụng thành file exe:
-```bash
-python build.py
-```
+## Phát triển
+
+Nếu bạn muốn phát triển ứng dụng:
+
+1. Clone repository
+2. Cài đặt các thư viện cần thiết:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Chạy file `build.py` để tạo file exe:
+   ```bash
+   python build.py
+   ```
+
+## Giấy phép
+
+MIT License
 
 ## Cấu trúc dự án
 
@@ -96,10 +116,6 @@ Mọi đóng góp đều được hoan nghênh! Vui lòng:
 3. Commit thay đổi (`git commit -m 'Add some AmazingFeature'`)
 4. Push lên nhánh (`git push origin feature/AmazingFeature`)
 5. Tạo Pull Request
-
-## Giấy phép
-
-Phân phối theo giấy phép MIT. Xem `LICENSE` để biết thêm thông tin.
 
 ## Tác giả
 
