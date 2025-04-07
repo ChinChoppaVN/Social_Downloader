@@ -86,9 +86,6 @@ Social Media Downloader là ứng dụng miễn phí giúp bạn tải xuống v
 
 - Email: quyetthang.media@gmail.com
 
----
-
-© 2025 Thắng MupMip.
 
 **Lưu ý**: Ứng dụng này chỉ dành cho mục đích cá nhân. Vui lòng tuân thủ các điều khoản dịch vụ của các nền tảng và tôn trọng bản quyền khi tải xuống nội dung.
 
