@@ -88,7 +88,7 @@ def main():
         # Cấu hình PyInstaller
         build_args = [
             main_script,                        # File chính
-            "--onefile",                        # Đóng gói thành 1 file
+            "--onedir",                         # Đóng gói thành 1 thư mục thay vì 1 file
             "--noconsole",                     # Không hiển thị console
             f"--icon={icon_path}",             # Icon cho file exe
             "--name=Social Media Downloader",   # Tên file exe
@@ -117,16 +117,18 @@ def main():
             "--hidden-import=src.utils",
             "--collect-submodules=PIL",        # Thu thập tất cả submodules của PIL
             "--collect-submodules=src",        # Thu thập tất cả submodules từ src
-            "--add-binary=assets/ffmpeg.exe;.",    # Thêm ffmpeg
-            "--add-binary=assets/ffprobe.exe;.",   # Thêm ffprobe
-            "--add-binary=assets/ffplay.exe;.",    # Thêm ffplay
+            "--add-binary=assets/ffmpeg.exe;assets",    # Thêm ffmpeg
+            "--add-binary=assets/ffprobe.exe;assets",   # Thêm ffprobe
+            "--add-binary=assets/ffplay.exe;assets",    # Thêm ffplay
+            "--hidden-import=packaging",
+            "--hidden-import=packaging.version",
         ]
         
         logging.info("Bắt đầu quá trình build...")
         PyInstaller.__main__.run(build_args)
         
         # Kiểm tra kết quả build
-        exe_path = os.path.join(current_dir, "dist", "Social Media Downloader.exe")
+        exe_path = os.path.join(current_dir, "dist", "Social Media Downloader", "Social Media Downloader.exe")
         if os.path.exists(exe_path):
             logging.info(f"Build thành công! File exe được tạo tại: {exe_path}")
             return True

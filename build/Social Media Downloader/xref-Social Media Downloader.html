@@ -265,6 +265,8 @@ imports:
  &#8226;   <a href="#ntpath">ntpath</a>
  &#8226;   <a href="#operator">operator</a>
  &#8226;   <a href="#os">os</a>
+ &#8226;   <a href="#packaging">packaging</a>
+ &#8226;   <a href="#packaging.version">packaging.version</a>
  &#8226;   <a href="#platform">platform</a>
  &#8226;   <a href="#posixpath">posixpath</a>
  &#8226;   <a href="#pyi_rth__tkinter.py">pyi_rth__tkinter.py</a>
@@ -292,8 +294,10 @@ imports:
  &#8226;   <a href="#sys">sys</a>
  &#8226;   <a href="#threading">threading</a>
  &#8226;   <a href="#tkinter">tkinter</a>
+ &#8226;   <a href="#tkinter.messagebox">tkinter.messagebox</a>
  &#8226;   <a href="#traceback">traceback</a>
  &#8226;   <a href="#types">types</a>
+ &#8226;   <a href="#urllib.request">urllib.request</a>
  &#8226;   <a href="#warnings">warnings</a>
  &#8226;   <a href="#weakref">weakref</a>
  &#8226;   <a href="#yt_dlp">yt_dlp</a>
@@ -3728,6 +3732,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.networking.impersonate">yt_dlp.networking.impersonate</a>
  &#8226;   <a href="#yt_dlp.networking.websocket">yt_dlp.networking.websocket</a>
  &#8226;   <a href="#yt_dlp.update">yt_dlp.update</a>
+ &#8226;   <a href="#yt_dlp.utils.networking">yt_dlp.utils.networking</a>
  &#8226;   <a href="#yt_dlp.utils.progress">yt_dlp.utils.progress</a>
  &#8226;   <a href="#yt_dlp.utils.traversal">yt_dlp.utils.traversal</a>
 
@@ -5997,7 +6002,6 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.bilibili">yt_dlp.extractor.bilibili</a>
  &#8226;   <a href="#yt_dlp.extractor.brightcove">yt_dlp.extractor.brightcove</a>
  &#8226;   <a href="#yt_dlp.extractor.caracoltv">yt_dlp.extractor.caracoltv</a>
- &#8226;   <a href="#yt_dlp.extractor.cbc">yt_dlp.extractor.cbc</a>
  &#8226;   <a href="#yt_dlp.extractor.cbsnews">yt_dlp.extractor.cbsnews</a>
  &#8226;   <a href="#yt_dlp.extractor.cda">yt_dlp.extractor.cda</a>
  &#8226;   <a href="#yt_dlp.extractor.chilloutzone">yt_dlp.extractor.chilloutzone</a>
@@ -6026,6 +6030,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.nfl">yt_dlp.extractor.nfl</a>
  &#8226;   <a href="#yt_dlp.extractor.orf">yt_dlp.extractor.orf</a>
  &#8226;   <a href="#yt_dlp.extractor.platzi">yt_dlp.extractor.platzi</a>
+ &#8226;   <a href="#yt_dlp.extractor.playsuisse">yt_dlp.extractor.playsuisse</a>
  &#8226;   <a href="#yt_dlp.extractor.pokergo">yt_dlp.extractor.pokergo</a>
  &#8226;   <a href="#yt_dlp.extractor.popcorntimes">yt_dlp.extractor.popcorntimes</a>
  &#8226;   <a href="#yt_dlp.extractor.qqmusic">yt_dlp.extractor.qqmusic</a>
@@ -6046,7 +6051,8 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.wistia">yt_dlp.extractor.wistia</a>
  &#8226;   <a href="#yt_dlp.extractor.wrestleuniverse">yt_dlp.extractor.wrestleuniverse</a>
  &#8226;   <a href="#yt_dlp.extractor.ximalaya">yt_dlp.extractor.ximalaya</a>
- &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._redirect">yt_dlp.extractor.youtube._redirect</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._video">yt_dlp.extractor.youtube._video</a>
  &#8226;   <a href="#yt_dlp.extractor.zaiko">yt_dlp.extractor.zaiko</a>
  &#8226;   <a href="#yt_dlp.extractor.zenporn">yt_dlp.extractor.zenporn</a>
  &#8226;   <a href="#yt_dlp.postprocessor.embedthumbnail">yt_dlp.postprocessor.embedthumbnail</a>
@@ -6080,7 +6086,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.adn">yt_dlp.extractor.adn</a>
  &#8226;   <a href="#yt_dlp.extractor.goplay">yt_dlp.extractor.goplay</a>
  &#8226;   <a href="#yt_dlp.extractor.wrestleuniverse">yt_dlp.extractor.wrestleuniverse</a>
- &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._video">yt_dlp.extractor.youtube._video</a>
  &#8226;   <a href="#yt_dlp.extractor.zenporn">yt_dlp.extractor.zenporn</a>
  &#8226;   <a href="#yt_dlp.utils._utils">yt_dlp.utils._utils</a>
  &#8226;   <a href="#zipfile">zipfile</a>
@@ -6212,7 +6218,7 @@ imported by:
  &#8226;   <a href="#requests.cookies">requests.cookies</a>
  &#8226;   <a href="#ssl">ssl</a>
  &#8226;   <a href="#yt_dlp.extractor.panopto">yt_dlp.extractor.panopto</a>
- &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._base">yt_dlp.extractor.youtube._base</a>
  &#8226;   <a href="#yt_dlp.utils._utils">yt_dlp.utils._utils</a>
 
   </div>
@@ -6785,7 +6791,8 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.pluralsight">yt_dlp.extractor.pluralsight</a>
  &#8226;   <a href="#yt_dlp.extractor.twitch">yt_dlp.extractor.twitch</a>
  &#8226;   <a href="#yt_dlp.extractor.vk">yt_dlp.extractor.vk</a>
- &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._video">yt_dlp.extractor.youtube._video</a>
+ &#8226;   <a href="#yt_dlp.globals">yt_dlp.globals</a>
  &#8226;   <a href="#yt_dlp.jsinterp">yt_dlp.jsinterp</a>
  &#8226;   <a href="#yt_dlp.options">yt_dlp.options</a>
  &#8226;   <a href="#yt_dlp.postprocessor.ffmpeg">yt_dlp.postprocessor.ffmpeg</a>
@@ -6844,6 +6851,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.networking._helper">yt_dlp.networking._helper</a>
  &#8226;   <a href="#yt_dlp.networking.common">yt_dlp.networking.common</a>
  &#8226;   <a href="#yt_dlp.utils._utils">yt_dlp.utils._utils</a>
+ &#8226;   <a href="#yt_dlp.utils.networking">yt_dlp.utils.networking</a>
  &#8226;   <a href="#yt_dlp.utils.traversal">yt_dlp.utils.traversal</a>
 
   </div>
@@ -7041,7 +7049,6 @@ imported by:
  &#8226;   <a href="#yt_dlp.downloader.common">yt_dlp.downloader.common</a>
  &#8226;   <a href="#yt_dlp.downloader.fragment">yt_dlp.downloader.fragment</a>
  &#8226;   <a href="#yt_dlp.downloader.websocket">yt_dlp.downloader.websocket</a>
- &#8226;   <a href="#yt_dlp.extractor.extractors">yt_dlp.extractor.extractors</a>
  &#8226;   <a href="#yt_dlp.extractor.kaltura">yt_dlp.extractor.kaltura</a>
  &#8226;   <a href="#yt_dlp.extractor.openload">yt_dlp.extractor.openload</a>
  &#8226;   <a href="#yt_dlp.jsinterp">yt_dlp.jsinterp</a>
@@ -7113,7 +7120,7 @@ imported by:
  &#8226;   <a href="#weakref">weakref</a>
  &#8226;   <a href="#xml.etree.ElementInclude">xml.etree.ElementInclude</a>
  &#8226;   <a href="#yt_dlp.YoutubeDL">yt_dlp.YoutubeDL</a>
- &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._base">yt_dlp.extractor.youtube._base</a>
  &#8226;   <a href="#yt_dlp.networking.common">yt_dlp.networking.common</a>
  &#8226;   <a href="#yt_dlp.postprocessor.modify_chapters">yt_dlp.postprocessor.modify_chapters</a>
 
@@ -7415,7 +7422,6 @@ imported by:
     <a href="#customtkinter">customtkinter</a>
  &#8226;   <a href="#customtkinter.windows">customtkinter.windows</a>
  &#8226;   <a href="#customtkinter.windows.widgets.core_widget_classes.ctk_base_class">customtkinter.windows.widgets.core_widget_classes.ctk_base_class</a>
- &#8226;   <a href="#downloader">downloader</a>
  &#8226;   <a href="#main.py">main.py</a>
  &#8226;   <a href="#src.downloader">src.downloader</a>
  &#8226;   <a href="#src.main">src.main</a>
@@ -8615,6 +8621,7 @@ imported by:
  &#8226;   <a href="#urllib3.contrib.emscripten.request">urllib3.contrib.emscripten.request</a>
  &#8226;   <a href="#urllib3.contrib.emscripten.response">urllib3.contrib.emscripten.response</a>
  &#8226;   <a href="#yt_dlp.networking.impersonate">yt_dlp.networking.impersonate</a>
+ &#8226;   <a href="#yt_dlp.plugins">yt_dlp.plugins</a>
  &#8226;   <a href="#yt_dlp.update">yt_dlp.update</a>
 
   </div>
@@ -8649,6 +8656,7 @@ imported by:
  &#8226;   <a href="#xmlrpc.client">xmlrpc.client</a>
  &#8226;   <a href="#yt_dlp.YoutubeDL">yt_dlp.YoutubeDL</a>
  &#8226;   <a href="#yt_dlp.cookies">yt_dlp.cookies</a>
+ &#8226;   <a href="#yt_dlp.extractor.afreecatv">yt_dlp.extractor.afreecatv</a>
  &#8226;   <a href="#yt_dlp.extractor.atvat">yt_dlp.extractor.atvat</a>
  &#8226;   <a href="#yt_dlp.extractor.aws">yt_dlp.extractor.aws</a>
  &#8226;   <a href="#yt_dlp.extractor.cda">yt_dlp.extractor.cda</a>
@@ -8662,7 +8670,8 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.rokfin">yt_dlp.extractor.rokfin</a>
  &#8226;   <a href="#yt_dlp.extractor.sejmpl">yt_dlp.extractor.sejmpl</a>
  &#8226;   <a href="#yt_dlp.extractor.sonyliv">yt_dlp.extractor.sonyliv</a>
- &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._base">yt_dlp.extractor.youtube._base</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._video">yt_dlp.extractor.youtube._video</a>
  &#8226;   <a href="#yt_dlp.utils._utils">yt_dlp.utils._utils</a>
 
   </div>
@@ -8715,34 +8724,6 @@ imports:
   <div class="import">
 imported by:
     <a href="#inspect">inspect</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="downloader"></a>
-  <a target="code" href="///D:/Code_app/Social_Downloader/src/downloader.py" type="text/plain"><tt>downloader</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
-imports:
-    <a href="#customtkinter">customtkinter</a>
- &#8226;   <a href="#functools">functools</a>
- &#8226;   <a href="#logging">logging</a>
- &#8226;   <a href="#os">os</a>
- &#8226;   <a href="#platform">platform</a>
- &#8226;   <a href="#shutil">shutil</a>
- &#8226;   <a href="#subprocess">subprocess</a>
- &#8226;   <a href="#sys">sys</a>
- &#8226;   <a href="#tkinter">tkinter</a>
- &#8226;   <a href="#tkinter.messagebox">tkinter.messagebox</a>
- &#8226;   <a href="#traceback">traceback</a>
- &#8226;   <a href="#winsound">winsound</a>
- &#8226;   <a href="#yt_dlp">yt_dlp</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#src.ui">src.ui</a>
 
   </div>
 
@@ -11800,8 +11781,9 @@ imported by:
  &#8226;   <a href="#uuid">uuid</a>
  &#8226;   <a href="#yt_dlp.cookies">yt_dlp.cookies</a>
  &#8226;   <a href="#yt_dlp.downloader.external">yt_dlp.downloader.external</a>
- &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._base">yt_dlp.extractor.youtube._base</a>
  &#8226;   <a href="#yt_dlp.networking.common">yt_dlp.networking.common</a>
+ &#8226;   <a href="#yt_dlp.utils._utils">yt_dlp.utils._utils</a>
 
   </div>
 
@@ -11981,7 +11963,6 @@ imported by:
  &#8226;   <a href="#contextlib">contextlib</a>
  &#8226;   <a href="#copyreg">copyreg</a>
  &#8226;   <a href="#dataclasses">dataclasses</a>
- &#8226;   <a href="#downloader">downloader</a>
  &#8226;   <a href="#email._encoded_words">email._encoded_words</a>
  &#8226;   <a href="#email.charset">email.charset</a>
  &#8226;   <a href="#enum">enum</a>
@@ -12089,7 +12070,9 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.videoken">yt_dlp.extractor.videoken</a>
  &#8226;   <a href="#yt_dlp.extractor.vimeo">yt_dlp.extractor.vimeo</a>
  &#8226;   <a href="#yt_dlp.extractor.vvvvid">yt_dlp.extractor.vvvvid</a>
- &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._base">yt_dlp.extractor.youtube._base</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._tab">yt_dlp.extractor.youtube._tab</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._video">yt_dlp.extractor.youtube._video</a>
  &#8226;   <a href="#yt_dlp.minicurses">yt_dlp.minicurses</a>
  &#8226;   <a href="#yt_dlp.networking._helper">yt_dlp.networking._helper</a>
  &#8226;   <a href="#yt_dlp.networking._requests">yt_dlp.networking._requests</a>
@@ -12319,6 +12302,7 @@ imported by:
  &#8226;   <a href="#urllib3.util.ssl_">urllib3.util.ssl_</a>
  &#8226;   <a href="#uuid">uuid</a>
  &#8226;   <a href="#yt_dlp.cookies">yt_dlp.cookies</a>
+ &#8226;   <a href="#yt_dlp.downloader.bunnycdn">yt_dlp.downloader.bunnycdn</a>
  &#8226;   <a href="#yt_dlp.extractor.abc">yt_dlp.extractor.abc</a>
  &#8226;   <a href="#yt_dlp.extractor.abematv">yt_dlp.extractor.abematv</a>
  &#8226;   <a href="#yt_dlp.extractor.anvato">yt_dlp.extractor.anvato</a>
@@ -12344,16 +12328,16 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.naver">yt_dlp.extractor.naver</a>
  &#8226;   <a href="#yt_dlp.extractor.neteasemusic">yt_dlp.extractor.neteasemusic</a>
  &#8226;   <a href="#yt_dlp.extractor.nexx">yt_dlp.extractor.nexx</a>
+ &#8226;   <a href="#yt_dlp.extractor.playsuisse">yt_dlp.extractor.playsuisse</a>
  &#8226;   <a href="#yt_dlp.extractor.prosiebensat1">yt_dlp.extractor.prosiebensat1</a>
  &#8226;   <a href="#yt_dlp.extractor.scrippsnetworks">yt_dlp.extractor.scrippsnetworks</a>
  &#8226;   <a href="#yt_dlp.extractor.theplatform">yt_dlp.extractor.theplatform</a>
  &#8226;   <a href="#yt_dlp.extractor.vice">yt_dlp.extractor.vice</a>
- &#8226;   <a href="#yt_dlp.extractor.viki">yt_dlp.extractor.viki</a>
  &#8226;   <a href="#yt_dlp.extractor.vk">yt_dlp.extractor.vk</a>
  &#8226;   <a href="#yt_dlp.extractor.weverse">yt_dlp.extractor.weverse</a>
  &#8226;   <a href="#yt_dlp.extractor.yahoo">yt_dlp.extractor.yahoo</a>
  &#8226;   <a href="#yt_dlp.extractor.yandexmusic">yt_dlp.extractor.yandexmusic</a>
- &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._base">yt_dlp.extractor.youtube._base</a>
  &#8226;   <a href="#yt_dlp.extractor.zingmp3">yt_dlp.extractor.zingmp3</a>
  &#8226;   <a href="#yt_dlp.postprocessor.sponsorblock">yt_dlp.postprocessor.sponsorblock</a>
  &#8226;   <a href="#yt_dlp.update">yt_dlp.update</a>
@@ -12410,7 +12394,6 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.hotstar">yt_dlp.extractor.hotstar</a>
  &#8226;   <a href="#yt_dlp.extractor.naver">yt_dlp.extractor.naver</a>
  &#8226;   <a href="#yt_dlp.extractor.theplatform">yt_dlp.extractor.theplatform</a>
- &#8226;   <a href="#yt_dlp.extractor.viki">yt_dlp.extractor.viki</a>
  &#8226;   <a href="#yt_dlp.extractor.weverse">yt_dlp.extractor.weverse</a>
  &#8226;   <a href="#yt_dlp.extractor.zingmp3">yt_dlp.extractor.zingmp3</a>
  &#8226;   <a href="#yt_dlp.utils._utils">yt_dlp.utils._utils</a>
@@ -13344,6 +13327,7 @@ imported by:
  &#8226;   <a href="#typing">typing</a>
  &#8226;   <a href="#typing_extensions">typing_extensions</a>
  &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
+ &#8226;   <a href="#yt_dlp.extractor.extractors">yt_dlp.extractor.extractors</a>
  &#8226;   <a href="#yt_dlp.plugins">yt_dlp.plugins</a>
  &#8226;   <a href="#yt_dlp.utils._utils">yt_dlp.utils._utils</a>
  &#8226;   <a href="#yt_dlp.utils.traversal">yt_dlp.utils.traversal</a>
@@ -13598,6 +13582,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.twitch">yt_dlp.extractor.twitch</a>
  &#8226;   <a href="#yt_dlp.extractor.vimeo">yt_dlp.extractor.vimeo</a>
  &#8226;   <a href="#yt_dlp.extractor.voicy">yt_dlp.extractor.voicy</a>
+ &#8226;   <a href="#yt_dlp.extractor.vrsquare">yt_dlp.extractor.vrsquare</a>
  &#8226;   <a href="#yt_dlp.extractor.weibo">yt_dlp.extractor.weibo</a>
  &#8226;   <a href="#yt_dlp.extractor.weverse">yt_dlp.extractor.weverse</a>
  &#8226;   <a href="#yt_dlp.extractor.xhamster">yt_dlp.extractor.xhamster</a>
@@ -13606,9 +13591,12 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.yandexvideo">yt_dlp.extractor.yandexvideo</a>
  &#8226;   <a href="#yt_dlp.extractor.younow">yt_dlp.extractor.younow</a>
  &#8226;   <a href="#yt_dlp.extractor.youporn">yt_dlp.extractor.youporn</a>
- &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._notifications">yt_dlp.extractor.youtube._notifications</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._tab">yt_dlp.extractor.youtube._tab</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._video">yt_dlp.extractor.youtube._video</a>
  &#8226;   <a href="#yt_dlp.extractor.zingmp3">yt_dlp.extractor.zingmp3</a>
  &#8226;   <a href="#yt_dlp.jsinterp">yt_dlp.jsinterp</a>
+ &#8226;   <a href="#yt_dlp.networking._curlcffi">yt_dlp.networking._curlcffi</a>
  &#8226;   <a href="#yt_dlp.plugins">yt_dlp.plugins</a>
  &#8226;   <a href="#yt_dlp.postprocessor.ffmpeg">yt_dlp.postprocessor.ffmpeg</a>
  &#8226;   <a href="#yt_dlp.utils._utils">yt_dlp.utils._utils</a>
@@ -13766,6 +13754,7 @@ imported by:
  &#8226;   <a href="#main.py">main.py</a>
  &#8226;   <a href="#requests.compat">requests.compat</a>
  &#8226;   <a href="#requests.help">requests.help</a>
+ &#8226;   <a href="#src.main">src.main</a>
  &#8226;   <a href="#src.ui">src.ui</a>
  &#8226;   <a href="#src.utils">src.utils</a>
  &#8226;   <a href="#urllib3._request_methods">urllib3._request_methods</a>
@@ -13790,7 +13779,6 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.anvato">yt_dlp.extractor.anvato</a>
  &#8226;   <a href="#yt_dlp.extractor.appletrailers">yt_dlp.extractor.appletrailers</a>
  &#8226;   <a href="#yt_dlp.extractor.archiveorg">yt_dlp.extractor.archiveorg</a>
- &#8226;   <a href="#yt_dlp.extractor.azmedien">yt_dlp.extractor.azmedien</a>
  &#8226;   <a href="#yt_dlp.extractor.bandcamp">yt_dlp.extractor.bandcamp</a>
  &#8226;   <a href="#yt_dlp.extractor.bannedvideo">yt_dlp.extractor.bannedvideo</a>
  &#8226;   <a href="#yt_dlp.extractor.bbc">yt_dlp.extractor.bbc</a>
@@ -13800,9 +13788,10 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.boosty">yt_dlp.extractor.boosty</a>
  &#8226;   <a href="#yt_dlp.extractor.box">yt_dlp.extractor.box</a>
  &#8226;   <a href="#yt_dlp.extractor.brainpop">yt_dlp.extractor.brainpop</a>
+ &#8226;   <a href="#yt_dlp.extractor.bunnycdn">yt_dlp.extractor.bunnycdn</a>
  &#8226;   <a href="#yt_dlp.extractor.buzzfeed">yt_dlp.extractor.buzzfeed</a>
+ &#8226;   <a href="#yt_dlp.extractor.canalsurmas">yt_dlp.extractor.canalsurmas</a>
  &#8226;   <a href="#yt_dlp.extractor.caracoltv">yt_dlp.extractor.caracoltv</a>
- &#8226;   <a href="#yt_dlp.extractor.cbc">yt_dlp.extractor.cbc</a>
  &#8226;   <a href="#yt_dlp.extractor.cda">yt_dlp.extractor.cda</a>
  &#8226;   <a href="#yt_dlp.extractor.cinetecamilano">yt_dlp.extractor.cinetecamilano</a>
  &#8226;   <a href="#yt_dlp.extractor.cnn">yt_dlp.extractor.cnn</a>
@@ -13811,7 +13800,6 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.ctvnews">yt_dlp.extractor.ctvnews</a>
  &#8226;   <a href="#yt_dlp.extractor.dailymotion">yt_dlp.extractor.dailymotion</a>
  &#8226;   <a href="#yt_dlp.extractor.dangalplay">yt_dlp.extractor.dangalplay</a>
- &#8226;   <a href="#yt_dlp.extractor.deezer">yt_dlp.extractor.deezer</a>
  &#8226;   <a href="#yt_dlp.extractor.dlive">yt_dlp.extractor.dlive</a>
  &#8226;   <a href="#yt_dlp.extractor.dplay">yt_dlp.extractor.dplay</a>
  &#8226;   <a href="#yt_dlp.extractor.drooble">yt_dlp.extractor.drooble</a>
@@ -13867,6 +13855,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.nfl">yt_dlp.extractor.nfl</a>
  &#8226;   <a href="#yt_dlp.extractor.niconico">yt_dlp.extractor.niconico</a>
  &#8226;   <a href="#yt_dlp.extractor.niconicochannelplus">yt_dlp.extractor.niconicochannelplus</a>
+ &#8226;   <a href="#yt_dlp.extractor.ninenow">yt_dlp.extractor.ninenow</a>
  &#8226;   <a href="#yt_dlp.extractor.nintendo">yt_dlp.extractor.nintendo</a>
  &#8226;   <a href="#yt_dlp.extractor.nytimes">yt_dlp.extractor.nytimes</a>
  &#8226;   <a href="#yt_dlp.extractor.nzherald">yt_dlp.extractor.nzherald</a>
@@ -13907,6 +13896,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.soundcloud">yt_dlp.extractor.soundcloud</a>
  &#8226;   <a href="#yt_dlp.extractor.spotify">yt_dlp.extractor.spotify</a>
  &#8226;   <a href="#yt_dlp.extractor.stageplus">yt_dlp.extractor.stageplus</a>
+ &#8226;   <a href="#yt_dlp.extractor.streaks">yt_dlp.extractor.streaks</a>
  &#8226;   <a href="#yt_dlp.extractor.streamcz">yt_dlp.extractor.streamcz</a>
  &#8226;   <a href="#yt_dlp.extractor.svt">yt_dlp.extractor.svt</a>
  &#8226;   <a href="#yt_dlp.extractor.tass">yt_dlp.extractor.tass</a>
@@ -13923,13 +13913,13 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.triller">yt_dlp.extractor.triller</a>
  &#8226;   <a href="#yt_dlp.extractor.trovo">yt_dlp.extractor.trovo</a>
  &#8226;   <a href="#yt_dlp.extractor.tv2dk">yt_dlp.extractor.tv2dk</a>
+ &#8226;   <a href="#yt_dlp.extractor.tvw">yt_dlp.extractor.tvw</a>
  &#8226;   <a href="#yt_dlp.extractor.twitch">yt_dlp.extractor.twitch</a>
  &#8226;   <a href="#yt_dlp.extractor.twitter">yt_dlp.extractor.twitter</a>
  &#8226;   <a href="#yt_dlp.extractor.vevo">yt_dlp.extractor.vevo</a>
  &#8226;   <a href="#yt_dlp.extractor.vice">yt_dlp.extractor.vice</a>
  &#8226;   <a href="#yt_dlp.extractor.vidflex">yt_dlp.extractor.vidflex</a>
  &#8226;   <a href="#yt_dlp.extractor.viewlift">yt_dlp.extractor.viewlift</a>
- &#8226;   <a href="#yt_dlp.extractor.viki">yt_dlp.extractor.viki</a>
  &#8226;   <a href="#yt_dlp.extractor.vimeo">yt_dlp.extractor.vimeo</a>
  &#8226;   <a href="#yt_dlp.extractor.viu">yt_dlp.extractor.viu</a>
  &#8226;   <a href="#yt_dlp.extractor.vrt">yt_dlp.extractor.vrt</a>
@@ -13939,7 +13929,8 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.wrestleuniverse">yt_dlp.extractor.wrestleuniverse</a>
  &#8226;   <a href="#yt_dlp.extractor.wykop">yt_dlp.extractor.wykop</a>
  &#8226;   <a href="#yt_dlp.extractor.yandexdisk">yt_dlp.extractor.yandexdisk</a>
- &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._base">yt_dlp.extractor.youtube._base</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._video">yt_dlp.extractor.youtube._video</a>
  &#8226;   <a href="#yt_dlp.extractor.zee5">yt_dlp.extractor.zee5</a>
  &#8226;   <a href="#yt_dlp.extractor.zingmp3">yt_dlp.extractor.zingmp3</a>
  &#8226;   <a href="#yt_dlp.jsinterp">yt_dlp.jsinterp</a>
@@ -14115,7 +14106,6 @@ imported by:
  &#8226;   <a href="#charset_normalizer.api">charset_normalizer.api</a>
  &#8226;   <a href="#charset_normalizer.utils">charset_normalizer.utils</a>
  &#8226;   <a href="#concurrent.futures._base">concurrent.futures._base</a>
- &#8226;   <a href="#downloader">downloader</a>
  &#8226;   <a href="#hashlib">hashlib</a>
  &#8226;   <a href="#http.cookiejar">http.cookiejar</a>
  &#8226;   <a href="#main.py">main.py</a>
@@ -14221,7 +14211,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.twitter">yt_dlp.extractor.twitter</a>
  &#8226;   <a href="#yt_dlp.extractor.videoken">yt_dlp.extractor.videoken</a>
  &#8226;   <a href="#yt_dlp.extractor.ximalaya">yt_dlp.extractor.ximalaya</a>
- &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._video">yt_dlp.extractor.youtube._video</a>
  &#8226;   <a href="#yt_dlp.jsinterp">yt_dlp.jsinterp</a>
  &#8226;   <a href="#yt_dlp.networking._curlcffi">yt_dlp.networking._curlcffi</a>
  &#8226;   <a href="#yt_dlp.utils._utils">yt_dlp.utils._utils</a>
@@ -15254,7 +15244,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.dependencies">yt_dlp.dependencies</a>
  &#8226;   <a href="#yt_dlp.extractor.democracynow">yt_dlp.extractor.democracynow</a>
  &#8226;   <a href="#yt_dlp.extractor.dropbox">yt_dlp.extractor.dropbox</a>
- &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._video">yt_dlp.extractor.youtube._video</a>
  &#8226;   <a href="#yt_dlp.options">yt_dlp.options</a>
 
   </div>
@@ -15476,7 +15466,6 @@ imported by:
  &#8226;   <a href="#customtkinter.windows.widgets.font.font_manager">customtkinter.windows.widgets.font.font_manager</a>
  &#8226;   <a href="#customtkinter.windows.widgets.theme.theme_manager">customtkinter.windows.widgets.theme.theme_manager</a>
  &#8226;   <a href="#darkdetect._mac_detect">darkdetect._mac_detect</a>
- &#8226;   <a href="#downloader">downloader</a>
  &#8226;   <a href="#email.utils">email.utils</a>
  &#8226;   <a href="#fileinput">fileinput</a>
  &#8226;   <a href="#fnmatch">fnmatch</a>
@@ -15628,6 +15617,7 @@ imports:
 imported by:
     <a href="#customtkinter.windows.ctk_tk">customtkinter.windows.ctk_tk</a>
  &#8226;   <a href="#customtkinter.windows.ctk_toplevel">customtkinter.windows.ctk_toplevel</a>
+ &#8226;   <a href="#main.py">main.py</a>
  &#8226;   <a href="#packaging">packaging</a>
  &#8226;   <a href="#packaging._elffile">packaging._elffile</a>
  &#8226;   <a href="#packaging._manylinux">packaging._manylinux</a>
@@ -16014,11 +16004,13 @@ imported by:
     <a href="#PIL.ImageFont">PIL.ImageFont</a>
  &#8226;   <a href="#customtkinter.windows.ctk_tk">customtkinter.windows.ctk_tk</a>
  &#8226;   <a href="#customtkinter.windows.ctk_toplevel">customtkinter.windows.ctk_toplevel</a>
+ &#8226;   <a href="#main.py">main.py</a>
  &#8226;   <a href="#packaging">packaging</a>
  &#8226;   <a href="#packaging.metadata">packaging.metadata</a>
  &#8226;   <a href="#packaging.specifiers">packaging.specifiers</a>
  &#8226;   <a href="#packaging.utils">packaging.utils</a>
  &#8226;   <a href="#pkg_resources">pkg_resources</a>
+ &#8226;   <a href="#src.main">src.main</a>
 
   </div>
 
@@ -16227,7 +16219,6 @@ imported by:
     <a href="#customtkinter.windows.ctk_tk">customtkinter.windows.ctk_tk</a>
  &#8226;   <a href="#customtkinter.windows.ctk_toplevel">customtkinter.windows.ctk_toplevel</a>
  &#8226;   <a href="#darkdetect">darkdetect</a>
- &#8226;   <a href="#downloader">downloader</a>
  &#8226;   <a href="#main.py">main.py</a>
  &#8226;   <a href="#packaging.markers">packaging.markers</a>
  &#8226;   <a href="#packaging.tags">packaging.tags</a>
@@ -16692,6 +16683,7 @@ imported by:
  &#8226;   <a href="#urllib3.util.retry">urllib3.util.retry</a>
  &#8226;   <a href="#uuid">uuid</a>
  &#8226;   <a href="#yt_dlp.YoutubeDL">yt_dlp.YoutubeDL</a>
+ &#8226;   <a href="#yt_dlp.downloader.bunnycdn">yt_dlp.downloader.bunnycdn</a>
  &#8226;   <a href="#yt_dlp.downloader.common">yt_dlp.downloader.common</a>
  &#8226;   <a href="#yt_dlp.downloader.http">yt_dlp.downloader.http</a>
  &#8226;   <a href="#yt_dlp.extractor.adn">yt_dlp.extractor.adn</a>
@@ -16731,7 +16723,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.weibo">yt_dlp.extractor.weibo</a>
  &#8226;   <a href="#yt_dlp.extractor.wppilot">yt_dlp.extractor.wppilot</a>
  &#8226;   <a href="#yt_dlp.extractor.youku">yt_dlp.extractor.youku</a>
- &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._video">yt_dlp.extractor.youtube._video</a>
  &#8226;   <a href="#yt_dlp.utils._utils">yt_dlp.utils._utils</a>
  &#8226;   <a href="#yt_dlp.utils.networking">yt_dlp.utils.networking</a>
 
@@ -17040,7 +17032,6 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.mlb">yt_dlp.extractor.mlb</a>
  &#8226;   <a href="#yt_dlp.extractor.monstercat">yt_dlp.extractor.monstercat</a>
  &#8226;   <a href="#yt_dlp.extractor.motherless">yt_dlp.extractor.motherless</a>
- &#8226;   <a href="#yt_dlp.extractor.msn">yt_dlp.extractor.msn</a>
  &#8226;   <a href="#yt_dlp.extractor.mtv">yt_dlp.extractor.mtv</a>
  &#8226;   <a href="#yt_dlp.extractor.museai">yt_dlp.extractor.museai</a>
  &#8226;   <a href="#yt_dlp.extractor.mx3">yt_dlp.extractor.mx3</a>
@@ -17059,6 +17050,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.nfl">yt_dlp.extractor.nfl</a>
  &#8226;   <a href="#yt_dlp.extractor.nhk">yt_dlp.extractor.nhk</a>
  &#8226;   <a href="#yt_dlp.extractor.niconico">yt_dlp.extractor.niconico</a>
+ &#8226;   <a href="#yt_dlp.extractor.ninenow">yt_dlp.extractor.ninenow</a>
  &#8226;   <a href="#yt_dlp.extractor.nitter">yt_dlp.extractor.nitter</a>
  &#8226;   <a href="#yt_dlp.extractor.nova">yt_dlp.extractor.nova</a>
  &#8226;   <a href="#yt_dlp.extractor.npo">yt_dlp.extractor.npo</a>
@@ -17213,7 +17205,10 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.xvideos">yt_dlp.extractor.xvideos</a>
  &#8226;   <a href="#yt_dlp.extractor.youku">yt_dlp.extractor.youku</a>
  &#8226;   <a href="#yt_dlp.extractor.youporn">yt_dlp.extractor.youporn</a>
- &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._base">yt_dlp.extractor.youtube._base</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._notifications">yt_dlp.extractor.youtube._notifications</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._tab">yt_dlp.extractor.youtube._tab</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._video">yt_dlp.extractor.youtube._video</a>
  &#8226;   <a href="#yt_dlp.extractor.zapiks">yt_dlp.extractor.zapiks</a>
  &#8226;   <a href="#yt_dlp.extractor.zattoo">yt_dlp.extractor.zattoo</a>
  &#8226;   <a href="#yt_dlp.extractor.zdf">yt_dlp.extractor.zdf</a>
@@ -17988,7 +17983,7 @@ imports:
 imported by:
     <a href="#PIL.ImageShow">PIL.ImageShow</a>
  &#8226;   <a href="#yt_dlp.compat._legacy">yt_dlp.compat._legacy</a>
- &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._tab">yt_dlp.extractor.youtube._tab</a>
  &#8226;   <a href="#yt_dlp.options">yt_dlp.options</a>
  &#8226;   <a href="#yt_dlp.postprocessor.sponskrub">yt_dlp.postprocessor.sponskrub</a>
  &#8226;   <a href="#yt_dlp.utils._utils">yt_dlp.utils._utils</a>
@@ -18030,7 +18025,6 @@ imported by:
  &#8226;   <a href="#backports.tarfile">backports.tarfile</a>
  &#8226;   <a href="#ctypes.util">ctypes.util</a>
  &#8226;   <a href="#customtkinter.windows.widgets.font.font_manager">customtkinter.windows.widgets.font.font_manager</a>
- &#8226;   <a href="#downloader">downloader</a>
  &#8226;   <a href="#http.server">http.server</a>
  &#8226;   <a href="#jaraco.context">jaraco.context</a>
  &#8226;   <a href="#main.py">main.py</a>
@@ -18324,12 +18318,18 @@ imported by:
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
     <a href="#customtkinter">customtkinter</a>
+ &#8226;   <a href="#json">json</a>
  &#8226;   <a href="#logging">logging</a>
  &#8226;   <a href="#os">os</a>
+ &#8226;   <a href="#packaging.version">packaging.version</a>
  &#8226;   <a href="#shutil">shutil</a>
  &#8226;   <a href="#src">src</a>
  &#8226;   <a href="#src.ui">src.ui</a>
+ &#8226;   <a href="#subprocess">subprocess</a>
  &#8226;   <a href="#sys">sys</a>
+ &#8226;   <a href="#tkinter">tkinter</a>
+ &#8226;   <a href="#tkinter.messagebox">tkinter.messagebox</a>
+ &#8226;   <a href="#urllib.request">urllib.request</a>
  &#8226;   <a href="#yt_dlp">yt_dlp</a>
 
   </div>
@@ -18353,7 +18353,6 @@ imports:
  &#8226;   <a href="#ctypes">ctypes</a>
  &#8226;   <a href="#customtkinter">customtkinter</a>
  &#8226;   <a href="#datetime">datetime</a>
- &#8226;   <a href="#downloader">downloader</a>
  &#8226;   <a href="#functools">functools</a>
  &#8226;   <a href="#json">json</a>
  &#8226;   <a href="#logging">logging</a>
@@ -18740,7 +18739,6 @@ imported by:
  &#8226;   <a href="#ctypes.util">ctypes.util</a>
  &#8226;   <a href="#darkdetect._linux_detect">darkdetect._linux_detect</a>
  &#8226;   <a href="#darkdetect._mac_detect">darkdetect._mac_detect</a>
- &#8226;   <a href="#downloader">downloader</a>
  &#8226;   <a href="#http.server">http.server</a>
  &#8226;   <a href="#jaraco.context">jaraco.context</a>
  &#8226;   <a href="#main.py">main.py</a>
@@ -18751,6 +18749,7 @@ imported by:
  &#8226;   <a href="#platform">platform</a>
  &#8226;   <a href="#pyi_rth_multiprocessing.py">pyi_rth_multiprocessing.py</a>
  &#8226;   <a href="#src.downloader">src.downloader</a>
+ &#8226;   <a href="#src.main">src.main</a>
  &#8226;   <a href="#src.ui">src.ui</a>
  &#8226;   <a href="#src.utils">src.utils</a>
  &#8226;   <a href="#uuid">uuid</a>
@@ -18853,7 +18852,6 @@ imported by:
  &#8226;   <a href="#darkdetect._mac_detect">darkdetect._mac_detect</a>
  &#8226;   <a href="#dataclasses">dataclasses</a>
  &#8226;   <a href="#dis">dis</a>
- &#8226;   <a href="#downloader">downloader</a>
  &#8226;   <a href="#email._header_value_parser">email._header_value_parser</a>
  &#8226;   <a href="#email.generator">email.generator</a>
  &#8226;   <a href="#email.iterators">email.iterators</a>
@@ -18982,7 +18980,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.cookies">yt_dlp.cookies</a>
  &#8226;   <a href="#yt_dlp.downloader.external">yt_dlp.downloader.external</a>
  &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
- &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._video">yt_dlp.extractor.youtube._video</a>
  &#8226;   <a href="#yt_dlp.jsinterp">yt_dlp.jsinterp</a>
  &#8226;   <a href="#yt_dlp.networking._helper">yt_dlp.networking._helper</a>
  &#8226;   <a href="#yt_dlp.networking._websockets">yt_dlp.networking._websockets</a>
@@ -19202,11 +19200,12 @@ imported by:
  &#8226;   <a href="#urllib3.connection">urllib3.connection</a>
  &#8226;   <a href="#urllib3.http2.connection">urllib3.http2.connection</a>
  &#8226;   <a href="#urllib3.http2.probe">urllib3.http2.probe</a>
+ &#8226;   <a href="#yt_dlp.downloader.bunnycdn">yt_dlp.downloader.bunnycdn</a>
  &#8226;   <a href="#yt_dlp.downloader.common">yt_dlp.downloader.common</a>
  &#8226;   <a href="#yt_dlp.downloader.fc2">yt_dlp.downloader.fc2</a>
  &#8226;   <a href="#yt_dlp.downloader.niconico">yt_dlp.downloader.niconico</a>
  &#8226;   <a href="#yt_dlp.downloader.websocket">yt_dlp.downloader.websocket</a>
- &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._video">yt_dlp.extractor.youtube._video</a>
  &#8226;   <a href="#yt_dlp.minicurses">yt_dlp.minicurses</a>
  &#8226;   <a href="#yt_dlp.utils.progress">yt_dlp.utils.progress</a>
  &#8226;   <a href="#zipfile">zipfile</a>
@@ -19289,6 +19288,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.audiomack">yt_dlp.extractor.audiomack</a>
  &#8226;   <a href="#yt_dlp.extractor.bandcamp">yt_dlp.extractor.bandcamp</a>
  &#8226;   <a href="#yt_dlp.extractor.bilibili">yt_dlp.extractor.bilibili</a>
+ &#8226;   <a href="#yt_dlp.extractor.canalsurmas">yt_dlp.extractor.canalsurmas</a>
  &#8226;   <a href="#yt_dlp.extractor.cbc">yt_dlp.extractor.cbc</a>
  &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
  &#8226;   <a href="#yt_dlp.extractor.crackle">yt_dlp.extractor.crackle</a>
@@ -19299,7 +19299,6 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.fptplay">yt_dlp.extractor.fptplay</a>
  &#8226;   <a href="#yt_dlp.extractor.getcourseru">yt_dlp.extractor.getcourseru</a>
  &#8226;   <a href="#yt_dlp.extractor.hotstar">yt_dlp.extractor.hotstar</a>
- &#8226;   <a href="#yt_dlp.extractor.instagram">yt_dlp.extractor.instagram</a>
  &#8226;   <a href="#yt_dlp.extractor.iprima">yt_dlp.extractor.iprima</a>
  &#8226;   <a href="#yt_dlp.extractor.iqiyi">yt_dlp.extractor.iqiyi</a>
  &#8226;   <a href="#yt_dlp.extractor.iwara">yt_dlp.extractor.iwara</a>
@@ -19324,14 +19323,14 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.tiktok">yt_dlp.extractor.tiktok</a>
  &#8226;   <a href="#yt_dlp.extractor.vice">yt_dlp.extractor.vice</a>
  &#8226;   <a href="#yt_dlp.extractor.videoken">yt_dlp.extractor.videoken</a>
- &#8226;   <a href="#yt_dlp.extractor.viki">yt_dlp.extractor.viki</a>
  &#8226;   <a href="#yt_dlp.extractor.vrt">yt_dlp.extractor.vrt</a>
  &#8226;   <a href="#yt_dlp.extractor.weverse">yt_dlp.extractor.weverse</a>
  &#8226;   <a href="#yt_dlp.extractor.wrestleuniverse">yt_dlp.extractor.wrestleuniverse</a>
  &#8226;   <a href="#yt_dlp.extractor.ximalaya">yt_dlp.extractor.ximalaya</a>
  &#8226;   <a href="#yt_dlp.extractor.xminus">yt_dlp.extractor.xminus</a>
  &#8226;   <a href="#yt_dlp.extractor.youku">yt_dlp.extractor.youku</a>
- &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._base">yt_dlp.extractor.youtube._base</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._video">yt_dlp.extractor.youtube._video</a>
  &#8226;   <a href="#yt_dlp.extractor.zee5">yt_dlp.extractor.zee5</a>
  &#8226;   <a href="#yt_dlp.postprocessor.ffmpeg">yt_dlp.postprocessor.ffmpeg</a>
  &#8226;   <a href="#yt_dlp.utils._utils">yt_dlp.utils._utils</a>
@@ -19386,9 +19385,9 @@ imported by:
  &#8226;   <a href="#customtkinter.windows.widgets.ctk_tabview">customtkinter.windows.widgets.ctk_tabview</a>
  &#8226;   <a href="#customtkinter.windows.widgets.ctk_textbox">customtkinter.windows.widgets.ctk_textbox</a>
  &#8226;   <a href="#customtkinter.windows.widgets.scaling.scaling_tracker">customtkinter.windows.widgets.scaling.scaling_tracker</a>
- &#8226;   <a href="#downloader">downloader</a>
  &#8226;   <a href="#main.py">main.py</a>
  &#8226;   <a href="#src.downloader">src.downloader</a>
+ &#8226;   <a href="#src.main">src.main</a>
  &#8226;   <a href="#src.ui">src.ui</a>
  &#8226;   <a href="#src.utils">src.utils</a>
  &#8226;   <a href="#tkinter.commondialog">tkinter.commondialog</a>
@@ -19507,8 +19506,9 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#downloader">downloader</a>
+    <a href="#main.py">main.py</a>
  &#8226;   <a href="#src.downloader">src.downloader</a>
+ &#8226;   <a href="#src.main">src.main</a>
  &#8226;   <a href="#src.ui">src.ui</a>
  &#8226;   <a href="#src.utils">src.utils</a>
  &#8226;   <a href="#tkinter">tkinter</a>
@@ -19616,7 +19616,6 @@ imported by:
  &#8226;   <a href="#asyncio.format_helpers">asyncio.format_helpers</a>
  &#8226;   <a href="#code">code</a>
  &#8226;   <a href="#concurrent.futures.process">concurrent.futures.process</a>
- &#8226;   <a href="#downloader">downloader</a>
  &#8226;   <a href="#http.cookiejar">http.cookiejar</a>
  &#8226;   <a href="#logging">logging</a>
  &#8226;   <a href="#main.py">main.py</a>
@@ -19634,7 +19633,7 @@ imported by:
  &#8226;   <a href="#yt_dlp">yt_dlp</a>
  &#8226;   <a href="#yt_dlp.YoutubeDL">yt_dlp.YoutubeDL</a>
  &#8226;   <a href="#yt_dlp.cache">yt_dlp.cache</a>
- &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._video">yt_dlp.extractor.youtube._video</a>
  &#8226;   <a href="#yt_dlp.plugins">yt_dlp.plugins</a>
  &#8226;   <a href="#yt_dlp.utils._utils">yt_dlp.utils._utils</a>
 
@@ -19947,6 +19946,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.networking.common">yt_dlp.networking.common</a>
  &#8226;   <a href="#yt_dlp.networking.exceptions">yt_dlp.networking.exceptions</a>
  &#8226;   <a href="#yt_dlp.networking.impersonate">yt_dlp.networking.impersonate</a>
+ &#8226;   <a href="#yt_dlp.utils.networking">yt_dlp.utils.networking</a>
  &#8226;   <a href="#yt_dlp.utils.traversal">yt_dlp.utils.traversal</a>
 
   </div>
@@ -20136,6 +20136,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.fourtube">yt_dlp.extractor.fourtube</a>
  &#8226;   <a href="#yt_dlp.extractor.fox">yt_dlp.extractor.fox</a>
  &#8226;   <a href="#yt_dlp.extractor.fptplay">yt_dlp.extractor.fptplay</a>
+ &#8226;   <a href="#yt_dlp.extractor.francaisfacile">yt_dlp.extractor.francaisfacile</a>
  &#8226;   <a href="#yt_dlp.extractor.francetv">yt_dlp.extractor.francetv</a>
  &#8226;   <a href="#yt_dlp.extractor.frontendmasters">yt_dlp.extractor.frontendmasters</a>
  &#8226;   <a href="#yt_dlp.extractor.gaia">yt_dlp.extractor.gaia</a>
@@ -20226,6 +20227,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.slideslive">yt_dlp.extractor.slideslive</a>
  &#8226;   <a href="#yt_dlp.extractor.sohu">yt_dlp.extractor.sohu</a>
  &#8226;   <a href="#yt_dlp.extractor.sproutvideo">yt_dlp.extractor.sproutvideo</a>
+ &#8226;   <a href="#yt_dlp.extractor.streaks">yt_dlp.extractor.streaks</a>
  &#8226;   <a href="#yt_dlp.extractor.substack">yt_dlp.extractor.substack</a>
  &#8226;   <a href="#yt_dlp.extractor.tbs">yt_dlp.extractor.tbs</a>
  &#8226;   <a href="#yt_dlp.extractor.tennistv">yt_dlp.extractor.tennistv</a>
@@ -20255,7 +20257,11 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.wistia">yt_dlp.extractor.wistia</a>
  &#8226;   <a href="#yt_dlp.extractor.xvideos">yt_dlp.extractor.xvideos</a>
  &#8226;   <a href="#yt_dlp.extractor.yahoo">yt_dlp.extractor.yahoo</a>
- &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._base">yt_dlp.extractor.youtube._base</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._redirect">yt_dlp.extractor.youtube._redirect</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._search">yt_dlp.extractor.youtube._search</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._tab">yt_dlp.extractor.youtube._tab</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._video">yt_dlp.extractor.youtube._video</a>
  &#8226;   <a href="#yt_dlp.extractor.zingmp3">yt_dlp.extractor.zingmp3</a>
  &#8226;   <a href="#yt_dlp.networking._curlcffi">yt_dlp.networking._curlcffi</a>
  &#8226;   <a href="#yt_dlp.networking._helper">yt_dlp.networking._helper</a>
@@ -20310,7 +20316,9 @@ imports:
 imported by:
     <a href="#http.cookiejar">http.cookiejar</a>
  &#8226;   <a href="#jaraco.context">jaraco.context</a>
+ &#8226;   <a href="#main.py">main.py</a>
  &#8226;   <a href="#requests.compat">requests.compat</a>
+ &#8226;   <a href="#src.main">src.main</a>
  &#8226;   <a href="#xml.sax.saxutils">xml.sax.saxutils</a>
  &#8226;   <a href="#yt_dlp.compat._legacy">yt_dlp.compat._legacy</a>
  &#8226;   <a href="#yt_dlp.compat.urllib.request">yt_dlp.compat.urllib.request</a>
@@ -21517,6 +21525,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.nfl">yt_dlp.extractor.nfl</a>
  &#8226;   <a href="#yt_dlp.extractor.nytimes">yt_dlp.extractor.nytimes</a>
  &#8226;   <a href="#yt_dlp.extractor.ondemandkorea">yt_dlp.extractor.ondemandkorea</a>
+ &#8226;   <a href="#yt_dlp.extractor.playsuisse">yt_dlp.extractor.playsuisse</a>
  &#8226;   <a href="#yt_dlp.extractor.plutotv">yt_dlp.extractor.plutotv</a>
  &#8226;   <a href="#yt_dlp.extractor.polsatgo">yt_dlp.extractor.polsatgo</a>
  &#8226;   <a href="#yt_dlp.extractor.redbee">yt_dlp.extractor.redbee</a>
@@ -21737,8 +21746,7 @@ imported by:
   <a name="winsound"></a>
   <tt>winsound</tt> <span class="moduletype"><tt>C:\Users\thang\AppData\Local\Programs\Python\Python312\DLLs\winsound.pyd</tt></span>  <div class="import">
 imported by:
-    <a href="#downloader">downloader</a>
- &#8226;   <a href="#src.downloader">src.downloader</a>
+    <a href="#src.downloader">src.downloader</a>
 
   </div>
 
@@ -22197,8 +22205,10 @@ imports:
  &#8226;   <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
  &#8226;   <a href="#yt_dlp.extractor.adobepass">yt_dlp.extractor.adobepass</a>
  &#8226;   <a href="#yt_dlp.extractor.generic">yt_dlp.extractor.generic</a>
+ &#8226;   <a href="#yt_dlp.globals">yt_dlp.globals</a>
  &#8226;   <a href="#yt_dlp.networking.impersonate">yt_dlp.networking.impersonate</a>
  &#8226;   <a href="#yt_dlp.options">yt_dlp.options</a>
+ &#8226;   <a href="#yt_dlp.plugins">yt_dlp.plugins</a>
  &#8226;   <a href="#yt_dlp.postprocessor">yt_dlp.postprocessor</a>
  &#8226;   <a href="#yt_dlp.update">yt_dlp.update</a>
  &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
@@ -22214,8 +22224,7 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#downloader">downloader</a>
- &#8226;   <a href="#main.py">main.py</a>
+    <a href="#main.py">main.py</a>
  &#8226;   <a href="#src.downloader">src.downloader</a>
  &#8226;   <a href="#src.main">src.main</a>
  &#8226;   <a href="#src.ui">src.ui</a>
@@ -22230,6 +22239,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.downloader">yt_dlp.downloader</a>
  &#8226;   <a href="#yt_dlp.downloader.hls">yt_dlp.downloader.hls</a>
  &#8226;   <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
+ &#8226;   <a href="#yt_dlp.globals">yt_dlp.globals</a>
  &#8226;   <a href="#yt_dlp.jsinterp">yt_dlp.jsinterp</a>
  &#8226;   <a href="#yt_dlp.minicurses">yt_dlp.minicurses</a>
  &#8226;   <a href="#yt_dlp.networking">yt_dlp.networking</a>
@@ -22239,7 +22249,6 @@ imported by:
  &#8226;   <a href="#yt_dlp.socks">yt_dlp.socks</a>
  &#8226;   <a href="#yt_dlp.update">yt_dlp.update</a>
  &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
- &#8226;   <a href="#yt_dlp.utils._utils">yt_dlp.utils._utils</a>
  &#8226;   <a href="#yt_dlp.version">yt_dlp.version</a>
  &#8226;   <a href="#yt_dlp.webvtt">yt_dlp.webvtt</a>
 
@@ -22290,8 +22299,8 @@ imports:
  &#8226;   <a href="#yt_dlp.downloader.rtmp">yt_dlp.downloader.rtmp</a>
  &#8226;   <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
  &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
- &#8226;   <a href="#yt_dlp.extractor.extractors">yt_dlp.extractor.extractors</a>
  &#8226;   <a href="#yt_dlp.extractor.openload">yt_dlp.extractor.openload</a>
+ &#8226;   <a href="#yt_dlp.globals">yt_dlp.globals</a>
  &#8226;   <a href="#yt_dlp.minicurses">yt_dlp.minicurses</a>
  &#8226;   <a href="#yt_dlp.networking">yt_dlp.networking</a>
  &#8226;   <a href="#yt_dlp.networking.common">yt_dlp.networking.common</a>
@@ -22772,6 +22781,7 @@ imported by:
 imports:
     <a href="#yt_dlp">yt_dlp</a>
  &#8226;   <a href="#yt_dlp.downloader">yt_dlp.downloader</a>
+ &#8226;   <a href="#yt_dlp.downloader.bunnycdn">yt_dlp.downloader.bunnycdn</a>
  &#8226;   <a href="#yt_dlp.downloader.common">yt_dlp.downloader.common</a>
  &#8226;   <a href="#yt_dlp.downloader.dash">yt_dlp.downloader.dash</a>
  &#8226;   <a href="#yt_dlp.downloader.external">yt_dlp.downloader.external</a>
@@ -22794,6 +22804,7 @@ imports:
 imported by:
     <a href="#yt_dlp.YoutubeDL">yt_dlp.YoutubeDL</a>
  &#8226;   <a href="#yt_dlp.downloader">yt_dlp.downloader</a>
+ &#8226;   <a href="#yt_dlp.downloader.bunnycdn">yt_dlp.downloader.bunnycdn</a>
  &#8226;   <a href="#yt_dlp.downloader.common">yt_dlp.downloader.common</a>
  &#8226;   <a href="#yt_dlp.downloader.dash">yt_dlp.downloader.dash</a>
  &#8226;   <a href="#yt_dlp.downloader.external">yt_dlp.downloader.external</a>
@@ -22809,6 +22820,28 @@ imported by:
  &#8226;   <a href="#yt_dlp.downloader.rtsp">yt_dlp.downloader.rtsp</a>
  &#8226;   <a href="#yt_dlp.downloader.websocket">yt_dlp.downloader.websocket</a>
  &#8226;   <a href="#yt_dlp.downloader.youtube_live_chat">yt_dlp.downloader.youtube_live_chat</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="yt_dlp.downloader.bunnycdn"></a>
+  <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/downloader/bunnycdn.py" type="text/plain"><tt>yt_dlp.downloader.bunnycdn</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#hashlib">hashlib</a>
+ &#8226;   <a href="#random">random</a>
+ &#8226;   <a href="#threading">threading</a>
+ &#8226;   <a href="#yt_dlp.downloader">yt_dlp.downloader</a>
+ &#8226;   <a href="#yt_dlp.downloader.common">yt_dlp.downloader.common</a>
+ &#8226;   <a href="#yt_dlp.networking">yt_dlp.networking</a>
+ &#8226;   <a href="#yt_dlp.networking.exceptions">yt_dlp.networking.exceptions</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#yt_dlp.downloader">yt_dlp.downloader</a>
 
   </div>
 
@@ -22831,6 +22864,7 @@ imports:
  &#8226;   <a href="#yt_dlp.minicurses">yt_dlp.minicurses</a>
  &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
  &#8226;   <a href="#yt_dlp.utils.NO_DEFAULT">yt_dlp.utils.NO_DEFAULT</a>
+ &#8226;   <a href="#yt_dlp.utils._utils">yt_dlp.utils._utils</a>
  &#8226;   <a href="#yt_dlp.utils.deprecation_warning">yt_dlp.utils.deprecation_warning</a>
  &#8226;   <a href="#yt_dlp.utils.shell_quote">yt_dlp.utils.shell_quote</a>
 
@@ -22838,6 +22872,7 @@ imports:
   <div class="import">
 imported by:
     <a href="#yt_dlp.downloader">yt_dlp.downloader</a>
+ &#8226;   <a href="#yt_dlp.downloader.bunnycdn">yt_dlp.downloader.bunnycdn</a>
  &#8226;   <a href="#yt_dlp.downloader.fc2">yt_dlp.downloader.fc2</a>
  &#8226;   <a href="#yt_dlp.downloader.fragment">yt_dlp.downloader.fragment</a>
  &#8226;   <a href="#yt_dlp.downloader.http">yt_dlp.downloader.http</a>
@@ -23216,8 +23251,11 @@ imports:
     <a href="#yt_dlp">yt_dlp</a>
  &#8226;   <a href="#yt_dlp.compat.compat_utils">yt_dlp.compat.compat_utils</a>
  &#8226;   <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
+ &#8226;   <a href="#yt_dlp.extractor._extractors">yt_dlp.extractor._extractors</a>
  &#8226;   <a href="#yt_dlp.extractor.extractors">yt_dlp.extractor.extractors</a>
  &#8226;   <a href="#yt_dlp.extractor.generic">yt_dlp.extractor.generic</a>
+ &#8226;   <a href="#yt_dlp.globals">yt_dlp.globals</a>
+ &#8226;   <a href="#yt_dlp.plugins">yt_dlp.plugins</a>
 
   </div>
   <div class="import">
@@ -23335,6 +23373,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.brilliantpala">yt_dlp.extractor.brilliantpala</a>
  &#8226;   <a href="#yt_dlp.extractor.bundesliga">yt_dlp.extractor.bundesliga</a>
  &#8226;   <a href="#yt_dlp.extractor.bundestag">yt_dlp.extractor.bundestag</a>
+ &#8226;   <a href="#yt_dlp.extractor.bunnycdn">yt_dlp.extractor.bunnycdn</a>
  &#8226;   <a href="#yt_dlp.extractor.businessinsider">yt_dlp.extractor.businessinsider</a>
  &#8226;   <a href="#yt_dlp.extractor.buzzfeed">yt_dlp.extractor.buzzfeed</a>
  &#8226;   <a href="#yt_dlp.extractor.byutv">yt_dlp.extractor.byutv</a>
@@ -23352,6 +23391,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.canalalpha">yt_dlp.extractor.canalalpha</a>
  &#8226;   <a href="#yt_dlp.extractor.canalc2">yt_dlp.extractor.canalc2</a>
  &#8226;   <a href="#yt_dlp.extractor.canalplus">yt_dlp.extractor.canalplus</a>
+ &#8226;   <a href="#yt_dlp.extractor.canalsurmas">yt_dlp.extractor.canalsurmas</a>
  &#8226;   <a href="#yt_dlp.extractor.caracoltv">yt_dlp.extractor.caracoltv</a>
  &#8226;   <a href="#yt_dlp.extractor.cartoonnetwork">yt_dlp.extractor.cartoonnetwork</a>
  &#8226;   <a href="#yt_dlp.extractor.cbc">yt_dlp.extractor.cbc</a>
@@ -23420,7 +23460,6 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.daystar">yt_dlp.extractor.daystar</a>
  &#8226;   <a href="#yt_dlp.extractor.dbtv">yt_dlp.extractor.dbtv</a>
  &#8226;   <a href="#yt_dlp.extractor.dctp">yt_dlp.extractor.dctp</a>
- &#8226;   <a href="#yt_dlp.extractor.deezer">yt_dlp.extractor.deezer</a>
  &#8226;   <a href="#yt_dlp.extractor.democracynow">yt_dlp.extractor.democracynow</a>
  &#8226;   <a href="#yt_dlp.extractor.detik">yt_dlp.extractor.detik</a>
  &#8226;   <a href="#yt_dlp.extractor.deuxm">yt_dlp.extractor.deuxm</a>
@@ -23503,6 +23542,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.foxnews">yt_dlp.extractor.foxnews</a>
  &#8226;   <a href="#yt_dlp.extractor.foxsports">yt_dlp.extractor.foxsports</a>
  &#8226;   <a href="#yt_dlp.extractor.fptplay">yt_dlp.extractor.fptplay</a>
+ &#8226;   <a href="#yt_dlp.extractor.francaisfacile">yt_dlp.extractor.francaisfacile</a>
  &#8226;   <a href="#yt_dlp.extractor.franceinter">yt_dlp.extractor.franceinter</a>
  &#8226;   <a href="#yt_dlp.extractor.francetv">yt_dlp.extractor.francetv</a>
  &#8226;   <a href="#yt_dlp.extractor.freesound">yt_dlp.extractor.freesound</a>
@@ -23531,7 +23571,6 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.getcourseru">yt_dlp.extractor.getcourseru</a>
  &#8226;   <a href="#yt_dlp.extractor.gettr">yt_dlp.extractor.gettr</a>
  &#8226;   <a href="#yt_dlp.extractor.giantbomb">yt_dlp.extractor.giantbomb</a>
- &#8226;   <a href="#yt_dlp.extractor.gigya">yt_dlp.extractor.gigya</a>
  &#8226;   <a href="#yt_dlp.extractor.glide">yt_dlp.extractor.glide</a>
  &#8226;   <a href="#yt_dlp.extractor.globalplayer">yt_dlp.extractor.globalplayer</a>
  &#8226;   <a href="#yt_dlp.extractor.globo">yt_dlp.extractor.globo</a>
@@ -23669,6 +23708,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.livestream">yt_dlp.extractor.livestream</a>
  &#8226;   <a href="#yt_dlp.extractor.livestreamfails">yt_dlp.extractor.livestreamfails</a>
  &#8226;   <a href="#yt_dlp.extractor.lnk">yt_dlp.extractor.lnk</a>
+ &#8226;   <a href="#yt_dlp.extractor.loco">yt_dlp.extractor.loco</a>
  &#8226;   <a href="#yt_dlp.extractor.loom">yt_dlp.extractor.loom</a>
  &#8226;   <a href="#yt_dlp.extractor.lovehomeporn">yt_dlp.extractor.lovehomeporn</a>
  &#8226;   <a href="#yt_dlp.extractor.lrt">yt_dlp.extractor.lrt</a>
@@ -23985,6 +24025,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.smotrim">yt_dlp.extractor.smotrim</a>
  &#8226;   <a href="#yt_dlp.extractor.snapchat">yt_dlp.extractor.snapchat</a>
  &#8226;   <a href="#yt_dlp.extractor.snotr">yt_dlp.extractor.snotr</a>
+ &#8226;   <a href="#yt_dlp.extractor.softwhiteunderbelly">yt_dlp.extractor.softwhiteunderbelly</a>
  &#8226;   <a href="#yt_dlp.extractor.sohu">yt_dlp.extractor.sohu</a>
  &#8226;   <a href="#yt_dlp.extractor.sonyliv">yt_dlp.extractor.sonyliv</a>
  &#8226;   <a href="#yt_dlp.extractor.soundcloud">yt_dlp.extractor.soundcloud</a>
@@ -24012,6 +24053,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.steam">yt_dlp.extractor.steam</a>
  &#8226;   <a href="#yt_dlp.extractor.stitcher">yt_dlp.extractor.stitcher</a>
  &#8226;   <a href="#yt_dlp.extractor.storyfire">yt_dlp.extractor.storyfire</a>
+ &#8226;   <a href="#yt_dlp.extractor.streaks">yt_dlp.extractor.streaks</a>
  &#8226;   <a href="#yt_dlp.extractor.streamable">yt_dlp.extractor.streamable</a>
  &#8226;   <a href="#yt_dlp.extractor.streamcz">yt_dlp.extractor.streamcz</a>
  &#8226;   <a href="#yt_dlp.extractor.streetvoice">yt_dlp.extractor.streetvoice</a>
@@ -24113,6 +24155,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.tvp">yt_dlp.extractor.tvp</a>
  &#8226;   <a href="#yt_dlp.extractor.tvplay">yt_dlp.extractor.tvplay</a>
  &#8226;   <a href="#yt_dlp.extractor.tvplayer">yt_dlp.extractor.tvplayer</a>
+ &#8226;   <a href="#yt_dlp.extractor.tvw">yt_dlp.extractor.tvw</a>
  &#8226;   <a href="#yt_dlp.extractor.tweakers">yt_dlp.extractor.tweakers</a>
  &#8226;   <a href="#yt_dlp.extractor.twentymin">yt_dlp.extractor.twentymin</a>
  &#8226;   <a href="#yt_dlp.extractor.twentythreevideo">yt_dlp.extractor.twentythreevideo</a>
@@ -24162,7 +24205,6 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.vidyard">yt_dlp.extractor.vidyard</a>
  &#8226;   <a href="#yt_dlp.extractor.viewlift">yt_dlp.extractor.viewlift</a>
  &#8226;   <a href="#yt_dlp.extractor.viidea">yt_dlp.extractor.viidea</a>
- &#8226;   <a href="#yt_dlp.extractor.viki">yt_dlp.extractor.viki</a>
  &#8226;   <a href="#yt_dlp.extractor.vimeo">yt_dlp.extractor.vimeo</a>
  &#8226;   <a href="#yt_dlp.extractor.vimm">yt_dlp.extractor.vimm</a>
  &#8226;   <a href="#yt_dlp.extractor.viously">yt_dlp.extractor.viously</a>
@@ -24175,6 +24217,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.voicy">yt_dlp.extractor.voicy</a>
  &#8226;   <a href="#yt_dlp.extractor.volejtv">yt_dlp.extractor.volejtv</a>
  &#8226;   <a href="#yt_dlp.extractor.voxmedia">yt_dlp.extractor.voxmedia</a>
+ &#8226;   <a href="#yt_dlp.extractor.vrsquare">yt_dlp.extractor.vrsquare</a>
  &#8226;   <a href="#yt_dlp.extractor.vrt">yt_dlp.extractor.vrt</a>
  &#8226;   <a href="#yt_dlp.extractor.vtm">yt_dlp.extractor.vtm</a>
  &#8226;   <a href="#yt_dlp.extractor.vtv">yt_dlp.extractor.vtv</a>
@@ -24357,6 +24400,7 @@ imports:
  &#8226;   <a href="#yt_dlp.extractor.brilliantpala">yt_dlp.extractor.brilliantpala</a>
  &#8226;   <a href="#yt_dlp.extractor.bundesliga">yt_dlp.extractor.bundesliga</a>
  &#8226;   <a href="#yt_dlp.extractor.bundestag">yt_dlp.extractor.bundestag</a>
+ &#8226;   <a href="#yt_dlp.extractor.bunnycdn">yt_dlp.extractor.bunnycdn</a>
  &#8226;   <a href="#yt_dlp.extractor.businessinsider">yt_dlp.extractor.businessinsider</a>
  &#8226;   <a href="#yt_dlp.extractor.buzzfeed">yt_dlp.extractor.buzzfeed</a>
  &#8226;   <a href="#yt_dlp.extractor.byutv">yt_dlp.extractor.byutv</a>
@@ -24374,6 +24418,7 @@ imports:
  &#8226;   <a href="#yt_dlp.extractor.canalalpha">yt_dlp.extractor.canalalpha</a>
  &#8226;   <a href="#yt_dlp.extractor.canalc2">yt_dlp.extractor.canalc2</a>
  &#8226;   <a href="#yt_dlp.extractor.canalplus">yt_dlp.extractor.canalplus</a>
+ &#8226;   <a href="#yt_dlp.extractor.canalsurmas">yt_dlp.extractor.canalsurmas</a>
  &#8226;   <a href="#yt_dlp.extractor.caracoltv">yt_dlp.extractor.caracoltv</a>
  &#8226;   <a href="#yt_dlp.extractor.cartoonnetwork">yt_dlp.extractor.cartoonnetwork</a>
  &#8226;   <a href="#yt_dlp.extractor.cbc">yt_dlp.extractor.cbc</a>
@@ -24441,7 +24486,6 @@ imports:
  &#8226;   <a href="#yt_dlp.extractor.daystar">yt_dlp.extractor.daystar</a>
  &#8226;   <a href="#yt_dlp.extractor.dbtv">yt_dlp.extractor.dbtv</a>
  &#8226;   <a href="#yt_dlp.extractor.dctp">yt_dlp.extractor.dctp</a>
- &#8226;   <a href="#yt_dlp.extractor.deezer">yt_dlp.extractor.deezer</a>
  &#8226;   <a href="#yt_dlp.extractor.democracynow">yt_dlp.extractor.democracynow</a>
  &#8226;   <a href="#yt_dlp.extractor.detik">yt_dlp.extractor.detik</a>
  &#8226;   <a href="#yt_dlp.extractor.deuxm">yt_dlp.extractor.deuxm</a>
@@ -24523,6 +24567,7 @@ imports:
  &#8226;   <a href="#yt_dlp.extractor.foxnews">yt_dlp.extractor.foxnews</a>
  &#8226;   <a href="#yt_dlp.extractor.foxsports">yt_dlp.extractor.foxsports</a>
  &#8226;   <a href="#yt_dlp.extractor.fptplay">yt_dlp.extractor.fptplay</a>
+ &#8226;   <a href="#yt_dlp.extractor.francaisfacile">yt_dlp.extractor.francaisfacile</a>
  &#8226;   <a href="#yt_dlp.extractor.franceinter">yt_dlp.extractor.franceinter</a>
  &#8226;   <a href="#yt_dlp.extractor.francetv">yt_dlp.extractor.francetv</a>
  &#8226;   <a href="#yt_dlp.extractor.freesound">yt_dlp.extractor.freesound</a>
@@ -24685,6 +24730,7 @@ imports:
  &#8226;   <a href="#yt_dlp.extractor.livestream">yt_dlp.extractor.livestream</a>
  &#8226;   <a href="#yt_dlp.extractor.livestreamfails">yt_dlp.extractor.livestreamfails</a>
  &#8226;   <a href="#yt_dlp.extractor.lnk">yt_dlp.extractor.lnk</a>
+ &#8226;   <a href="#yt_dlp.extractor.loco">yt_dlp.extractor.loco</a>
  &#8226;   <a href="#yt_dlp.extractor.loom">yt_dlp.extractor.loom</a>
  &#8226;   <a href="#yt_dlp.extractor.lovehomeporn">yt_dlp.extractor.lovehomeporn</a>
  &#8226;   <a href="#yt_dlp.extractor.lrt">yt_dlp.extractor.lrt</a>
@@ -24998,6 +25044,7 @@ imports:
  &#8226;   <a href="#yt_dlp.extractor.smotrim">yt_dlp.extractor.smotrim</a>
  &#8226;   <a href="#yt_dlp.extractor.snapchat">yt_dlp.extractor.snapchat</a>
  &#8226;   <a href="#yt_dlp.extractor.snotr">yt_dlp.extractor.snotr</a>
+ &#8226;   <a href="#yt_dlp.extractor.softwhiteunderbelly">yt_dlp.extractor.softwhiteunderbelly</a>
  &#8226;   <a href="#yt_dlp.extractor.sohu">yt_dlp.extractor.sohu</a>
  &#8226;   <a href="#yt_dlp.extractor.sonyliv">yt_dlp.extractor.sonyliv</a>
  &#8226;   <a href="#yt_dlp.extractor.soundcloud">yt_dlp.extractor.soundcloud</a>
@@ -25025,6 +25072,7 @@ imports:
  &#8226;   <a href="#yt_dlp.extractor.steam">yt_dlp.extractor.steam</a>
  &#8226;   <a href="#yt_dlp.extractor.stitcher">yt_dlp.extractor.stitcher</a>
  &#8226;   <a href="#yt_dlp.extractor.storyfire">yt_dlp.extractor.storyfire</a>
+ &#8226;   <a href="#yt_dlp.extractor.streaks">yt_dlp.extractor.streaks</a>
  &#8226;   <a href="#yt_dlp.extractor.streamable">yt_dlp.extractor.streamable</a>
  &#8226;   <a href="#yt_dlp.extractor.streamcz">yt_dlp.extractor.streamcz</a>
  &#8226;   <a href="#yt_dlp.extractor.streetvoice">yt_dlp.extractor.streetvoice</a>
@@ -25125,6 +25173,7 @@ imports:
  &#8226;   <a href="#yt_dlp.extractor.tvp">yt_dlp.extractor.tvp</a>
  &#8226;   <a href="#yt_dlp.extractor.tvplay">yt_dlp.extractor.tvplay</a>
  &#8226;   <a href="#yt_dlp.extractor.tvplayer">yt_dlp.extractor.tvplayer</a>
+ &#8226;   <a href="#yt_dlp.extractor.tvw">yt_dlp.extractor.tvw</a>
  &#8226;   <a href="#yt_dlp.extractor.tweakers">yt_dlp.extractor.tweakers</a>
  &#8226;   <a href="#yt_dlp.extractor.twentymin">yt_dlp.extractor.twentymin</a>
  &#8226;   <a href="#yt_dlp.extractor.twentythreevideo">yt_dlp.extractor.twentythreevideo</a>
@@ -25174,7 +25223,6 @@ imports:
  &#8226;   <a href="#yt_dlp.extractor.vidyard">yt_dlp.extractor.vidyard</a>
  &#8226;   <a href="#yt_dlp.extractor.viewlift">yt_dlp.extractor.viewlift</a>
  &#8226;   <a href="#yt_dlp.extractor.viidea">yt_dlp.extractor.viidea</a>
- &#8226;   <a href="#yt_dlp.extractor.viki">yt_dlp.extractor.viki</a>
  &#8226;   <a href="#yt_dlp.extractor.vimeo">yt_dlp.extractor.vimeo</a>
  &#8226;   <a href="#yt_dlp.extractor.vimm">yt_dlp.extractor.vimm</a>
  &#8226;   <a href="#yt_dlp.extractor.viously">yt_dlp.extractor.viously</a>
@@ -25187,6 +25235,7 @@ imports:
  &#8226;   <a href="#yt_dlp.extractor.voicy">yt_dlp.extractor.voicy</a>
  &#8226;   <a href="#yt_dlp.extractor.volejtv">yt_dlp.extractor.volejtv</a>
  &#8226;   <a href="#yt_dlp.extractor.voxmedia">yt_dlp.extractor.voxmedia</a>
+ &#8226;   <a href="#yt_dlp.extractor.vrsquare">yt_dlp.extractor.vrsquare</a>
  &#8226;   <a href="#yt_dlp.extractor.vrt">yt_dlp.extractor.vrt</a>
  &#8226;   <a href="#yt_dlp.extractor.vtm">yt_dlp.extractor.vtm</a>
  &#8226;   <a href="#yt_dlp.extractor.vtv">yt_dlp.extractor.vtv</a>
@@ -25256,7 +25305,8 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#yt_dlp.extractor.extractors">yt_dlp.extractor.extractors</a>
+    <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
+ &#8226;   <a href="#yt_dlp.extractor.extractors">yt_dlp.extractor.extractors</a>
 
   </div>
 
@@ -25570,7 +25620,8 @@ imported by:
   <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/afreecatv.py" type="text/plain"><tt>yt_dlp.extractor.afreecatv</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
-    <a href="#functools">functools</a>
+    <a href="#datetime">datetime</a>
+ &#8226;   <a href="#functools">functools</a>
  &#8226;   <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
  &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
  &#8226;   <a href="#yt_dlp.networking">yt_dlp.networking</a>
@@ -26532,10 +26583,10 @@ imported by:
   <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/azmedien.py" type="text/plain"><tt>yt_dlp.extractor.azmedien</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
-    <a href="#json">json</a>
- &#8226;   <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
+    <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
  &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
  &#8226;   <a href="#yt_dlp.extractor.kaltura">yt_dlp.extractor.kaltura</a>
+ &#8226;   <a href="#yt_dlp.utils.traversal">yt_dlp.utils.traversal</a>
 
   </div>
   <div class="import">
@@ -27376,6 +27427,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.itv">yt_dlp.extractor.itv</a>
  &#8226;   <a href="#yt_dlp.extractor.laxarxames">yt_dlp.extractor.laxarxames</a>
  &#8226;   <a href="#yt_dlp.extractor.ninenews">yt_dlp.extractor.ninenews</a>
+ &#8226;   <a href="#yt_dlp.extractor.ninenow">yt_dlp.extractor.ninenow</a>
  &#8226;   <a href="#yt_dlp.extractor.noovo">yt_dlp.extractor.noovo</a>
  &#8226;   <a href="#yt_dlp.extractor.nowness">yt_dlp.extractor.nowness</a>
  &#8226;   <a href="#yt_dlp.extractor.nzherald">yt_dlp.extractor.nzherald</a>
@@ -27446,6 +27498,28 @@ imports:
   <div class="import">
 imported by:
     <a href="#yt_dlp.extractor._extractors">yt_dlp.extractor._extractors</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="yt_dlp.extractor.bunnycdn"></a>
+  <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/bunnycdn.py" type="text/plain"><tt>yt_dlp.extractor.bunnycdn</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#json">json</a>
+ &#8226;   <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
+ &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
+ &#8226;   <a href="#yt_dlp.networking">yt_dlp.networking</a>
+ &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
+ &#8226;   <a href="#yt_dlp.utils.traversal">yt_dlp.utils.traversal</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#yt_dlp.extractor._extractors">yt_dlp.extractor._extractors</a>
+ &#8226;   <a href="#yt_dlp.extractor.sovietscloset">yt_dlp.extractor.sovietscloset</a>
 
   </div>
 
@@ -27764,6 +27838,27 @@ imported by:
 </div>
 
 <div class="node">
+  <a name="yt_dlp.extractor.canalsurmas"></a>
+  <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/canalsurmas.py" type="text/plain"><tt>yt_dlp.extractor.canalsurmas</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#json">json</a>
+ &#8226;   <a href="#time">time</a>
+ &#8226;   <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
+ &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
+ &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
+ &#8226;   <a href="#yt_dlp.utils.traversal">yt_dlp.utils.traversal</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#yt_dlp.extractor._extractors">yt_dlp.extractor._extractors</a>
+
+  </div>
+
+</div>
+
+<div class="node">
   <a name="yt_dlp.extractor.caracoltv"></a>
   <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/caracoltv.py" type="text/plain"><tt>yt_dlp.extractor.caracoltv</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
@@ -27807,15 +27902,14 @@ imported by:
   <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/cbc.py" type="text/plain"><tt>yt_dlp.extractor.cbc</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
-    <a href="#base64">base64</a>
- &#8226;   <a href="#functools">functools</a>
- &#8226;   <a href="#json">json</a>
+    <a href="#functools">functools</a>
  &#8226;   <a href="#re">re</a>
  &#8226;   <a href="#time">time</a>
  &#8226;   <a href="#urllib.parse">urllib.parse</a>
  &#8226;   <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
  &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
  &#8226;   <a href="#yt_dlp.networking">yt_dlp.networking</a>
+ &#8226;   <a href="#yt_dlp.networking.exceptions">yt_dlp.networking.exceptions</a>
  &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
  &#8226;   <a href="#yt_dlp.utils.traversal">yt_dlp.utils.traversal</a>
 
@@ -28474,6 +28568,7 @@ imports:
  &#8226;   <a href="#yt_dlp.downloader.f4m">yt_dlp.downloader.f4m</a>
  &#8226;   <a href="#yt_dlp.downloader.hls">yt_dlp.downloader.hls</a>
  &#8226;   <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
+ &#8226;   <a href="#yt_dlp.globals">yt_dlp.globals</a>
  &#8226;   <a href="#yt_dlp.networking">yt_dlp.networking</a>
  &#8226;   <a href="#yt_dlp.networking.exceptions">yt_dlp.networking.exceptions</a>
  &#8226;   <a href="#yt_dlp.networking.impersonate">yt_dlp.networking.impersonate</a>
@@ -28590,6 +28685,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.brilliantpala">yt_dlp.extractor.brilliantpala</a>
  &#8226;   <a href="#yt_dlp.extractor.bundesliga">yt_dlp.extractor.bundesliga</a>
  &#8226;   <a href="#yt_dlp.extractor.bundestag">yt_dlp.extractor.bundestag</a>
+ &#8226;   <a href="#yt_dlp.extractor.bunnycdn">yt_dlp.extractor.bunnycdn</a>
  &#8226;   <a href="#yt_dlp.extractor.businessinsider">yt_dlp.extractor.businessinsider</a>
  &#8226;   <a href="#yt_dlp.extractor.buzzfeed">yt_dlp.extractor.buzzfeed</a>
  &#8226;   <a href="#yt_dlp.extractor.byutv">yt_dlp.extractor.byutv</a>
@@ -28607,6 +28703,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.canalalpha">yt_dlp.extractor.canalalpha</a>
  &#8226;   <a href="#yt_dlp.extractor.canalc2">yt_dlp.extractor.canalc2</a>
  &#8226;   <a href="#yt_dlp.extractor.canalplus">yt_dlp.extractor.canalplus</a>
+ &#8226;   <a href="#yt_dlp.extractor.canalsurmas">yt_dlp.extractor.canalsurmas</a>
  &#8226;   <a href="#yt_dlp.extractor.caracoltv">yt_dlp.extractor.caracoltv</a>
  &#8226;   <a href="#yt_dlp.extractor.cbc">yt_dlp.extractor.cbc</a>
  &#8226;   <a href="#yt_dlp.extractor.cbs">yt_dlp.extractor.cbs</a>
@@ -28667,7 +28764,6 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.daystar">yt_dlp.extractor.daystar</a>
  &#8226;   <a href="#yt_dlp.extractor.dbtv">yt_dlp.extractor.dbtv</a>
  &#8226;   <a href="#yt_dlp.extractor.dctp">yt_dlp.extractor.dctp</a>
- &#8226;   <a href="#yt_dlp.extractor.deezer">yt_dlp.extractor.deezer</a>
  &#8226;   <a href="#yt_dlp.extractor.democracynow">yt_dlp.extractor.democracynow</a>
  &#8226;   <a href="#yt_dlp.extractor.detik">yt_dlp.extractor.detik</a>
  &#8226;   <a href="#yt_dlp.extractor.deuxm">yt_dlp.extractor.deuxm</a>
@@ -28724,7 +28820,6 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.eurosport">yt_dlp.extractor.eurosport</a>
  &#8226;   <a href="#yt_dlp.extractor.euscreen">yt_dlp.extractor.euscreen</a>
  &#8226;   <a href="#yt_dlp.extractor.expressen">yt_dlp.extractor.expressen</a>
- &#8226;   <a href="#yt_dlp.extractor.extractors">yt_dlp.extractor.extractors</a>
  &#8226;   <a href="#yt_dlp.extractor.eyedotv">yt_dlp.extractor.eyedotv</a>
  &#8226;   <a href="#yt_dlp.extractor.facebook">yt_dlp.extractor.facebook</a>
  &#8226;   <a href="#yt_dlp.extractor.fancode">yt_dlp.extractor.fancode</a>
@@ -28749,6 +28844,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.foxnews">yt_dlp.extractor.foxnews</a>
  &#8226;   <a href="#yt_dlp.extractor.foxsports">yt_dlp.extractor.foxsports</a>
  &#8226;   <a href="#yt_dlp.extractor.fptplay">yt_dlp.extractor.fptplay</a>
+ &#8226;   <a href="#yt_dlp.extractor.francaisfacile">yt_dlp.extractor.francaisfacile</a>
  &#8226;   <a href="#yt_dlp.extractor.franceinter">yt_dlp.extractor.franceinter</a>
  &#8226;   <a href="#yt_dlp.extractor.francetv">yt_dlp.extractor.francetv</a>
  &#8226;   <a href="#yt_dlp.extractor.freesound">yt_dlp.extractor.freesound</a>
@@ -28776,7 +28872,6 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.getcourseru">yt_dlp.extractor.getcourseru</a>
  &#8226;   <a href="#yt_dlp.extractor.gettr">yt_dlp.extractor.gettr</a>
  &#8226;   <a href="#yt_dlp.extractor.giantbomb">yt_dlp.extractor.giantbomb</a>
- &#8226;   <a href="#yt_dlp.extractor.gigya">yt_dlp.extractor.gigya</a>
  &#8226;   <a href="#yt_dlp.extractor.glide">yt_dlp.extractor.glide</a>
  &#8226;   <a href="#yt_dlp.extractor.globalplayer">yt_dlp.extractor.globalplayer</a>
  &#8226;   <a href="#yt_dlp.extractor.globo">yt_dlp.extractor.globo</a>
@@ -28910,6 +29005,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.livestream">yt_dlp.extractor.livestream</a>
  &#8226;   <a href="#yt_dlp.extractor.livestreamfails">yt_dlp.extractor.livestreamfails</a>
  &#8226;   <a href="#yt_dlp.extractor.lnk">yt_dlp.extractor.lnk</a>
+ &#8226;   <a href="#yt_dlp.extractor.loco">yt_dlp.extractor.loco</a>
  &#8226;   <a href="#yt_dlp.extractor.loom">yt_dlp.extractor.loom</a>
  &#8226;   <a href="#yt_dlp.extractor.lrt">yt_dlp.extractor.lrt</a>
  &#8226;   <a href="#yt_dlp.extractor.lsm">yt_dlp.extractor.lsm</a>
@@ -29212,6 +29308,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.smotrim">yt_dlp.extractor.smotrim</a>
  &#8226;   <a href="#yt_dlp.extractor.snapchat">yt_dlp.extractor.snapchat</a>
  &#8226;   <a href="#yt_dlp.extractor.snotr">yt_dlp.extractor.snotr</a>
+ &#8226;   <a href="#yt_dlp.extractor.softwhiteunderbelly">yt_dlp.extractor.softwhiteunderbelly</a>
  &#8226;   <a href="#yt_dlp.extractor.sohu">yt_dlp.extractor.sohu</a>
  &#8226;   <a href="#yt_dlp.extractor.sonyliv">yt_dlp.extractor.sonyliv</a>
  &#8226;   <a href="#yt_dlp.extractor.soundcloud">yt_dlp.extractor.soundcloud</a>
@@ -29234,6 +29331,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.steam">yt_dlp.extractor.steam</a>
  &#8226;   <a href="#yt_dlp.extractor.stitcher">yt_dlp.extractor.stitcher</a>
  &#8226;   <a href="#yt_dlp.extractor.storyfire">yt_dlp.extractor.storyfire</a>
+ &#8226;   <a href="#yt_dlp.extractor.streaks">yt_dlp.extractor.streaks</a>
  &#8226;   <a href="#yt_dlp.extractor.streamable">yt_dlp.extractor.streamable</a>
  &#8226;   <a href="#yt_dlp.extractor.streamcz">yt_dlp.extractor.streamcz</a>
  &#8226;   <a href="#yt_dlp.extractor.streetvoice">yt_dlp.extractor.streetvoice</a>
@@ -29315,7 +29413,6 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.tva">yt_dlp.extractor.tva</a>
  &#8226;   <a href="#yt_dlp.extractor.tvanouvelles">yt_dlp.extractor.tvanouvelles</a>
  &#8226;   <a href="#yt_dlp.extractor.tvc">yt_dlp.extractor.tvc</a>
- &#8226;   <a href="#yt_dlp.extractor.tver">yt_dlp.extractor.tver</a>
  &#8226;   <a href="#yt_dlp.extractor.tvigle">yt_dlp.extractor.tvigle</a>
  &#8226;   <a href="#yt_dlp.extractor.tviplayer">yt_dlp.extractor.tviplayer</a>
  &#8226;   <a href="#yt_dlp.extractor.tvn24">yt_dlp.extractor.tvn24</a>
@@ -29324,6 +29421,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.tvp">yt_dlp.extractor.tvp</a>
  &#8226;   <a href="#yt_dlp.extractor.tvplay">yt_dlp.extractor.tvplay</a>
  &#8226;   <a href="#yt_dlp.extractor.tvplayer">yt_dlp.extractor.tvplayer</a>
+ &#8226;   <a href="#yt_dlp.extractor.tvw">yt_dlp.extractor.tvw</a>
  &#8226;   <a href="#yt_dlp.extractor.tweakers">yt_dlp.extractor.tweakers</a>
  &#8226;   <a href="#yt_dlp.extractor.twentymin">yt_dlp.extractor.twentymin</a>
  &#8226;   <a href="#yt_dlp.extractor.twentythreevideo">yt_dlp.extractor.twentythreevideo</a>
@@ -29370,7 +29468,6 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.vidyard">yt_dlp.extractor.vidyard</a>
  &#8226;   <a href="#yt_dlp.extractor.viewlift">yt_dlp.extractor.viewlift</a>
  &#8226;   <a href="#yt_dlp.extractor.viidea">yt_dlp.extractor.viidea</a>
- &#8226;   <a href="#yt_dlp.extractor.viki">yt_dlp.extractor.viki</a>
  &#8226;   <a href="#yt_dlp.extractor.vimeo">yt_dlp.extractor.vimeo</a>
  &#8226;   <a href="#yt_dlp.extractor.vimm">yt_dlp.extractor.vimm</a>
  &#8226;   <a href="#yt_dlp.extractor.viously">yt_dlp.extractor.viously</a>
@@ -29382,6 +29479,8 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.voicy">yt_dlp.extractor.voicy</a>
  &#8226;   <a href="#yt_dlp.extractor.volejtv">yt_dlp.extractor.volejtv</a>
  &#8226;   <a href="#yt_dlp.extractor.voxmedia">yt_dlp.extractor.voxmedia</a>
+ &#8226;   <a href="#yt_dlp.extractor.vrsquare">yt_dlp.extractor.vrsquare</a>
+ &#8226;   <a href="#yt_dlp.extractor.vrt">yt_dlp.extractor.vrt</a>
  &#8226;   <a href="#yt_dlp.extractor.vtm">yt_dlp.extractor.vtm</a>
  &#8226;   <a href="#yt_dlp.extractor.vtv">yt_dlp.extractor.vtv</a>
  &#8226;   <a href="#yt_dlp.extractor.vuclip">yt_dlp.extractor.vuclip</a>
@@ -29433,7 +29532,8 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.youku">yt_dlp.extractor.youku</a>
  &#8226;   <a href="#yt_dlp.extractor.younow">yt_dlp.extractor.younow</a>
  &#8226;   <a href="#yt_dlp.extractor.youporn">yt_dlp.extractor.youporn</a>
- &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._base">yt_dlp.extractor.youtube._base</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._search">yt_dlp.extractor.youtube._search</a>
  &#8226;   <a href="#yt_dlp.extractor.zaiko">yt_dlp.extractor.zaiko</a>
  &#8226;   <a href="#yt_dlp.extractor.zapiks">yt_dlp.extractor.zapiks</a>
  &#8226;   <a href="#yt_dlp.extractor.zattoo">yt_dlp.extractor.zattoo</a>
@@ -30068,25 +30168,6 @@ imported by:
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
     <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
- &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
- &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#yt_dlp.extractor._extractors">yt_dlp.extractor._extractors</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="yt_dlp.extractor.deezer"></a>
-  <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/deezer.py" type="text/plain"><tt>yt_dlp.extractor.deezer</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
-imports:
-    <a href="#json">json</a>
- &#8226;   <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
  &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
  &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
 
@@ -31202,19 +31283,17 @@ imported by:
   <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/extractors.py" type="text/plain"><tt>yt_dlp.extractor.extractors</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
-    <a href="#contextlib">contextlib</a>
+    <a href="#inspect">inspect</a>
  &#8226;   <a href="#os">os</a>
  &#8226;   <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
  &#8226;   <a href="#yt_dlp.extractor._extractors">yt_dlp.extractor._extractors</a>
- &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
  &#8226;   <a href="#yt_dlp.extractor.lazy_extractors">yt_dlp.extractor.lazy_extractors</a>
- &#8226;   <a href="#yt_dlp.plugins">yt_dlp.plugins</a>
+ &#8226;   <a href="#yt_dlp.globals">yt_dlp.globals</a>
 
   </div>
   <div class="import">
 imported by:
-    <a href="#yt_dlp.YoutubeDL">yt_dlp.YoutubeDL</a>
- &#8226;   <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
+    <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
 
   </div>
 
@@ -31677,6 +31756,27 @@ imports:
  &#8226;   <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
  &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
  &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#yt_dlp.extractor._extractors">yt_dlp.extractor._extractors</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="yt_dlp.extractor.francaisfacile"></a>
+  <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/francaisfacile.py" type="text/plain"><tt>yt_dlp.extractor.francaisfacile</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#urllib.parse">urllib.parse</a>
+ &#8226;   <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
+ &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
+ &#8226;   <a href="#yt_dlp.networking.exceptions">yt_dlp.networking.exceptions</a>
+ &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
+ &#8226;   <a href="#yt_dlp.utils.traversal">yt_dlp.utils.traversal</a>
 
   </div>
   <div class="import">
@@ -32240,24 +32340,6 @@ imports:
   <div class="import">
 imported by:
     <a href="#yt_dlp.extractor._extractors">yt_dlp.extractor._extractors</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="yt_dlp.extractor.gigya"></a>
-  <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/gigya.py" type="text/plain"><tt>yt_dlp.extractor.gigya</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
-imports:
-    <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
- &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
- &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#yt_dlp.extractor.vrt">yt_dlp.extractor.vrt</a>
 
   </div>
 
@@ -33447,7 +33529,6 @@ imports:
  &#8226;   <a href="#itertools">itertools</a>
  &#8226;   <a href="#json">json</a>
  &#8226;   <a href="#re">re</a>
- &#8226;   <a href="#time">time</a>
  &#8226;   <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
  &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
  &#8226;   <a href="#yt_dlp.networking.exceptions">yt_dlp.networking.exceptions</a>
@@ -33734,6 +33815,7 @@ imports:
  &#8226;   <a href="#random">random</a>
  &#8226;   <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
  &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
+ &#8226;   <a href="#yt_dlp.networking">yt_dlp.networking</a>
  &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
 
   </div>
@@ -34945,6 +35027,25 @@ imported by:
 </div>
 
 <div class="node">
+  <a name="yt_dlp.extractor.loco"></a>
+  <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/loco.py" type="text/plain"><tt>yt_dlp.extractor.loco</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
+ &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
+ &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
+ &#8226;   <a href="#yt_dlp.utils.traversal">yt_dlp.utils.traversal</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#yt_dlp.extractor._extractors">yt_dlp.extractor._extractors</a>
+
+  </div>
+
+</div>
+
+<div class="node">
   <a name="yt_dlp.extractor.loom"></a>
   <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/loom.py" type="text/plain"><tt>yt_dlp.extractor.loom</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
@@ -35087,6 +35188,7 @@ imports:
     <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
  &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
  &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
+ &#8226;   <a href="#yt_dlp.utils.traversal">yt_dlp.utils.traversal</a>
 
   </div>
   <div class="import">
@@ -35773,6 +35875,7 @@ imported by:
 imports:
     <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
  &#8226;   <a href="#yt_dlp.extractor.telecinco">yt_dlp.extractor.telecinco</a>
+ &#8226;   <a href="#yt_dlp.networking.exceptions">yt_dlp.networking.exceptions</a>
  &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
 
   </div>
@@ -36057,10 +36160,10 @@ imported by:
   <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/msn.py" type="text/plain"><tt>yt_dlp.extractor.msn</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
-    <a href="#re">re</a>
- &#8226;   <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
+    <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
  &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
  &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
+ &#8226;   <a href="#yt_dlp.utils.traversal">yt_dlp.utils.traversal</a>
 
   </div>
   <div class="import">
@@ -36334,6 +36437,7 @@ imports:
  &#8226;   <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
  &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
  &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
+ &#8226;   <a href="#yt_dlp.utils.traversal">yt_dlp.utils.traversal</a>
 
   </div>
   <div class="import">
@@ -36991,9 +37095,13 @@ imported by:
   <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/ninenow.py" type="text/plain"><tt>yt_dlp.extractor.ninenow</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
-    <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
+    <a href="#json">json</a>
+ &#8226;   <a href="#re">re</a>
+ &#8226;   <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
+ &#8226;   <a href="#yt_dlp.extractor.brightcove">yt_dlp.extractor.brightcove</a>
  &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
  &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
+ &#8226;   <a href="#yt_dlp.utils.traversal">yt_dlp.utils.traversal</a>
 
   </div>
   <div class="import">
@@ -37840,7 +37948,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.douyutv">yt_dlp.extractor.douyutv</a>
  &#8226;   <a href="#yt_dlp.extractor.iqiyi">yt_dlp.extractor.iqiyi</a>
  &#8226;   <a href="#yt_dlp.extractor.pornhub">yt_dlp.extractor.pornhub</a>
- &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._video">yt_dlp.extractor.youtube._video</a>
 
   </div>
 
@@ -38554,7 +38662,10 @@ imported by:
   <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/playsuisse.py" type="text/plain"><tt>yt_dlp.extractor.playsuisse</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
-    <a href="#json">json</a>
+    <a href="#base64">base64</a>
+ &#8226;   <a href="#hashlib">hashlib</a>
+ &#8226;   <a href="#json">json</a>
+ &#8226;   <a href="#uuid">uuid</a>
  &#8226;   <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
  &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
  &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
@@ -39995,6 +40106,7 @@ imports:
  &#8226;   <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
  &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
  &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
+ &#8226;   <a href="#yt_dlp.utils.traversal">yt_dlp.utils.traversal</a>
 
   </div>
   <div class="import">
@@ -40938,6 +41050,7 @@ imports:
  &#8226;   <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
  &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
  &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
+ &#8226;   <a href="#yt_dlp.utils.traversal">yt_dlp.utils.traversal</a>
 
   </div>
   <div class="import">
@@ -41116,6 +41229,26 @@ imported by:
 </div>
 
 <div class="node">
+  <a name="yt_dlp.extractor.softwhiteunderbelly"></a>
+  <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/softwhiteunderbelly.py" type="text/plain"><tt>yt_dlp.extractor.softwhiteunderbelly</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
+ &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
+ &#8226;   <a href="#yt_dlp.extractor.vimeo">yt_dlp.extractor.vimeo</a>
+ &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
+ &#8226;   <a href="#yt_dlp.utils.traversal">yt_dlp.utils.traversal</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#yt_dlp.extractor._extractors">yt_dlp.extractor._extractors</a>
+
+  </div>
+
+</div>
+
+<div class="node">
   <a name="yt_dlp.extractor.sohu"></a>
   <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/sohu.py" type="text/plain"><tt>yt_dlp.extractor.sohu</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
@@ -41230,6 +41363,7 @@ imported by:
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
     <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
+ &#8226;   <a href="#yt_dlp.extractor.bunnycdn">yt_dlp.extractor.bunnycdn</a>
  &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
  &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
 
@@ -41634,6 +41768,29 @@ imports:
   <div class="import">
 imported by:
     <a href="#yt_dlp.extractor._extractors">yt_dlp.extractor._extractors</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="yt_dlp.extractor.streaks"></a>
+  <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/streaks.py" type="text/plain"><tt>yt_dlp.extractor.streaks</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#json">json</a>
+ &#8226;   <a href="#urllib.parse">urllib.parse</a>
+ &#8226;   <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
+ &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
+ &#8226;   <a href="#yt_dlp.networking.exceptions">yt_dlp.networking.exceptions</a>
+ &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
+ &#8226;   <a href="#yt_dlp.utils.traversal">yt_dlp.utils.traversal</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#yt_dlp.extractor._extractors">yt_dlp.extractor._extractors</a>
+ &#8226;   <a href="#yt_dlp.extractor.tver">yt_dlp.extractor.tver</a>
 
   </div>
 
@@ -43422,8 +43579,9 @@ imported by:
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
     <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
- &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
+ &#8226;   <a href="#yt_dlp.extractor.streaks">yt_dlp.extractor.streaks</a>
  &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
+ &#8226;   <a href="#yt_dlp.utils.traversal">yt_dlp.utils.traversal</a>
 
   </div>
   <div class="import">
@@ -43604,6 +43762,27 @@ imported by:
 </div>
 
 <div class="node">
+  <a name="yt_dlp.extractor.tvw"></a>
+  <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/tvw.py" type="text/plain"><tt>yt_dlp.extractor.tvw</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#json">json</a>
+ &#8226;   <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
+ &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
+ &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
+ &#8226;   <a href="#yt_dlp.utils.remove_end">yt_dlp.utils.remove_end</a>
+ &#8226;   <a href="#yt_dlp.utils.traversal">yt_dlp.utils.traversal</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#yt_dlp.extractor._extractors">yt_dlp.extractor._extractors</a>
+
+  </div>
+
+</div>
+
+<div class="node">
   <a name="yt_dlp.extractor.tweakers"></a>
   <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/tweakers.py" type="text/plain"><tt>yt_dlp.extractor.tweakers</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
@@ -43693,6 +43872,7 @@ imports:
  &#8226;   <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
  &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
  &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
+ &#8226;   <a href="#yt_dlp.utils.traversal">yt_dlp.utils.traversal</a>
 
   </div>
   <div class="import">
@@ -44572,28 +44752,6 @@ imported by:
 </div>
 
 <div class="node">
-  <a name="yt_dlp.extractor.viki"></a>
-  <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/viki.py" type="text/plain"><tt>yt_dlp.extractor.viki</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
-imports:
-    <a href="#hashlib">hashlib</a>
- &#8226;   <a href="#hmac">hmac</a>
- &#8226;   <a href="#json">json</a>
- &#8226;   <a href="#time">time</a>
- &#8226;   <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
- &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
- &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#yt_dlp.extractor._extractors">yt_dlp.extractor._extractors</a>
-
-  </div>
-
-</div>
-
-<div class="node">
   <a name="yt_dlp.extractor.vimeo"></a>
   <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/vimeo.py" type="text/plain"><tt>yt_dlp.extractor.vimeo</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
@@ -44622,6 +44780,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.laracasts">yt_dlp.extractor.laracasts</a>
  &#8226;   <a href="#yt_dlp.extractor.patreon">yt_dlp.extractor.patreon</a>
  &#8226;   <a href="#yt_dlp.extractor.raywenderlich">yt_dlp.extractor.raywenderlich</a>
+ &#8226;   <a href="#yt_dlp.extractor.softwhiteunderbelly">yt_dlp.extractor.softwhiteunderbelly</a>
  &#8226;   <a href="#yt_dlp.extractor.ukcolumn">yt_dlp.extractor.ukcolumn</a>
  &#8226;   <a href="#yt_dlp.extractor.vk">yt_dlp.extractor.vk</a>
 
@@ -44848,6 +45007,27 @@ imported by:
 </div>
 
 <div class="node">
+  <a name="yt_dlp.extractor.vrsquare"></a>
+  <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/vrsquare.py" type="text/plain"><tt>yt_dlp.extractor.vrsquare</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#itertools">itertools</a>
+ &#8226;   <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
+ &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
+ &#8226;   <a href="#yt_dlp.networking.exceptions">yt_dlp.networking.exceptions</a>
+ &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
+ &#8226;   <a href="#yt_dlp.utils.traversal">yt_dlp.utils.traversal</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#yt_dlp.extractor._extractors">yt_dlp.extractor._extractors</a>
+
+  </div>
+
+</div>
+
+<div class="node">
   <a name="yt_dlp.extractor.vrt"></a>
   <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/vrt.py" type="text/plain"><tt>yt_dlp.extractor.vrt</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
@@ -44856,7 +45036,7 @@ imports:
  &#8226;   <a href="#time">time</a>
  &#8226;   <a href="#urllib.parse">urllib.parse</a>
  &#8226;   <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
- &#8226;   <a href="#yt_dlp.extractor.gigya">yt_dlp.extractor.gigya</a>
+ &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
  &#8226;   <a href="#yt_dlp.networking.exceptions">yt_dlp.networking.exceptions</a>
  &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
 
@@ -45877,39 +46057,18 @@ imported by:
 
 <div class="node">
   <a name="yt_dlp.extractor.youtube"></a>
-  <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/youtube.py" type="text/plain"><tt>yt_dlp.extractor.youtube</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
+  <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/youtube/__init__.py" type="text/plain"><tt>yt_dlp.extractor.youtube</tt></a>
+<span class="moduletype">Package</span>  <div class="import">
 imports:
-    <a href="#base64">base64</a>
- &#8226;   <a href="#binascii">binascii</a>
- &#8226;   <a href="#calendar">calendar</a>
- &#8226;   <a href="#collections">collections</a>
- &#8226;   <a href="#copy">copy</a>
- &#8226;   <a href="#datetime">datetime</a>
- &#8226;   <a href="#enum">enum</a>
- &#8226;   <a href="#functools">functools</a>
- &#8226;   <a href="#hashlib">hashlib</a>
- &#8226;   <a href="#itertools">itertools</a>
- &#8226;   <a href="#json">json</a>
- &#8226;   <a href="#math">math</a>
- &#8226;   <a href="#ntpath">ntpath</a>
- &#8226;   <a href="#random">random</a>
- &#8226;   <a href="#re">re</a>
- &#8226;   <a href="#shlex">shlex</a>
- &#8226;   <a href="#sys">sys</a>
- &#8226;   <a href="#threading">threading</a>
- &#8226;   <a href="#time">time</a>
- &#8226;   <a href="#traceback">traceback</a>
- &#8226;   <a href="#urllib.parse">urllib.parse</a>
- &#8226;   <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
- &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
- &#8226;   <a href="#yt_dlp.extractor.openload">yt_dlp.extractor.openload</a>
- &#8226;   <a href="#yt_dlp.jsinterp">yt_dlp.jsinterp</a>
- &#8226;   <a href="#yt_dlp.networking.exceptions">yt_dlp.networking.exceptions</a>
- &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
- &#8226;   <a href="#yt_dlp.utils.NO_DEFAULT">yt_dlp.utils.NO_DEFAULT</a>
- &#8226;   <a href="#yt_dlp.utils.format_field">yt_dlp.utils.format_field</a>
- &#8226;   <a href="#yt_dlp.utils.remove_end">yt_dlp.utils.remove_end</a>
+    <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._base">yt_dlp.extractor.youtube._base</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._clip">yt_dlp.extractor.youtube._clip</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._mistakes">yt_dlp.extractor.youtube._mistakes</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._notifications">yt_dlp.extractor.youtube._notifications</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._redirect">yt_dlp.extractor.youtube._redirect</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._search">yt_dlp.extractor.youtube._search</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._tab">yt_dlp.extractor.youtube._tab</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._video">yt_dlp.extractor.youtube._video</a>
 
   </div>
   <div class="import">
@@ -45948,6 +46107,220 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.vvvvid">yt_dlp.extractor.vvvvid</a>
  &#8226;   <a href="#yt_dlp.extractor.weverse">yt_dlp.extractor.weverse</a>
  &#8226;   <a href="#yt_dlp.extractor.yahoo">yt_dlp.extractor.yahoo</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._base">yt_dlp.extractor.youtube._base</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._clip">yt_dlp.extractor.youtube._clip</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._mistakes">yt_dlp.extractor.youtube._mistakes</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._notifications">yt_dlp.extractor.youtube._notifications</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._redirect">yt_dlp.extractor.youtube._redirect</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._search">yt_dlp.extractor.youtube._search</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._tab">yt_dlp.extractor.youtube._tab</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._video">yt_dlp.extractor.youtube._video</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="yt_dlp.extractor.youtube._base"></a>
+  <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/youtube/_base.py" type="text/plain"><tt>yt_dlp.extractor.youtube._base</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#calendar">calendar</a>
+ &#8226;   <a href="#copy">copy</a>
+ &#8226;   <a href="#datetime">datetime</a>
+ &#8226;   <a href="#enum">enum</a>
+ &#8226;   <a href="#functools">functools</a>
+ &#8226;   <a href="#hashlib">hashlib</a>
+ &#8226;   <a href="#json">json</a>
+ &#8226;   <a href="#re">re</a>
+ &#8226;   <a href="#time">time</a>
+ &#8226;   <a href="#urllib.parse">urllib.parse</a>
+ &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.networking.exceptions">yt_dlp.networking.exceptions</a>
+ &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._mistakes">yt_dlp.extractor.youtube._mistakes</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._redirect">yt_dlp.extractor.youtube._redirect</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._tab">yt_dlp.extractor.youtube._tab</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._video">yt_dlp.extractor.youtube._video</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="yt_dlp.extractor.youtube._clip"></a>
+  <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/youtube/_clip.py" type="text/plain"><tt>yt_dlp.extractor.youtube._clip</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._tab">yt_dlp.extractor.youtube._tab</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._video">yt_dlp.extractor.youtube._video</a>
+ &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="yt_dlp.extractor.youtube._mistakes"></a>
+  <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/youtube/_mistakes.py" type="text/plain"><tt>yt_dlp.extractor.youtube._mistakes</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._base">yt_dlp.extractor.youtube._base</a>
+ &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="yt_dlp.extractor.youtube._notifications"></a>
+  <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/youtube/_notifications.py" type="text/plain"><tt>yt_dlp.extractor.youtube._notifications</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#itertools">itertools</a>
+ &#8226;   <a href="#re">re</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._tab">yt_dlp.extractor.youtube._tab</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._video">yt_dlp.extractor.youtube._video</a>
+ &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="yt_dlp.extractor.youtube._redirect"></a>
+  <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/youtube/_redirect.py" type="text/plain"><tt>yt_dlp.extractor.youtube._redirect</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#base64">base64</a>
+ &#8226;   <a href="#urllib.parse">urllib.parse</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._base">yt_dlp.extractor.youtube._base</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._tab">yt_dlp.extractor.youtube._tab</a>
+ &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="yt_dlp.extractor.youtube._search"></a>
+  <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/youtube/_search.py" type="text/plain"><tt>yt_dlp.extractor.youtube._search</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#urllib.parse">urllib.parse</a>
+ &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._tab">yt_dlp.extractor.youtube._tab</a>
+ &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="yt_dlp.extractor.youtube._tab"></a>
+  <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/youtube/_tab.py" type="text/plain"><tt>yt_dlp.extractor.youtube._tab</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#functools">functools</a>
+ &#8226;   <a href="#itertools">itertools</a>
+ &#8226;   <a href="#re">re</a>
+ &#8226;   <a href="#shlex">shlex</a>
+ &#8226;   <a href="#urllib.parse">urllib.parse</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._base">yt_dlp.extractor.youtube._base</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._video">yt_dlp.extractor.youtube._video</a>
+ &#8226;   <a href="#yt_dlp.networking.exceptions">yt_dlp.networking.exceptions</a>
+ &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
+ &#8226;   <a href="#yt_dlp.utils.NO_DEFAULT">yt_dlp.utils.NO_DEFAULT</a>
+ &#8226;   <a href="#yt_dlp.utils.format_field">yt_dlp.utils.format_field</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._clip">yt_dlp.extractor.youtube._clip</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._notifications">yt_dlp.extractor.youtube._notifications</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._redirect">yt_dlp.extractor.youtube._redirect</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._search">yt_dlp.extractor.youtube._search</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="yt_dlp.extractor.youtube._video"></a>
+  <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/extractor/youtube/_video.py" type="text/plain"><tt>yt_dlp.extractor.youtube._video</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#base64">base64</a>
+ &#8226;   <a href="#binascii">binascii</a>
+ &#8226;   <a href="#collections">collections</a>
+ &#8226;   <a href="#datetime">datetime</a>
+ &#8226;   <a href="#functools">functools</a>
+ &#8226;   <a href="#itertools">itertools</a>
+ &#8226;   <a href="#json">json</a>
+ &#8226;   <a href="#math">math</a>
+ &#8226;   <a href="#ntpath">ntpath</a>
+ &#8226;   <a href="#random">random</a>
+ &#8226;   <a href="#re">re</a>
+ &#8226;   <a href="#sys">sys</a>
+ &#8226;   <a href="#threading">threading</a>
+ &#8226;   <a href="#time">time</a>
+ &#8226;   <a href="#traceback">traceback</a>
+ &#8226;   <a href="#urllib.parse">urllib.parse</a>
+ &#8226;   <a href="#yt_dlp.extractor.openload">yt_dlp.extractor.openload</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._base">yt_dlp.extractor.youtube._base</a>
+ &#8226;   <a href="#yt_dlp.jsinterp">yt_dlp.jsinterp</a>
+ &#8226;   <a href="#yt_dlp.networking.exceptions">yt_dlp.networking.exceptions</a>
+ &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
+ &#8226;   <a href="#yt_dlp.utils.NO_DEFAULT">yt_dlp.utils.NO_DEFAULT</a>
+ &#8226;   <a href="#yt_dlp.utils.format_field">yt_dlp.utils.format_field</a>
+ &#8226;   <a href="#yt_dlp.utils.remove_end">yt_dlp.utils.remove_end</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._clip">yt_dlp.extractor.youtube._clip</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._notifications">yt_dlp.extractor.youtube._notifications</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._tab">yt_dlp.extractor.youtube._tab</a>
 
   </div>
 
@@ -46197,6 +46570,30 @@ imported by:
 </div>
 
 <div class="node">
+  <a name="yt_dlp.globals"></a>
+  <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/globals.py" type="text/plain"><tt>yt_dlp.globals</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#collections">collections</a>
+ &#8226;   <a href="#yt_dlp">yt_dlp</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#yt_dlp">yt_dlp</a>
+ &#8226;   <a href="#yt_dlp.YoutubeDL">yt_dlp.YoutubeDL</a>
+ &#8226;   <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
+ &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
+ &#8226;   <a href="#yt_dlp.extractor.extractors">yt_dlp.extractor.extractors</a>
+ &#8226;   <a href="#yt_dlp.plugins">yt_dlp.plugins</a>
+ &#8226;   <a href="#yt_dlp.postprocessor">yt_dlp.postprocessor</a>
+ &#8226;   <a href="#yt_dlp.utils._utils">yt_dlp.utils._utils</a>
+
+  </div>
+
+</div>
+
+<div class="node">
   <a name="yt_dlp.jsinterp"></a>
   <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/jsinterp.py" type="text/plain"><tt>yt_dlp.jsinterp</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
@@ -46217,7 +46614,7 @@ imports:
   <div class="import">
 imported by:
     <a href="#yt_dlp.extractor.twitter">yt_dlp.extractor.twitter</a>
- &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._video">yt_dlp.extractor.youtube._video</a>
 
   </div>
 
@@ -46264,6 +46661,7 @@ imports:
 imported by:
     <a href="#yt_dlp.YoutubeDL">yt_dlp.YoutubeDL</a>
  &#8226;   <a href="#yt_dlp.compat">yt_dlp.compat</a>
+ &#8226;   <a href="#yt_dlp.downloader.bunnycdn">yt_dlp.downloader.bunnycdn</a>
  &#8226;   <a href="#yt_dlp.downloader.external">yt_dlp.downloader.external</a>
  &#8226;   <a href="#yt_dlp.downloader.fragment">yt_dlp.downloader.fragment</a>
  &#8226;   <a href="#yt_dlp.downloader.http">yt_dlp.downloader.http</a>
@@ -46274,6 +46672,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.archiveorg">yt_dlp.extractor.archiveorg</a>
  &#8226;   <a href="#yt_dlp.extractor.bitchute">yt_dlp.extractor.bitchute</a>
  &#8226;   <a href="#yt_dlp.extractor.bravotv">yt_dlp.extractor.bravotv</a>
+ &#8226;   <a href="#yt_dlp.extractor.bunnycdn">yt_dlp.extractor.bunnycdn</a>
  &#8226;   <a href="#yt_dlp.extractor.cbc">yt_dlp.extractor.cbc</a>
  &#8226;   <a href="#yt_dlp.extractor.cbsnews">yt_dlp.extractor.cbsnews</a>
  &#8226;   <a href="#yt_dlp.extractor.ceskatelevize">yt_dlp.extractor.ceskatelevize</a>
@@ -46287,6 +46686,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.gdcvault">yt_dlp.extractor.gdcvault</a>
  &#8226;   <a href="#yt_dlp.extractor.hotnewhiphop">yt_dlp.extractor.hotnewhiphop</a>
  &#8226;   <a href="#yt_dlp.extractor.hrti">yt_dlp.extractor.hrti</a>
+ &#8226;   <a href="#yt_dlp.extractor.jamendo">yt_dlp.extractor.jamendo</a>
  &#8226;   <a href="#yt_dlp.extractor.kick">yt_dlp.extractor.kick</a>
  &#8226;   <a href="#yt_dlp.extractor.la7">yt_dlp.extractor.la7</a>
  &#8226;   <a href="#yt_dlp.extractor.lbry">yt_dlp.extractor.lbry</a>
@@ -46345,6 +46745,7 @@ imports:
  &#8226;   <a href="#'curl_cffi.requests'">'curl_cffi.requests'</a>
  &#8226;   <a href="#__future__">__future__</a>
  &#8226;   <a href="#io">io</a>
+ &#8226;   <a href="#itertools">itertools</a>
  &#8226;   <a href="#math">math</a>
  &#8226;   <a href="#re">re</a>
  &#8226;   <a href="#urllib.parse">urllib.parse</a>
@@ -46567,6 +46968,7 @@ imports:
 imported by:
     <a href="#yt_dlp.YoutubeDL">yt_dlp.YoutubeDL</a>
  &#8226;   <a href="#yt_dlp.compat._legacy">yt_dlp.compat._legacy</a>
+ &#8226;   <a href="#yt_dlp.downloader.bunnycdn">yt_dlp.downloader.bunnycdn</a>
  &#8226;   <a href="#yt_dlp.downloader.f4m">yt_dlp.downloader.f4m</a>
  &#8226;   <a href="#yt_dlp.downloader.fragment">yt_dlp.downloader.fragment</a>
  &#8226;   <a href="#yt_dlp.downloader.http">yt_dlp.downloader.http</a>
@@ -46581,6 +46983,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.bilibili">yt_dlp.extractor.bilibili</a>
  &#8226;   <a href="#yt_dlp.extractor.brightcove">yt_dlp.extractor.brightcove</a>
  &#8226;   <a href="#yt_dlp.extractor.bundestag">yt_dlp.extractor.bundestag</a>
+ &#8226;   <a href="#yt_dlp.extractor.cbc">yt_dlp.extractor.cbc</a>
  &#8226;   <a href="#yt_dlp.extractor.cinetecamilano">yt_dlp.extractor.cinetecamilano</a>
  &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
  &#8226;   <a href="#yt_dlp.extractor.crackle">yt_dlp.extractor.crackle</a>
@@ -46594,6 +46997,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.filmon">yt_dlp.extractor.filmon</a>
  &#8226;   <a href="#yt_dlp.extractor.flextv">yt_dlp.extractor.flextv</a>
  &#8226;   <a href="#yt_dlp.extractor.fox">yt_dlp.extractor.fox</a>
+ &#8226;   <a href="#yt_dlp.extractor.francaisfacile">yt_dlp.extractor.francaisfacile</a>
  &#8226;   <a href="#yt_dlp.extractor.gamedevtv">yt_dlp.extractor.gamedevtv</a>
  &#8226;   <a href="#yt_dlp.extractor.generic">yt_dlp.extractor.generic</a>
  &#8226;   <a href="#yt_dlp.extractor.hotstar">yt_dlp.extractor.hotstar</a>
@@ -46605,6 +47009,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.lego">yt_dlp.extractor.lego</a>
  &#8226;   <a href="#yt_dlp.extractor.limelight">yt_dlp.extractor.limelight</a>
  &#8226;   <a href="#yt_dlp.extractor.mgtv">yt_dlp.extractor.mgtv</a>
+ &#8226;   <a href="#yt_dlp.extractor.mitele">yt_dlp.extractor.mitele</a>
  &#8226;   <a href="#yt_dlp.extractor.mixch">yt_dlp.extractor.mixch</a>
  &#8226;   <a href="#yt_dlp.extractor.mlb">yt_dlp.extractor.mlb</a>
  &#8226;   <a href="#yt_dlp.extractor.nebula">yt_dlp.extractor.nebula</a>
@@ -46634,6 +47039,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.sonyliv">yt_dlp.extractor.sonyliv</a>
  &#8226;   <a href="#yt_dlp.extractor.soundcloud">yt_dlp.extractor.soundcloud</a>
  &#8226;   <a href="#yt_dlp.extractor.sproutvideo">yt_dlp.extractor.sproutvideo</a>
+ &#8226;   <a href="#yt_dlp.extractor.streaks">yt_dlp.extractor.streaks</a>
  &#8226;   <a href="#yt_dlp.extractor.tbsjp">yt_dlp.extractor.tbsjp</a>
  &#8226;   <a href="#yt_dlp.extractor.telecinco">yt_dlp.extractor.telecinco</a>
  &#8226;   <a href="#yt_dlp.extractor.thisoldhouse">yt_dlp.extractor.thisoldhouse</a>
@@ -46651,11 +47057,14 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.viewlift">yt_dlp.extractor.viewlift</a>
  &#8226;   <a href="#yt_dlp.extractor.viidea">yt_dlp.extractor.viidea</a>
  &#8226;   <a href="#yt_dlp.extractor.vimeo">yt_dlp.extractor.vimeo</a>
+ &#8226;   <a href="#yt_dlp.extractor.vrsquare">yt_dlp.extractor.vrsquare</a>
  &#8226;   <a href="#yt_dlp.extractor.vrt">yt_dlp.extractor.vrt</a>
  &#8226;   <a href="#yt_dlp.extractor.weverse">yt_dlp.extractor.weverse</a>
  &#8226;   <a href="#yt_dlp.extractor.wistia">yt_dlp.extractor.wistia</a>
  &#8226;   <a href="#yt_dlp.extractor.wykop">yt_dlp.extractor.wykop</a>
- &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._base">yt_dlp.extractor.youtube._base</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._tab">yt_dlp.extractor.youtube._tab</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._video">yt_dlp.extractor.youtube._video</a>
  &#8226;   <a href="#yt_dlp.extractor.zattoo">yt_dlp.extractor.zattoo</a>
  &#8226;   <a href="#yt_dlp.extractor.zype">yt_dlp.extractor.zype</a>
  &#8226;   <a href="#yt_dlp.networking._curlcffi">yt_dlp.networking._curlcffi</a>
@@ -46765,6 +47174,7 @@ imported by:
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
     <a href="#contextlib">contextlib</a>
+ &#8226;   <a href="#dataclasses">dataclasses</a>
  &#8226;   <a href="#functools">functools</a>
  &#8226;   <a href="#importlib">importlib</a>
  &#8226;   <a href="#importlib.abc">importlib.abc</a>
@@ -46778,6 +47188,7 @@ imports:
  &#8226;   <a href="#sys">sys</a>
  &#8226;   <a href="#traceback">traceback</a>
  &#8226;   <a href="#yt_dlp">yt_dlp</a>
+ &#8226;   <a href="#yt_dlp.globals">yt_dlp.globals</a>
  &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
  &#8226;   <a href="#zipfile">zipfile</a>
  &#8226;   <a href="#zipimport">zipimport</a>
@@ -46785,8 +47196,9 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#yt_dlp.YoutubeDL">yt_dlp.YoutubeDL</a>
- &#8226;   <a href="#yt_dlp.extractor.extractors">yt_dlp.extractor.extractors</a>
+    <a href="#yt_dlp">yt_dlp</a>
+ &#8226;   <a href="#yt_dlp.YoutubeDL">yt_dlp.YoutubeDL</a>
+ &#8226;   <a href="#yt_dlp.extractor">yt_dlp.extractor</a>
  &#8226;   <a href="#yt_dlp.postprocessor">yt_dlp.postprocessor</a>
  &#8226;   <a href="#yt_dlp.utils._legacy">yt_dlp.utils._legacy</a>
 
@@ -46800,6 +47212,7 @@ imported by:
 <span class="moduletype">Package</span>  <div class="import">
 imports:
     <a href="#yt_dlp">yt_dlp</a>
+ &#8226;   <a href="#yt_dlp.globals">yt_dlp.globals</a>
  &#8226;   <a href="#yt_dlp.plugins">yt_dlp.plugins</a>
  &#8226;   <a href="#yt_dlp.postprocessor.common">yt_dlp.postprocessor.common</a>
  &#8226;   <a href="#yt_dlp.postprocessor.embedthumbnail">yt_dlp.postprocessor.embedthumbnail</a>
@@ -46811,6 +47224,8 @@ imports:
  &#8226;   <a href="#yt_dlp.postprocessor.sponskrub">yt_dlp.postprocessor.sponskrub</a>
  &#8226;   <a href="#yt_dlp.postprocessor.sponsorblock">yt_dlp.postprocessor.sponsorblock</a>
  &#8226;   <a href="#yt_dlp.postprocessor.xattrpp">yt_dlp.postprocessor.xattrpp</a>
+ &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
+ &#8226;   <a href="#yt_dlp.utils.deprecation_warning">yt_dlp.utils.deprecation_warning</a>
 
   </div>
   <div class="import">
@@ -46845,6 +47260,7 @@ imports:
  &#8226;   <a href="#yt_dlp.networking.exceptions">yt_dlp.networking.exceptions</a>
  &#8226;   <a href="#yt_dlp.postprocessor">yt_dlp.postprocessor</a>
  &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
+ &#8226;   <a href="#yt_dlp.utils._utils">yt_dlp.utils._utils</a>
  &#8226;   <a href="#yt_dlp.utils.deprecation_warning">yt_dlp.utils.deprecation_warning</a>
 
   </div>
@@ -47288,6 +47704,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.brightcove">yt_dlp.extractor.brightcove</a>
  &#8226;   <a href="#yt_dlp.extractor.brilliantpala">yt_dlp.extractor.brilliantpala</a>
  &#8226;   <a href="#yt_dlp.extractor.bundestag">yt_dlp.extractor.bundestag</a>
+ &#8226;   <a href="#yt_dlp.extractor.bunnycdn">yt_dlp.extractor.bunnycdn</a>
  &#8226;   <a href="#yt_dlp.extractor.byutv">yt_dlp.extractor.byutv</a>
  &#8226;   <a href="#yt_dlp.extractor.c56">yt_dlp.extractor.c56</a>
  &#8226;   <a href="#yt_dlp.extractor.caffeinetv">yt_dlp.extractor.caffeinetv</a>
@@ -47300,6 +47717,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.canalalpha">yt_dlp.extractor.canalalpha</a>
  &#8226;   <a href="#yt_dlp.extractor.canalc2">yt_dlp.extractor.canalc2</a>
  &#8226;   <a href="#yt_dlp.extractor.canalplus">yt_dlp.extractor.canalplus</a>
+ &#8226;   <a href="#yt_dlp.extractor.canalsurmas">yt_dlp.extractor.canalsurmas</a>
  &#8226;   <a href="#yt_dlp.extractor.caracoltv">yt_dlp.extractor.caracoltv</a>
  &#8226;   <a href="#yt_dlp.extractor.cartoonnetwork">yt_dlp.extractor.cartoonnetwork</a>
  &#8226;   <a href="#yt_dlp.extractor.cbc">yt_dlp.extractor.cbc</a>
@@ -47359,7 +47777,6 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.daum">yt_dlp.extractor.daum</a>
  &#8226;   <a href="#yt_dlp.extractor.daystar">yt_dlp.extractor.daystar</a>
  &#8226;   <a href="#yt_dlp.extractor.dctp">yt_dlp.extractor.dctp</a>
- &#8226;   <a href="#yt_dlp.extractor.deezer">yt_dlp.extractor.deezer</a>
  &#8226;   <a href="#yt_dlp.extractor.democracynow">yt_dlp.extractor.democracynow</a>
  &#8226;   <a href="#yt_dlp.extractor.detik">yt_dlp.extractor.detik</a>
  &#8226;   <a href="#yt_dlp.extractor.deuxm">yt_dlp.extractor.deuxm</a>
@@ -47432,6 +47849,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.fox">yt_dlp.extractor.fox</a>
  &#8226;   <a href="#yt_dlp.extractor.foxsports">yt_dlp.extractor.foxsports</a>
  &#8226;   <a href="#yt_dlp.extractor.fptplay">yt_dlp.extractor.fptplay</a>
+ &#8226;   <a href="#yt_dlp.extractor.francaisfacile">yt_dlp.extractor.francaisfacile</a>
  &#8226;   <a href="#yt_dlp.extractor.franceinter">yt_dlp.extractor.franceinter</a>
  &#8226;   <a href="#yt_dlp.extractor.francetv">yt_dlp.extractor.francetv</a>
  &#8226;   <a href="#yt_dlp.extractor.freesound">yt_dlp.extractor.freesound</a>
@@ -47455,7 +47873,6 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.getcourseru">yt_dlp.extractor.getcourseru</a>
  &#8226;   <a href="#yt_dlp.extractor.gettr">yt_dlp.extractor.gettr</a>
  &#8226;   <a href="#yt_dlp.extractor.giantbomb">yt_dlp.extractor.giantbomb</a>
- &#8226;   <a href="#yt_dlp.extractor.gigya">yt_dlp.extractor.gigya</a>
  &#8226;   <a href="#yt_dlp.extractor.globalplayer">yt_dlp.extractor.globalplayer</a>
  &#8226;   <a href="#yt_dlp.extractor.globo">yt_dlp.extractor.globo</a>
  &#8226;   <a href="#yt_dlp.extractor.glomex">yt_dlp.extractor.glomex</a>
@@ -47574,6 +47991,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.livestream">yt_dlp.extractor.livestream</a>
  &#8226;   <a href="#yt_dlp.extractor.livestreamfails">yt_dlp.extractor.livestreamfails</a>
  &#8226;   <a href="#yt_dlp.extractor.lnk">yt_dlp.extractor.lnk</a>
+ &#8226;   <a href="#yt_dlp.extractor.loco">yt_dlp.extractor.loco</a>
  &#8226;   <a href="#yt_dlp.extractor.loom">yt_dlp.extractor.loom</a>
  &#8226;   <a href="#yt_dlp.extractor.lrt">yt_dlp.extractor.lrt</a>
  &#8226;   <a href="#yt_dlp.extractor.lsm">yt_dlp.extractor.lsm</a>
@@ -47859,6 +48277,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.smotrim">yt_dlp.extractor.smotrim</a>
  &#8226;   <a href="#yt_dlp.extractor.snapchat">yt_dlp.extractor.snapchat</a>
  &#8226;   <a href="#yt_dlp.extractor.snotr">yt_dlp.extractor.snotr</a>
+ &#8226;   <a href="#yt_dlp.extractor.softwhiteunderbelly">yt_dlp.extractor.softwhiteunderbelly</a>
  &#8226;   <a href="#yt_dlp.extractor.sohu">yt_dlp.extractor.sohu</a>
  &#8226;   <a href="#yt_dlp.extractor.sonyliv">yt_dlp.extractor.sonyliv</a>
  &#8226;   <a href="#yt_dlp.extractor.soundcloud">yt_dlp.extractor.soundcloud</a>
@@ -47882,6 +48301,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.steam">yt_dlp.extractor.steam</a>
  &#8226;   <a href="#yt_dlp.extractor.stitcher">yt_dlp.extractor.stitcher</a>
  &#8226;   <a href="#yt_dlp.extractor.storyfire">yt_dlp.extractor.storyfire</a>
+ &#8226;   <a href="#yt_dlp.extractor.streaks">yt_dlp.extractor.streaks</a>
  &#8226;   <a href="#yt_dlp.extractor.streamable">yt_dlp.extractor.streamable</a>
  &#8226;   <a href="#yt_dlp.extractor.streamcz">yt_dlp.extractor.streamcz</a>
  &#8226;   <a href="#yt_dlp.extractor.streetvoice">yt_dlp.extractor.streetvoice</a>
@@ -47972,6 +48392,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.tvp">yt_dlp.extractor.tvp</a>
  &#8226;   <a href="#yt_dlp.extractor.tvplay">yt_dlp.extractor.tvplay</a>
  &#8226;   <a href="#yt_dlp.extractor.tvplayer">yt_dlp.extractor.tvplayer</a>
+ &#8226;   <a href="#yt_dlp.extractor.tvw">yt_dlp.extractor.tvw</a>
  &#8226;   <a href="#yt_dlp.extractor.tweakers">yt_dlp.extractor.tweakers</a>
  &#8226;   <a href="#yt_dlp.extractor.twentymin">yt_dlp.extractor.twentymin</a>
  &#8226;   <a href="#yt_dlp.extractor.twentythreevideo">yt_dlp.extractor.twentythreevideo</a>
@@ -48015,7 +48436,6 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.vidyard">yt_dlp.extractor.vidyard</a>
  &#8226;   <a href="#yt_dlp.extractor.viewlift">yt_dlp.extractor.viewlift</a>
  &#8226;   <a href="#yt_dlp.extractor.viidea">yt_dlp.extractor.viidea</a>
- &#8226;   <a href="#yt_dlp.extractor.viki">yt_dlp.extractor.viki</a>
  &#8226;   <a href="#yt_dlp.extractor.vimeo">yt_dlp.extractor.vimeo</a>
  &#8226;   <a href="#yt_dlp.extractor.viously">yt_dlp.extractor.viously</a>
  &#8226;   <a href="#yt_dlp.extractor.viqeo">yt_dlp.extractor.viqeo</a>
@@ -48025,6 +48445,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.vodplatform">yt_dlp.extractor.vodplatform</a>
  &#8226;   <a href="#yt_dlp.extractor.voicy">yt_dlp.extractor.voicy</a>
  &#8226;   <a href="#yt_dlp.extractor.voxmedia">yt_dlp.extractor.voxmedia</a>
+ &#8226;   <a href="#yt_dlp.extractor.vrsquare">yt_dlp.extractor.vrsquare</a>
  &#8226;   <a href="#yt_dlp.extractor.vrt">yt_dlp.extractor.vrt</a>
  &#8226;   <a href="#yt_dlp.extractor.vtm">yt_dlp.extractor.vtm</a>
  &#8226;   <a href="#yt_dlp.extractor.vtv">yt_dlp.extractor.vtv</a>
@@ -48074,7 +48495,14 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.youku">yt_dlp.extractor.youku</a>
  &#8226;   <a href="#yt_dlp.extractor.younow">yt_dlp.extractor.younow</a>
  &#8226;   <a href="#yt_dlp.extractor.youporn">yt_dlp.extractor.youporn</a>
- &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._base">yt_dlp.extractor.youtube._base</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._clip">yt_dlp.extractor.youtube._clip</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._mistakes">yt_dlp.extractor.youtube._mistakes</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._notifications">yt_dlp.extractor.youtube._notifications</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._redirect">yt_dlp.extractor.youtube._redirect</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._search">yt_dlp.extractor.youtube._search</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._tab">yt_dlp.extractor.youtube._tab</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._video">yt_dlp.extractor.youtube._video</a>
  &#8226;   <a href="#yt_dlp.extractor.zaiko">yt_dlp.extractor.zaiko</a>
  &#8226;   <a href="#yt_dlp.extractor.zapiks">yt_dlp.extractor.zapiks</a>
  &#8226;   <a href="#yt_dlp.extractor.zattoo">yt_dlp.extractor.zattoo</a>
@@ -48100,6 +48528,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.networking.impersonate">yt_dlp.networking.impersonate</a>
  &#8226;   <a href="#yt_dlp.options">yt_dlp.options</a>
  &#8226;   <a href="#yt_dlp.plugins">yt_dlp.plugins</a>
+ &#8226;   <a href="#yt_dlp.postprocessor">yt_dlp.postprocessor</a>
  &#8226;   <a href="#yt_dlp.postprocessor.common">yt_dlp.postprocessor.common</a>
  &#8226;   <a href="#yt_dlp.postprocessor.embedthumbnail">yt_dlp.postprocessor.embedthumbnail</a>
  &#8226;   <a href="#yt_dlp.postprocessor.exec">yt_dlp.postprocessor.exec</a>
@@ -48140,7 +48569,8 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.pornhub">yt_dlp.extractor.pornhub</a>
  &#8226;   <a href="#yt_dlp.extractor.tvn24">yt_dlp.extractor.tvn24</a>
  &#8226;   <a href="#yt_dlp.extractor.xnxx">yt_dlp.extractor.xnxx</a>
- &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._tab">yt_dlp.extractor.youtube._tab</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._video">yt_dlp.extractor.youtube._video</a>
  &#8226;   <a href="#yt_dlp.extractor.zdf">yt_dlp.extractor.zdf</a>
  &#8226;   <a href="#yt_dlp.jsinterp">yt_dlp.jsinterp</a>
  &#8226;   <a href="#yt_dlp.update">yt_dlp.update</a>
@@ -48243,6 +48673,7 @@ imports:
  &#8226;   <a href="#datetime">datetime</a>
  &#8226;   <a href="#email.header">email.header</a>
  &#8226;   <a href="#email.utils">email.utils</a>
+ &#8226;   <a href="#enum">enum</a>
  &#8226;   <a href="#errno">errno</a>
  &#8226;   <a href="#fcntl">fcntl</a>
  &#8226;   <a href="#functools">functools</a>
@@ -48280,9 +48711,9 @@ imports:
  &#8226;   <a href="#urllib.request">urllib.request</a>
  &#8226;   <a href="#warnings">warnings</a>
  &#8226;   <a href="#xml.etree.ElementTree">xml.etree.ElementTree</a>
- &#8226;   <a href="#yt_dlp">yt_dlp</a>
  &#8226;   <a href="#yt_dlp.compat">yt_dlp.compat</a>
  &#8226;   <a href="#yt_dlp.dependencies">yt_dlp.dependencies</a>
+ &#8226;   <a href="#yt_dlp.globals">yt_dlp.globals</a>
  &#8226;   <a href="#yt_dlp.networking.exceptions">yt_dlp.networking.exceptions</a>
  &#8226;   <a href="#yt_dlp.update">yt_dlp.update</a>
  &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
@@ -48294,9 +48725,11 @@ imported by:
     <a href="#yt_dlp">yt_dlp</a>
  &#8226;   <a href="#yt_dlp.YoutubeDL">yt_dlp.YoutubeDL</a>
  &#8226;   <a href="#yt_dlp.cookies">yt_dlp.cookies</a>
+ &#8226;   <a href="#yt_dlp.downloader.common">yt_dlp.downloader.common</a>
  &#8226;   <a href="#yt_dlp.downloader.hls">yt_dlp.downloader.hls</a>
  &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
  &#8226;   <a href="#yt_dlp.extractor.generic">yt_dlp.extractor.generic</a>
+ &#8226;   <a href="#yt_dlp.postprocessor.common">yt_dlp.postprocessor.common</a>
  &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
  &#8226;   <a href="#yt_dlp.utils._legacy">yt_dlp.utils._legacy</a>
  &#8226;   <a href="#yt_dlp.utils.networking">yt_dlp.utils.networking</a>
@@ -48316,6 +48749,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.common">yt_dlp.extractor.common</a>
  &#8226;   <a href="#yt_dlp.networking.common">yt_dlp.networking.common</a>
  &#8226;   <a href="#yt_dlp.options">yt_dlp.options</a>
+ &#8226;   <a href="#yt_dlp.postprocessor">yt_dlp.postprocessor</a>
  &#8226;   <a href="#yt_dlp.postprocessor.common">yt_dlp.postprocessor.common</a>
  &#8226;   <a href="#yt_dlp.postprocessor.ffmpeg">yt_dlp.postprocessor.ffmpeg</a>
  &#8226;   <a href="#yt_dlp.update">yt_dlp.update</a>
@@ -48378,7 +48812,8 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.vidlii">yt_dlp.extractor.vidlii</a>
  &#8226;   <a href="#yt_dlp.extractor.wykop">yt_dlp.extractor.wykop</a>
  &#8226;   <a href="#yt_dlp.extractor.younow">yt_dlp.extractor.younow</a>
- &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._tab">yt_dlp.extractor.youtube._tab</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._video">yt_dlp.extractor.youtube._video</a>
  &#8226;   <a href="#yt_dlp.extractor.zhihu">yt_dlp.extractor.zhihu</a>
  &#8226;   <a href="#yt_dlp.networking._helper">yt_dlp.networking._helper</a>
  &#8226;   <a href="#yt_dlp.options">yt_dlp.options</a>
@@ -48394,8 +48829,11 @@ imported by:
   <a target="code" href="///C:/Users/thang/AppData/Local/Programs/Python/Python312/Lib/site-packages/yt_dlp/utils/networking.py" type="text/plain"><tt>yt_dlp.utils.networking</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
-    <a href="#collections">collections</a>
+    <a href="#__future__">__future__</a>
+ &#8226;   <a href="#collections">collections</a>
+ &#8226;   <a href="#collections.abc">collections.abc</a>
  &#8226;   <a href="#random">random</a>
+ &#8226;   <a href="#typing">typing</a>
  &#8226;   <a href="#urllib.parse">urllib.parse</a>
  &#8226;   <a href="#urllib.request">urllib.request</a>
  &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
@@ -48482,10 +48920,11 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.teamtreehouse">yt_dlp.extractor.teamtreehouse</a>
  &#8226;   <a href="#yt_dlp.extractor.theholetv">yt_dlp.extractor.theholetv</a>
  &#8226;   <a href="#yt_dlp.extractor.tv2">yt_dlp.extractor.tv2</a>
+ &#8226;   <a href="#yt_dlp.extractor.tvw">yt_dlp.extractor.tvw</a>
  &#8226;   <a href="#yt_dlp.extractor.twitter">yt_dlp.extractor.twitter</a>
  &#8226;   <a href="#yt_dlp.extractor.viu">yt_dlp.extractor.viu</a>
  &#8226;   <a href="#yt_dlp.extractor.vuclip">yt_dlp.extractor.vuclip</a>
- &#8226;   <a href="#yt_dlp.extractor.youtube">yt_dlp.extractor.youtube</a>
+ &#8226;   <a href="#yt_dlp.extractor.youtube._video">yt_dlp.extractor.youtube._video</a>
  &#8226;   <a href="#yt_dlp.options">yt_dlp.options</a>
  &#8226;   <a href="#yt_dlp.update">yt_dlp.update</a>
  &#8226;   <a href="#yt_dlp.utils">yt_dlp.utils</a>
@@ -48559,6 +48998,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.art19">yt_dlp.extractor.art19</a>
  &#8226;   <a href="#yt_dlp.extractor.asobichannel">yt_dlp.extractor.asobichannel</a>
  &#8226;   <a href="#yt_dlp.extractor.asobistage">yt_dlp.extractor.asobistage</a>
+ &#8226;   <a href="#yt_dlp.extractor.azmedien">yt_dlp.extractor.azmedien</a>
  &#8226;   <a href="#yt_dlp.extractor.bandcamp">yt_dlp.extractor.bandcamp</a>
  &#8226;   <a href="#yt_dlp.extractor.bandlab">yt_dlp.extractor.bandlab</a>
  &#8226;   <a href="#yt_dlp.extractor.bluesky">yt_dlp.extractor.bluesky</a>
@@ -48567,6 +49007,8 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.bpb">yt_dlp.extractor.bpb</a>
  &#8226;   <a href="#yt_dlp.extractor.brightcove">yt_dlp.extractor.brightcove</a>
  &#8226;   <a href="#yt_dlp.extractor.bundestag">yt_dlp.extractor.bundestag</a>
+ &#8226;   <a href="#yt_dlp.extractor.bunnycdn">yt_dlp.extractor.bunnycdn</a>
+ &#8226;   <a href="#yt_dlp.extractor.canalsurmas">yt_dlp.extractor.canalsurmas</a>
  &#8226;   <a href="#yt_dlp.extractor.cbc">yt_dlp.extractor.cbc</a>
  &#8226;   <a href="#yt_dlp.extractor.chzzk">yt_dlp.extractor.chzzk</a>
  &#8226;   <a href="#yt_dlp.extractor.cloudycdn">yt_dlp.extractor.cloudycdn</a>
@@ -48586,6 +49028,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.ertgr">yt_dlp.extractor.ertgr</a>
  &#8226;   <a href="#yt_dlp.extractor.fathom">yt_dlp.extractor.fathom</a>
  &#8226;   <a href="#yt_dlp.extractor.floatplane">yt_dlp.extractor.floatplane</a>
+ &#8226;   <a href="#yt_dlp.extractor.francaisfacile">yt_dlp.extractor.francaisfacile</a>
  &#8226;   <a href="#yt_dlp.extractor.francetv">yt_dlp.extractor.francetv</a>
  &#8226;   <a href="#yt_dlp.extractor.gamedevtv">yt_dlp.extractor.gamedevtv</a>
  &#8226;   <a href="#yt_dlp.extractor.gbnews">yt_dlp.extractor.gbnews</a>
@@ -48607,16 +49050,20 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.lci">yt_dlp.extractor.lci</a>
  &#8226;   <a href="#yt_dlp.extractor.learningonscreen">yt_dlp.extractor.learningonscreen</a>
  &#8226;   <a href="#yt_dlp.extractor.listennotes">yt_dlp.extractor.listennotes</a>
+ &#8226;   <a href="#yt_dlp.extractor.loco">yt_dlp.extractor.loco</a>
  &#8226;   <a href="#yt_dlp.extractor.loom">yt_dlp.extractor.loom</a>
  &#8226;   <a href="#yt_dlp.extractor.lsm">yt_dlp.extractor.lsm</a>
  &#8226;   <a href="#yt_dlp.extractor.maariv">yt_dlp.extractor.maariv</a>
+ &#8226;   <a href="#yt_dlp.extractor.magellantv">yt_dlp.extractor.magellantv</a>
  &#8226;   <a href="#yt_dlp.extractor.magentamusik">yt_dlp.extractor.magentamusik</a>
  &#8226;   <a href="#yt_dlp.extractor.mbn">yt_dlp.extractor.mbn</a>
  &#8226;   <a href="#yt_dlp.extractor.mediasite">yt_dlp.extractor.mediasite</a>
  &#8226;   <a href="#yt_dlp.extractor.mixch">yt_dlp.extractor.mixch</a>
  &#8226;   <a href="#yt_dlp.extractor.mlb">yt_dlp.extractor.mlb</a>
  &#8226;   <a href="#yt_dlp.extractor.monstercat">yt_dlp.extractor.monstercat</a>
+ &#8226;   <a href="#yt_dlp.extractor.msn">yt_dlp.extractor.msn</a>
  &#8226;   <a href="#yt_dlp.extractor.mx3">yt_dlp.extractor.mx3</a>
+ &#8226;   <a href="#yt_dlp.extractor.n1">yt_dlp.extractor.n1</a>
  &#8226;   <a href="#yt_dlp.extractor.nebula">yt_dlp.extractor.nebula</a>
  &#8226;   <a href="#yt_dlp.extractor.nekohacker">yt_dlp.extractor.nekohacker</a>
  &#8226;   <a href="#yt_dlp.extractor.nerdcubed">yt_dlp.extractor.nerdcubed</a>
@@ -48626,6 +49073,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.nfl">yt_dlp.extractor.nfl</a>
  &#8226;   <a href="#yt_dlp.extractor.ninaprotocol">yt_dlp.extractor.ninaprotocol</a>
  &#8226;   <a href="#yt_dlp.extractor.ninenews">yt_dlp.extractor.ninenews</a>
+ &#8226;   <a href="#yt_dlp.extractor.ninenow">yt_dlp.extractor.ninenow</a>
  &#8226;   <a href="#yt_dlp.extractor.nintendo">yt_dlp.extractor.nintendo</a>
  &#8226;   <a href="#yt_dlp.extractor.noodlemagazine">yt_dlp.extractor.noodlemagazine</a>
  &#8226;   <a href="#yt_dlp.extractor.nts">yt_dlp.extractor.nts</a>
@@ -48650,6 +49098,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.redge">yt_dlp.extractor.redge</a>
  &#8226;   <a href="#yt_dlp.extractor.ridehome">yt_dlp.extractor.ridehome</a>
  &#8226;   <a href="#yt_dlp.extractor.roosterteeth">yt_dlp.extractor.roosterteeth</a>
+ &#8226;   <a href="#yt_dlp.extractor.rtp">yt_dlp.extractor.rtp</a>
  &#8226;   <a href="#yt_dlp.extractor.rule34video">yt_dlp.extractor.rule34video</a>
  &#8226;   <a href="#yt_dlp.extractor.rutube">yt_dlp.extractor.rutube</a>
  &#8226;   <a href="#yt_dlp.extractor.sbscokr">yt_dlp.extractor.sbscokr</a>
@@ -48657,11 +49106,14 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.sen">yt_dlp.extractor.sen</a>
  &#8226;   <a href="#yt_dlp.extractor.senategov">yt_dlp.extractor.senategov</a>
  &#8226;   <a href="#yt_dlp.extractor.sharepoint">yt_dlp.extractor.sharepoint</a>
+ &#8226;   <a href="#yt_dlp.extractor.skyit">yt_dlp.extractor.skyit</a>
  &#8226;   <a href="#yt_dlp.extractor.snapchat">yt_dlp.extractor.snapchat</a>
+ &#8226;   <a href="#yt_dlp.extractor.softwhiteunderbelly">yt_dlp.extractor.softwhiteunderbelly</a>
  &#8226;   <a href="#yt_dlp.extractor.sonyliv">yt_dlp.extractor.sonyliv</a>
  &#8226;   <a href="#yt_dlp.extractor.soundcloud">yt_dlp.extractor.soundcloud</a>
  &#8226;   <a href="#yt_dlp.extractor.spreaker">yt_dlp.extractor.spreaker</a>
  &#8226;   <a href="#yt_dlp.extractor.sproutvideo">yt_dlp.extractor.sproutvideo</a>
+ &#8226;   <a href="#yt_dlp.extractor.streaks">yt_dlp.extractor.streaks</a>
  &#8226;   <a href="#yt_dlp.extractor.subsplash">yt_dlp.extractor.subsplash</a>
  &#8226;   <a href="#yt_dlp.extractor.substack">yt_dlp.extractor.substack</a>
  &#8226;   <a href="#yt_dlp.extractor.taptap">yt_dlp.extractor.taptap</a>
@@ -48671,6 +49123,9 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.trtworld">yt_dlp.extractor.trtworld</a>
  &#8226;   <a href="#yt_dlp.extractor.tv5mondeplus">yt_dlp.extractor.tv5mondeplus</a>
  &#8226;   <a href="#yt_dlp.extractor.tva">yt_dlp.extractor.tva</a>
+ &#8226;   <a href="#yt_dlp.extractor.tver">yt_dlp.extractor.tver</a>
+ &#8226;   <a href="#yt_dlp.extractor.tvw">yt_dlp.extractor.tvw</a>
+ &#8226;   <a href="#yt_dlp.extractor.twitch">yt_dlp.extractor.twitch</a>
  &#8226;   <a href="#yt_dlp.extractor.uliza">yt_dlp.extractor.uliza</a>
  &#8226;   <a href="#yt_dlp.extractor.vbox7">yt_dlp.extractor.vbox7</a>
  &#8226;   <a href="#yt_dlp.extractor.vidflex">yt_dlp.extractor.vidflex</a>
@@ -48678,6 +49133,7 @@ imported by:
  &#8226;   <a href="#yt_dlp.extractor.vidyard">yt_dlp.extractor.vidyard</a>
  &#8226;   <a href="#yt_dlp.extractor.viously">yt_dlp.extractor.viously</a>
  &#8226;   <a href="#yt_dlp.extractor.vk">yt_dlp.extractor.vk</a>
+ &#8226;   <a href="#yt_dlp.extractor.vrsquare">yt_dlp.extractor.vrsquare</a>
  &#8226;   <a href="#yt_dlp.extractor.xiaohongshu">yt_dlp.extractor.xiaohongshu</a>
  &#8226;   <a href="#yt_dlp.extractor.yle_areena">yt_dlp.extractor.yle_areena</a>
  &#8226;   <a href="#yt_dlp.extractor.zenporn">yt_dlp.extractor.zenporn</a>

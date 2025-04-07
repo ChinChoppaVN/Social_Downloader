@@ -26,7 +26,7 @@ ASSETS_DIR = os.path.join(ROOT_DIR, "assets")
 DATA_DIR = os.path.join(ROOT_DIR, "data")
 
 # Import các module từ thư mục src
-from src.downloader import download_video
+from src.downloader import download_video, show_download_complete_popup
 from src.utils import (
     get_clean_filename, load_last_folder, save_last_folder, 
     fetch_video_title, validate_url, add_download_history, 
@@ -413,16 +413,17 @@ class DownloaderApp:
 
     def download_thread(self, url, file_type, final_path, parent_window):
         try:
-            downloaded_file = download_video(url, file_type, final_path, parent_window, self.progress_callback)
+            # Gọi hàm download_video đã được cập nhật
+            download_success = download_video(url, final_path, self.progress_callback)
             
-            if downloaded_file and os.path.exists(downloaded_file):
+            if download_success and os.path.exists(final_path):
                 # Tính kích thước file
-                size = f"{os.path.getsize(downloaded_file) / 1024 / 1024:.2f} MB"
-                folder_path = os.path.dirname(downloaded_file).replace("/", "\\")
+                size = f"{os.path.getsize(final_path) / 1024 / 1024:.2f} MB"
+                folder_path = os.path.dirname(final_path).replace("/", "\\")
                 
                 # Ghi lịch sử tải
                 parent_window.after(0, lambda: add_download_history(
-                    url, file_type, downloaded_file, 
+                    url, file_type, final_path, 
                     size=size,
                     status="Thành công",
                     folder_path=folder_path
@@ -432,9 +433,8 @@ class DownloaderApp:
                 parent_window.after(0, lambda: self.progress_status.configure(text="Tải xuống hoàn tất"))
                 parent_window.after(0, lambda: self.update_control_buttons("finished"))
                 
-                # Hiển thị popup hoàn thành từ downloader.py
-                from downloader import show_download_complete_popup
-                parent_window.after(0, lambda: show_download_complete_popup(downloaded_file, parent_window))
+                # Hiển thị popup hoàn thành
+                parent_window.after(0, lambda: show_download_complete_popup(final_path, parent_window))
                 
         except Exception as e:
             if str(e) == "Download cancelled":
@@ -467,6 +467,7 @@ class DownloaderApp:
                 parent_window.after(0, lambda: self.time_label.configure(text="Thời gian: --"))
                 parent_window.after(0, lambda: self.size_label.configure(text="Dung lượng: --"))
                 parent_window.after(0, lambda: self.update_control_buttons("ready"))
+                parent_window.after(0, lambda: messagebox.showerror("Lỗi tải xuống", f"Không thể tải: {str(e)}"))
                 
         finally:
             self.is_downloading = False
@@ -552,6 +553,19 @@ class DownloaderApp:
         history_window.resizable(True, True)
         history_window.minsize(600, 400)
         history_window.attributes("-topmost", True)
+
+        # Thêm biến để đánh dấu cửa sổ lịch sử
+        history_window.is_history_window = True
+        
+        # Biến để kiểm soát topmost
+        self.topmost_var = ctk.BooleanVar(value=True)
+
+        # Xử lý sự kiện khi cửa sổ được kích hoạt lại
+        def on_history_window_focus(event):
+            if self.topmost_var.get():
+                history_window.attributes("-topmost", True)
+        
+        history_window.bind("<FocusIn>", on_history_window_focus)
 
         history_window.update_idletasks()
         screen_width = history_window.winfo_screenwidth()
@@ -738,14 +752,17 @@ class DownloaderApp:
             folder_path = values_dict["Thư mục lưu"]
             url = values_dict["URL"]
             file_path = os.path.join(folder_path, file_name) if folder_path != "Không rõ" else None
+            
+            # Lấy cửa sổ cha của tree (history_window)
+            history_window = tree.master.master  # frame -> history_window
 
             context_menu = Menu(self.root, tearoff=0)
-            context_menu.add_command(label="Mở File", command=lambda: self.open_file(file_path))
-            context_menu.add_command(label="Mở Folder", command=lambda: self.open_folder_with_highlight(file_path))
+            context_menu.add_command(label="Mở File", command=lambda: self.open_file(file_path, history_window))
+            context_menu.add_command(label="Mở Folder", command=lambda: self.open_folder_with_highlight(file_path, history_window))
             context_menu.add_separator()
             context_menu.add_command(label="Copy URL", command=lambda: self.copy_url_from_history(url))
             context_menu.add_separator()
-            context_menu.add_command(label="Xóa", command=lambda: self.delete_selected(tree, self.root))
+            context_menu.add_command(label="Xóa", command=lambda: self.delete_selected(tree, history_window))
             context_menu.tk_popup(event.x_root, event.y_root)
 
     def copy_url_from_history(self, url):
@@ -754,20 +771,28 @@ class DownloaderApp:
             self.root.clipboard_clear()
             self.root.clipboard_append(url)
 
-    def open_file(self, file_path):
+    def open_file(self, file_path, parent_window=None):
         """Mở file được chọn"""
         if file_path and os.path.exists(file_path):
             try:
+                # Nếu parent_window được truyền vào, tắt thuộc tính topmost
+                if parent_window and hasattr(parent_window, 'attributes'):
+                    parent_window.attributes("-topmost", False)
+                
                 os.startfile(file_path)
             except Exception as e:
                 self.show_message("Lỗi", f"Không thể mở file: {e}", "error")
         else:
             self.show_message("Lỗi", "File không tồn tại!", "error")
 
-    def open_folder_with_highlight(self, file_path):
+    def open_folder_with_highlight(self, file_path, parent_window=None):
         """Mở thư mục và highlight file được chọn"""
         if file_path and os.path.exists(file_path):
             try:
+                # Nếu parent_window được truyền vào, tắt thuộc tính topmost
+                if parent_window and hasattr(parent_window, 'attributes'):
+                    parent_window.attributes("-topmost", False)
+                                
                 if platform.system() == "Windows":
                     file_path = os.path.abspath(file_path)
                     file_path = os.path.normpath(file_path)

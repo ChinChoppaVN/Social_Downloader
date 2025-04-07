@@ -17,7 +17,13 @@ import csv
 
 # Đường dẫn
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DATA_DIR = os.path.join(ROOT_DIR, "data")
+if getattr(sys, 'frozen', False):
+    # Nếu đang chạy từ exe đã đóng gói
+    APP_DATA = os.path.join(os.environ['APPDATA'], "Social Media Downloader")
+    DATA_DIR = os.path.join(APP_DATA, "data")
+else:
+    # Nếu đang chạy từ mã nguồn
+    DATA_DIR = os.path.join(ROOT_DIR, "data")
 
 # Thêm thư mục gốc vào sys.path
 if ROOT_DIR not in sys.path:

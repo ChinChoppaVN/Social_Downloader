@@ -17,100 +17,82 @@ if root_dir not in sys.path:
     sys.path.append(root_dir)
 
 # Import các module từ thư mục gốc
-def download_video(url, file_type, final_path, parent_window, progress_callback=None):
-    """Tải video từ URL"""
+def download_video(url, output_path, progress_callback=None):
+    """Tải video từ URL và lưu vào output_path"""
     try:
-        if file_type == 'mp3':
-            # Đảm bảo final_path có đuôi .mp3
-            if not final_path.endswith('.mp3'):
-                final_path = final_path + '.mp3'
-                
-            # Cấu hình đơn giản hóa cho MP3
-            ydl_opts = {
-                'format': 'bestaudio',
-                'outtmpl': final_path,
-                'progress_hooks': [progress_callback] if progress_callback else [],
+        # Xác định định dạng từ đường dẫn đầu ra
+        file_type = "mp3" if output_path.lower().endswith(".mp3") else "mp4"
+        
+        # Cấu hình yt-dlp
+        ydl_opts = {
+            'quiet': True,
+            'no_warnings': True,
+            'extract_flat': False,
+            'ignoreerrors': True,  # Bỏ qua lỗi và tiếp tục
+            'nocheckcertificate': True,
+            'prefer_insecure': True,
+            'outtmpl': output_path,
+            'progress_hooks': [progress_callback] if progress_callback else None,
+            'http_headers': {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+            }
+        }
+        
+        # Nếu là MP3, thêm cấu hình chuyển đổi âm thanh
+        if file_type == "mp3":
+            ydl_opts.update({
+                'format': 'bestaudio/best',
                 'postprocessors': [{
                     'key': 'FFmpegExtractAudio',
                     'preferredcodec': 'mp3',
                     'preferredquality': '192',
-                }],
-                'quiet': True,
-                'no_warnings': True
-            }
-
-            # Xóa file cũ nếu tồn tại
-            if os.path.exists(final_path):
-                try:
-                    os.remove(final_path)
-                except:
-                    pass
-
-        else:
-            ydl_opts = {
-                'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best',
-                'outtmpl': final_path,
-                'progress_hooks': [progress_callback] if progress_callback else [],
-                'quiet': True,
-                'no_warnings': True
-            }
-
+                }]
+            })
+        else:  # MP4
+            ydl_opts.update({
+                'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best'
+            })
+        
+        # Tải video
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            try:
-                # Tải thông tin video trước
-                info_dict = ydl.extract_info(url, download=False)
-                if not info_dict:
-                    raise Exception("Không thể lấy thông tin video")
-
-                # Tiến hành tải
+            # Lấy thông tin video
+            info = ydl.extract_info(url, download=False)
+            
+            # Nếu không tìm thấy định dạng phù hợp, thử tải định dạng mặc định
+            if not info.get('formats'):
+                ydl_opts['format'] = 'best'
+                with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                    ydl.download([url])
+            else:
                 ydl.download([url])
                 
-                if file_type == 'mp3':
-                    # Kiểm tra file MP3 sau khi tải
-                    if os.path.exists(final_path):
-                        if os.path.getsize(final_path) > 0:
-                            return final_path
-                        else:
-                            if os.path.exists(final_path):
-                                os.remove(final_path)
-                            raise Exception("File MP3 tạo ra bị lỗi (kích thước = 0)")
-                    else:
-                        # Kiểm tra các file tạm và file trung gian
-                        dir_path = os.path.dirname(final_path)
-                        base_name = os.path.splitext(os.path.basename(final_path))[0]
-                        
-                        # Tìm file MP3 có thể đã được tạo với tên khác
-                        for file in os.listdir(dir_path):
-                            if file.startswith(base_name) and file.endswith('.mp3'):
-                                mp3_path = os.path.join(dir_path, file)
-                                # Đổi tên file thành tên mong muốn
-                                try:
-                                    os.rename(mp3_path, final_path)
-                                    return final_path
-                                except:
-                                    if os.path.exists(mp3_path):
-                                        return mp3_path
-                        
-                        # Nếu không tìm thấy file MP3 nào
-                        raise Exception("Không thể tạo file MP3. Vui lòng thử lại.")
-                return final_path
+        # Kiểm tra file tải xuống
+        if os.path.exists(output_path) and os.path.getsize(output_path) > 0:
+            return True
+        else:
+            # Kiểm tra trường hợp file MP3 có thể đã được tạo với tên khác
+            if file_type == "mp3":
+                dir_path = os.path.dirname(output_path)
+                base_name = os.path.splitext(os.path.basename(output_path))[0]
                 
-            except Exception as e:
-                if "Download cancelled" in str(e):
-                    raise Exception("Download cancelled")
-                else:
-                    error_msg = f"Lỗi khi tải: {str(e)}"
-                    logging.error(error_msg)
-                    logging.error(traceback.format_exc())
-                    parent_window.after(0, lambda: show_error_on_main_thread(parent_window, error_msg))
-                    return None
+                # Tìm file MP3 có thể đã được tạo với tên khác
+                for file in os.listdir(dir_path):
+                    if file.startswith(base_name) and file.endswith('.mp3'):
+                        mp3_path = os.path.join(dir_path, file)
+                        # Đổi tên file thành tên mong muốn
+                        try:
+                            os.rename(mp3_path, output_path)
+                            return True
+                        except:
+                            return os.path.exists(mp3_path)
+            
+            return False
+            
     except Exception as e:
+        logging.error(f"Lỗi khi tải video: {e}")
         if "Download cancelled" in str(e):
             raise Exception("Download cancelled")
-        else:
-            logging.error(f"Lỗi khi tải video: {str(e)}")
-            parent_window.after(0, lambda: show_error_on_main_thread(parent_window, f"Lỗi khi tải: {str(e)}"))
-            return None
+        return False
 
 def show_error_on_main_thread(parent_window, message):
     """Hiển thị thông báo lỗi trên main thread"""
@@ -128,6 +110,11 @@ def show_download_complete_popup(file_path, parent_window):
         winsound.PlaySound("SystemAsterisk", winsound.SND_ALIAS)
     except:
         pass
+    
+    # Tắt thuộc tính topmost của các cửa sổ lịch sử
+    for widget in parent_window.winfo_toplevel().winfo_children():
+        if isinstance(widget, ctk.CTkToplevel) and hasattr(widget, 'is_history_window'):
+            widget.attributes("-topmost", False)
         
     popup = ctk.CTkToplevel(parent_window)
     popup.title("Tải xong!")

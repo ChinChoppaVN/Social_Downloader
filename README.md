@@ -1,89 +1,96 @@
 # Social Media Downloader
 
-Ứng dụng tải video từ các nền tảng mạng xã hội phổ biến, được viết bằng Python với giao diện người dùng thân thiện.
+![Logo](assets/CH.ico)
 
-## Tính năng
+## Giới thiệu
 
-- **Tải video từ nhiều nền tảng:**
+Social Media Downloader là ứng dụng miễn phí giúp bạn tải xuống video và âm thanh từ các nền tảng mạng xã hội phổ biến như YouTube, Facebook, TikTok và nhiều trang web khác. Với giao diện đơn giản, dễ sử dụng, ứng dụng là lựa chọn hoàn hảo cho người dùng muốn lưu trữ nội dung yêu thích để xem offline.
+
+## Tính năng chính
+
+- **Tải video/âm thanh từ nhiều nguồn**:
   - YouTube
   - TikTok
-  - Vimeo
+  - Facebook
+  - Instagram
   - SoundCloud
-  - Và nhiều nền tảng khác được hỗ trợ bởi yt-dlp
+  - Vimeo
+  - Và nhiều trang web khác...
 
-- **Tùy chọn tải xuống:**
-  - Tải video với chất lượng cao nhất
-  - Tải video với chất lượng thấp hơn
-  - Tải chỉ âm thanh (MP3)
-  - Tự động chọn định dạng phù hợp
+- **Hỗ trợ nhiều định dạng**:
+  - MP4 (video chất lượng cao)
+  - MP3 (âm thanh chất lượng cao)
 
-- **Quản lý lịch sử tải xuống:**
-  - Xem lịch sử các video đã tải
-  - Xóa lịch sử
-  - Xuất lịch sử ra file CSV
-  - Mở nhanh file hoặc thư mục chứa file đã tải
+- **Dễ dàng sử dụng**:
+  - Chỉ cần dán liên kết
+  - Tùy chọn đặt tên file theo ý muốn
+  - Nhấn "Tải ngay"
+  - Lưu lịch sử tải xuống
 
-- **Tính năng tiện ích:**
-  - Tự động tạo tên file từ tiêu đề video
-  - Lưu vị trí thư mục tải xuống cuối cùng
-  - Nút dán URL nhanh từ clipboard
-  - Hiển thị thông báo khi tải xong
-  - Hỗ trợ tải xuống với FFmpeg
+- **Tự động cập nhật công cụ tải**:
+  - Luôn hoạt động ngay cả khi các trang web thay đổi
 
 ## Yêu cầu hệ thống
 
-- Windows 10 trở lên
-- Không cần cài đặt Python hay các thư viện
-- Không cần cài đặt FFmpeg (đã được tích hợp sẵn)
+- Windows 7/8/10/11 (phiên bản 64-bit)
+- 100MB dung lượng ổ đĩa trống
+- Kết nối Internet
 
 ## Cài đặt
 
-1. Tải file `Social Media Downloader.exe` từ thư mục `dist`
-2. Chạy file exe (không cần cài đặt)
-3. Bắt đầu sử dụng
+1. Tải xuống file cài đặt
+2. Chạy file cài đặt "SocialMediaDownloader_Setup.exe"
+3. Làm theo hướng dẫn trên màn hình
+4. Ứng dụng sẽ tự động tạo biểu tượng trên Desktop và Start Menu
 
-## Cách sử dụng
+## Hướng dẫn sử dụng
 
-1. **Tải video:**
-   - Copy URL video từ trình duyệt
-   - Dán URL vào ô nhập liệu
-   - Chọn định dạng tải xuống
-   - Nhấn nút "Tải xuống"
+### Tải xuống video:
 
-2. **Xem lịch sử:**
-   - Nhấn nút "Lịch sử" để mở cửa sổ lịch sử
-   - Xem danh sách các video đã tải
-   - Mở file hoặc thư mục chứa file
-   - Xuất lịch sử ra file CSV
+1. Sao chép liên kết video từ trình duyệt (YouTube, Facebook, TikTok...)
+2. Khởi động ứng dụng "Social Media Downloader"
+3. Dán liên kết vào ô "Link video"
+4. Chọn định dạng mong muốn (MP4 hoặc MP3)
+5. Chọn thư mục lưu trong ô "Thư mục" 
+6. Đặt tên file (tùy chọn) hoặc để trống để sử dụng tên mặc định
+7. Nhấn nút "Tải ngay"
+8. Đợi quá trình tải hoàn tất
 
-3. **Quản lý lịch sử:**
-   - Chọn các mục cần xóa
-   - Nhấn nút "Xóa" để xóa mục đã chọn
-   - Nhấn nút "Xóa tất cả" để xóa toàn bộ lịch sử
+### Quản lý lịch sử tải:
 
-## Lưu ý
+1. Nhấn nút "Lịch sử tải" trong giao diện chính
+2. Xem danh sách các video/âm thanh đã tải xuống
+3. Mở file hoặc thư mục bằng cách nhấp chuột phải vào mục trong danh sách
+4. Tìm kiếm trong lịch sử bằng thanh tìm kiếm ở trên cùng
 
-- File tải xuống được lưu trong thư mục được chọn
-- Lịch sử tải xuống được lưu trong thư mục `data`
-- Có thể xuất lịch sử ra file CSV để lưu trữ
+## Các vấn đề thường gặp
 
-## Phát triển
+### Không tải được video:
 
-Nếu bạn muốn phát triển ứng dụng:
+- Đảm bảo liên kết hợp lệ và video không bị giới hạn (ví dụ: video riêng tư)
+- Cho phép ứng dụng cập nhật công cụ tải khi được hỏi
+- Kiểm tra kết nối Internet
 
-1. Clone repository
-2. Cài đặt các thư viện cần thiết:
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. Chạy file `build.py` để tạo file exe:
-   ```bash
-   python build.py
-   ```
+### Lỗi khi tải xuống:
 
-## Giấy phép
+- Đảm bảo bạn có đủ dung lượng trống trên ổ đĩa
+- Thử chọn thư mục lưu khác nếu gặp lỗi quyền truy cập
+- Khởi động lại ứng dụng và thử lại
 
-MIT License
+### Video không có âm thanh:
+
+- Đảm bảo bạn đã chọn đúng định dạng (MP4)
+- Một số video có thể không có âm thanh từ nguồn gốc
+
+## Liên hệ & Hỗ trợ
+
+- Email: quyetthang.media@gmail.com
+
+---
+
+© 2025 Thắng MupMip.
+
+**Lưu ý**: Ứng dụng này chỉ dành cho mục đích cá nhân. Vui lòng tuân thủ các điều khoản dịch vụ của các nền tảng và tôn trọng bản quyền khi tải xuống nội dung.
 
 ## Cấu trúc dự án
 
