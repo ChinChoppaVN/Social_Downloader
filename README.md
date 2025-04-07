@@ -92,38 +92,6 @@ Social Media Downloader là ứng dụng miễn phí giúp bạn tải xuống v
 
 **Lưu ý**: Ứng dụng này chỉ dành cho mục đích cá nhân. Vui lòng tuân thủ các điều khoản dịch vụ của các nền tảng và tôn trọng bản quyền khi tải xuống nội dung.
 
-## Cấu trúc dự án
-
-```
-Social_Downloader/
-├── src/                  # Thư mục chứa mã nguồn
-│   ├── Main.py          # File chính để chạy ứng dụng
-│   ├── ui.py            # Giao diện người dùng
-│   ├── downloader.py    # Logic tải xuống
-│   └── utils.py         # Các tiện ích
-├── config/              # Thư mục cấu hình
-│   ├── __init__.py
-│   └── app_config.py    # Cấu hình ứng dụng
-├── data/                # Thư mục chứa dữ liệu
-│   ├── config.json      # Cấu hình người dùng
-│   └── history.json     # Lịch sử tải xuống
-├── assets/              # Thư mục chứa tài nguyên
-│   ├── CH.ico          # Icon ứng dụng
-│   └── ffmpeg files    # Các file FFmpeg
-├── requirements.txt     # Các thư viện cần thiết
-└── build.py            # Script đóng gói ứng dụng
-```
-
-## Đóng góp
-
-Mọi đóng góp đều được hoan nghênh! Vui lòng:
-
-1. Fork dự án
-2. Tạo nhánh tính năng (`git checkout -b feature/AmazingFeature`)
-3. Commit thay đổi (`git commit -m 'Add some AmazingFeature'`)
-4. Push lên nhánh (`git push origin feature/AmazingFeature`)
-5. Tạo Pull Request
-
 ## Tác giả
 
 - **Thắng MupMip** - [GitHub](https://github.com/ChinChoppaVN) 
