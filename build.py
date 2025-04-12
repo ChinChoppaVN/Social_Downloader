@@ -18,7 +18,7 @@ def check_requirements():
         os.path.join(current_dir, "assets", "ffmpeg.exe"),
         os.path.join(current_dir, "assets", "ffprobe.exe"),
         os.path.join(current_dir, "assets", "ffplay.exe"),
-        os.path.join(current_dir, "src", "Main.py")
+        os.path.join(current_dir, "src", "main.py")
     ]
     
     missing_files = []
@@ -140,9 +140,46 @@ def main():
         logging.error(f"Lỗi trong quá trình build: {e}")
         return False
 
+def create_installer():
+    """Tạo file cài đặt sử dụng Inno Setup"""
+    try:
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        inno_script = os.path.join(current_dir, "setup.iss")
+        
+        if not os.path.exists(inno_script):
+            logging.error(f"Không tìm thấy file script Inno Setup: {inno_script}")
+            return False
+        
+        # Đường dẫn đến Inno Setup Compiler (điều chỉnh nếu cần)
+        iscc_path = r"C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
+        
+        if not os.path.exists(iscc_path):
+            logging.error(f"Không tìm thấy Inno Setup Compiler")
+            return False
+        
+        # Chạy Inno Setup Compiler
+        import subprocess
+        cmd = [iscc_path, inno_script]
+        logging.info(f"Đang chạy Inno Setup: {' '.join(cmd)}")
+        
+        process = subprocess.run(cmd, capture_output=True, text=True)
+        
+        if process.returncode == 0:
+            logging.info("Tạo file cài đặt thành công!")
+            return True
+        else:
+            logging.error(f"Lỗi khi tạo file cài đặt: {process.stderr}")
+            return False
+            
+    except Exception as e:
+        logging.error(f"Lỗi trong quá trình tạo file cài đặt: {e}")
+        return False
 if __name__ == "__main__":
     if main():
         logging.info("Quá trình build hoàn tất thành công!")
+        # Tự động tạo file cài đặt
+        if create_installer():
+            logging.info("Đã tạo file cài đặt thành công!")
     else:
         logging.error("Quá trình build thất bại!")
-        sys.exit(1) 
+        sys.exit(1)
