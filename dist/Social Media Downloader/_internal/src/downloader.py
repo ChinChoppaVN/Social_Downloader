@@ -10,6 +10,7 @@ from functools import partial
 import logging
 import winsound  # Thêm import winsound để phát âm thanh trên Windows
 import sys
+import json
 
 # Thêm thư mục gốc vào sys.path
 root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -17,6 +18,8 @@ if root_dir not in sys.path:
     sys.path.append(root_dir)
 
 # Import các module từ thư mục gốc
+from src.utils import DATA_DIR  # Thêm import DATA_DIR
+
 def download_video(url, output_path, progress_callback=None):
     """Tải video từ URL và lưu vào output_path"""
     try:
@@ -50,7 +53,7 @@ def download_video(url, output_path, progress_callback=None):
             })
         else:  # MP4
             ydl_opts.update({
-                'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best'
+                'format': 'bestvideo[ext=mp4][vcodec^=avc1]+bestaudio[ext=m4a]/best[ext=mp4][vcodec^=avc1]/best'  # Chỉ định codec H.264
             })
         
         # Tải video
@@ -103,7 +106,7 @@ def show_error_on_main_thread(parent_window, message):
     except:
         pass
 
-def show_download_complete_popup(file_path, parent_window):
+def show_download_complete_popup(file_path, parent_window, notify_state=True, on_notify_change=None):
     """Hiển thị popup thông báo tải xong"""
     # Phát âm thanh thông báo tải xong
     try:
@@ -118,7 +121,7 @@ def show_download_complete_popup(file_path, parent_window):
         
     popup = ctk.CTkToplevel(parent_window)
     popup.title("Tải xong!")
-    popup.geometry("400x150") 
+    popup.geometry("400x180")  # Tăng chiều cao để chứa thêm nút
     popup.attributes("-topmost", True)
     popup.resizable(False, False)
 
@@ -128,7 +131,7 @@ def show_download_complete_popup(file_path, parent_window):
     screen_height = popup.winfo_screenheight()
     x = (screen_width // 2) - (popup.winfo_width() // 2)
     y = (screen_height // 2) - (popup.winfo_height() // 2)
-    popup.geometry(f"400x150+{x}+{y}")
+    popup.geometry(f"400x180+{x}+{y}")
 
     # Lấy tên file và giới hạn số ký tự
     filename = os.path.basename(file_path)
@@ -149,7 +152,7 @@ def show_download_complete_popup(file_path, parent_window):
 
     # Tạo frame chứa 3 nút xếp hàng ngang
     button_frame = ctk.CTkFrame(popup)
-    button_frame.pack(pady=(10, 20), padx=20, fill="x")
+    button_frame.pack(pady=(10, 5), padx=20, fill="x")
     btn_width = 100
 
     def open_file(path):
@@ -180,6 +183,26 @@ def show_download_complete_popup(file_path, parent_window):
         except Exception as e:
             messagebox.showerror("Lỗi", f"Không thể mở thư mục: {e}")
 
+    # Tạo biến để lưu trạng thái "không hỏi lại"
+    dont_ask_again = ctk.BooleanVar(value=notify_state)
+
+    def on_dont_ask_again():
+        """Xử lý sự kiện khi checkbox thay đổi"""
+        # Lưu trạng thái vào file config
+        config = {}
+        config_file = os.path.join(DATA_DIR, "config.json")
+        if os.path.exists(config_file):
+            try:
+                with open(config_file, "r", encoding="utf-8") as f:
+                    config = json.load(f)
+            except:
+                pass
+        config["dont_show_complete_popup"] = dont_ask_again.get()
+        with open(config_file, "w", encoding="utf-8") as f:
+            json.dump(config, f, ensure_ascii=False, indent=4)
+        # Gọi callback đồng bộ trạng thái với UI nếu có
+        if on_notify_change:
+            on_notify_change(dont_ask_again.get())
 
     btn_open = ctk.CTkButton(button_frame, text="Mở File", 
                             command=partial(open_file, file_path), 
@@ -195,6 +218,18 @@ def show_download_complete_popup(file_path, parent_window):
                             command=popup.destroy, 
                             width=btn_width)
     btn_close.pack(side="left", expand=True, fill="x", padx=5)
+
+    # Thêm checkbox "Không hỏi lại" nhỏ hơn và sát cạnh dưới popup
+    checkbox = ctk.CTkCheckBox(
+        popup,
+        text="Không hỏi lại",
+        variable=dont_ask_again,
+        command=on_dont_ask_again,
+        font=("Helvetica", 13),
+        width=12,
+        height=12
+    )
+    checkbox.place(relx=1.0, rely=1.0, anchor="se", x=-10, y=-10)
 
     popup.grab_set()
     popup.transient(parent_window)

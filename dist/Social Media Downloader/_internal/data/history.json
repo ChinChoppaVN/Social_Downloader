@@ -34,5 +34,77 @@
         "timestamp": "2025-04-07 16:39:34",
         "status": "Thành công",
         "folder_path": "D:\\Code app\\Test"
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=uWzEqVJuR84&ab_channel=dogdog",
+        "file_type": "mp4",
+        "file_path": "D:/Code app/Test\\Say_Hello_To_Your_New_Most_Hated_Build_Dogdog_Hearthstone_Battlegrounds.mp4",
+        "size": "536.77 MB",
+        "timestamp": "2025-04-28 21:09:07",
+        "status": "Thành công",
+        "folder_path": "D:\\Code app\\Test"
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=1WzH6bv4guc&ab_channel=%EC%9C%A0%EB%85%B8%EC%98%88%EC%A7%80UknowYeaJi",
+        "file_type": "mp4",
+        "file_path": "D:/Code app/Test\\Mình_thích_bài_hát_này_quá🌸_Anh_Cho_Em_Mùa_Xuân_x_Một_Lần_Dang_Dở💖.mp4",
+        "size": "80.29 MB",
+        "timestamp": "2025-04-28 21:26:37",
+        "status": "Thành công",
+        "folder_path": "D:\\Code app\\Test"
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=1WzH6bv4guc&ab_channel=%EC%9C%A0%EB%85%B8%EC%98%88%EC%A7%80UknowYeaJi",
+        "file_type": "mp3",
+        "file_path": "D:/Code app/Test\\Mình_thích_bài_hát_này_quá🌸_Anh_Cho_Em_Mùa_Xuân_x_Một_Lần_Dang_Dở💖.mp3",
+        "size": "10.01 MB",
+        "timestamp": "2025-04-28 21:33:32",
+        "status": "Thành công",
+        "folder_path": "D:\\Code app\\Test"
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=1WzH6bv4guc&ab_channel=%EC%9C%A0%EB%85%B8%EC%98%88%EC%A7%80UknowYeaJi",
+        "file_type": "mp4",
+        "file_path": "D:/Code app/Test\\Mình_thích_bài_hát_này_quá🌸_Anh_Cho_Em_Mùa_Xuân_x_Một_Lần_Dang_Dở💖.mp4",
+        "size": "80.29 MB",
+        "timestamp": "2025-04-28 21:35:02",
+        "status": "Thành công",
+        "folder_path": "D:\\Code app\\Test"
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=1WzH6bv4guc&ab_channel=%EC%9C%A0%EB%85%B8%EC%98%88%EC%A7%80UknowYeaJi",
+        "file_type": "mp3",
+        "file_path": "D:/Code app/Test\\123456789.mp3",
+        "size": "10.01 MB",
+        "timestamp": "2025-04-28 21:38:52",
+        "status": "Thành công",
+        "folder_path": "D:\\Code app\\Test"
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=1WzH6bv4guc&ab_channel=%EC%9C%A0%EB%85%B8%EC%98%88%EC%A7%80UknowYeaJi",
+        "file_type": "mp4",
+        "file_path": "D:/Code app/Test\\ádasdqwe.mp4",
+        "size": "80.29 MB",
+        "timestamp": "2025-04-28 21:40:22",
+        "status": "Thành công",
+        "folder_path": "D:\\Code app\\Test"
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=yiikyaPCc7I&ab_channel=YEAH1SHOW",
+        "file_type": "mp4",
+        "file_path": "D:/Code app/Test\\“MƯA_LỬA”_–_ANH_TRAI_VƯỢT_NGÀN_CHÔNG_GAI_MOVIE_OFFICIAL_TRAILER_(Dự_kiến_Khởi_chiếu_16052025).mp4",
+        "size": "90.85 MB",
+        "timestamp": "2025-04-28 23:31:14",
+        "status": "Thành công",
+        "folder_path": "D:\\Code app\\Test"
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=ghU7ZBLW6bc&ab_channel=GiangPhan",
+        "file_type": "mp4",
+        "file_path": "D:/Code app/Test\\30_thực_tập_sinh_TÂN_BINH_TOÀN_NĂNG_khoe_vũ_đạo.mp4",
+        "size": "171.48 MB",
+        "timestamp": "2025-04-28 23:57:09",
+        "status": "Thành công",
+        "folder_path": "D:\\Code app\\Test"
     }
 ]

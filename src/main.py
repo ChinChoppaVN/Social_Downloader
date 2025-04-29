@@ -3,6 +3,7 @@ import sys
 import shutil
 import logging
 import subprocess
+import json
 
 # Thêm đường dẫn của thư mục gốc vào sys.path
 root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -34,6 +35,7 @@ if getattr(sys, 'frozen', False):
 
 # Import các module từ thư mục src
 from src.ui import run_app
+from src.utils import DATA_DIR  # Thêm import DATA_DIR từ utils
 
 def setup_logging():
     """Thiết lập logging cơ bản"""
@@ -212,6 +214,21 @@ def main():
                     logging.info(f"Nội dung thư mục: {os.listdir(assets_path)}")
                     ffmpeg_path = os.path.join(assets_path, "ffmpeg.exe")
                     logging.info(f"ffmpeg.exe tồn tại: {os.path.exists(ffmpeg_path)}")
+        
+        # Reset cài đặt "không hỏi lại" khi khởi động
+        config_file = os.path.join(DATA_DIR, "config.json")
+        if os.path.exists(config_file):
+            try:
+                with open(config_file, "r", encoding="utf-8") as f:
+                    config = json.load(f)
+                # Xóa cài đặt "không hỏi lại"
+                if "dont_show_complete_popup" in config:
+                    del config["dont_show_complete_popup"]
+                with open(config_file, "w", encoding="utf-8") as f:
+                    json.dump(config, f, ensure_ascii=False, indent=4)
+                logging.info("Đã reset cài đặt 'không hỏi lại'")
+            except Exception as e:
+                logging.error(f"Lỗi khi reset cài đặt 'không hỏi lại': {e}")
         
         # Kiểm tra các yêu cầu
         if not check_requirements():

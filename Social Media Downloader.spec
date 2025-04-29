@@ -7,10 +7,10 @@ hiddenimports += collect_submodules('src')
 
 
 a = Analysis(
-    ['d:\\Code_app\\Social_Downloader\\src\\Main.py'],
+    ['D:\\Code_app\\Social_Downloader\\src\\main.py'],
     pathex=[],
     binaries=[('assets/ffmpeg.exe', 'assets'), ('assets/ffprobe.exe', 'assets'), ('assets/ffplay.exe', 'assets')],
-    datas=[('d:\\Code_app\\Social_Downloader\\assets', 'assets'), ('d:\\Code_app\\Social_Downloader\\data', 'data'), ('d:\\Code_app\\Social_Downloader\\src', 'src')],
+    datas=[('D:\\Code_app\\Social_Downloader\\assets', 'assets'), ('D:\\Code_app\\Social_Downloader\\data', 'data'), ('D:\\Code_app\\Social_Downloader\\src', 'src')],
     hiddenimports=hiddenimports,
     hookspath=[],
     hooksconfig={},
@@ -36,7 +36,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['d:\\Code_app\\Social_Downloader\\assets\\CH.ico'],
+    icon=['D:\\Code_app\\Social_Downloader\\assets\\CH.ico'],
 )
 coll = COLLECT(
     exe,

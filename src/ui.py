@@ -15,6 +15,7 @@ import customtkinter as ctk
 from tkinter import messagebox, filedialog, ttk, Menu
 import csv
 from functools import partial
+import tkinter as tk  # Đảm bảo đã import tk
 
 # Thêm thư mục gốc vào sys.path
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -39,11 +40,13 @@ APP_CONFIG = {
     "app_title": "Social Media Downloader",
     "app_size": "600x500",
     "max_history_display": 50,
-    "font_title": ("Arial", 24, "bold"),
-    "font_subtitle": ("Arial", 14),
-    "font_normal": ("Arial", 14),
-    "font_small": ("Arial", 12),
-    "button_font": ("Arial", 16, "bold"),
+    "font_title": ("Roboto", 24, "bold"),
+    "font_subtitle": ("Roboto", 14, "italic"),
+    "font_normal": ("Roboto", 14),
+    "font_bold": ("Roboto", 14, "bold"),
+    "font_italic": ("Roboto", 14, "italic"),
+    "font_small": ("Roboto", 12),
+    "button_font": ("Roboto", 14, "bold"),
     "platforms": ["YouTube", "TikTok", "Vimeo", "SoundCloud"]
 }
 
@@ -66,9 +69,151 @@ if not os.path.exists(DATA_DIR):
 class DownloaderApp:
     def __init__(self, root):
         self.root = root
-        self.root.title(APP_CONFIG["app_title"])
+        # Khởi tạo các biến cấu hình trước khi tạo menubar
+        self.config_path = os.path.join(DATA_DIR, "config.json")
+        self.notify_download_complete = True
+        self.notify_var = tk.IntVar(value=1 if self.notify_download_complete else 0)
+        self.current_language = "Tiếng Việt"
+        self.current_theme = "Tối"
+        self.translations = {
+            "Tiếng Việt": {
+                "app_title": "Social Media Downloader",
+                "subtitle": "Tải Video & Audio cực kỳ Pro Max",
+                "link_label": "Link video:",
+                "paste": "Dán",
+                "filename_label": "Tên file:",
+                "filename_placeholder": "Để trống để sử dụng tên mặc định",
+                "folder_label": "Thư mục:",
+                "choose": "Chọn",
+                "file_exists_mp4": "Tên file MP4 đã tồn tại!",
+                "file_exists_mp3": "Tên file MP3 đã tồn tại!",
+                "format_label": "Định dạng:",
+                "mp4": "MP4",
+                "mp3": "MP3",
+                "ready": "Sẵn sàng tải xuống",
+                "downloading": "Đang tải...",
+                "download_now": "Tải ngay",
+                "history": "Lịch sử tải",
+                "footer": "© 2025 Thắng MupMip. All rights reserved.",
+                "success": "Đã tải xong:",
+                "open_file": "Mở File",
+                "open_folder": "Mở Folder",
+                "close": "Đóng",
+                "dont_ask_again": "Không hỏi lại",
+                "confirm_overwrite": "Tên file {ext} đã tồn tại. Bạn có muốn ghi đè?",
+                "confirm": "Xác nhận",
+                "error": "Lỗi",
+                "warning": "Cảnh báo",
+                "info": "Thông báo",
+                "cancel": "Hủy",
+                "pause": "Tạm dừng",
+                "resume": "Tiếp tục",
+                "download_cancelled": "Đã hủy tải xuống",
+                "download_failed": "Lỗi tải xuống!",
+                "download_success": "Tải xuống hoàn tất",
+                "choose_folder": "Chọn thư mục lưu!",
+                "invalid_url": "Link video không hợp lệ!",
+                "input_url": "Vui lòng nhập link video!",
+                "input_folder": "Vui lòng chọn thư mục lưu!",
+                "ffmpeg_missing": "FFmpeg không được cài đặt. Vui lòng cài FFmpeg để tải video hoặc audio.",
+                "select_format": "Vui lòng chọn một định dạng (MP4 hoặc MP3)!",
+                "STT": "STT",
+                "Tên file": "Tên file",
+                "Định dạng": "Định dạng",
+                "Kích thước": "Kích thước",
+                "Thư mục lưu": "Thư mục lưu",
+                "Thời gian": "Thời gian",
+                "Trạng thái": "Trạng thái",
+                "URL": "URL",
+                "Không rõ": "Không rõ",
+                "Thành công": "Thành công",
+                "Chưa có lịch sử tải nào.": "Chưa có lịch sử tải nào.",
+                "Xóa toàn bộ": "Xóa toàn bộ",
+                "Xóa đã chọn": "Xóa đã chọn",
+                "Copy URL": "Copy URL",
+                "Xóa": "Xóa",
+                "speed": "Tốc độ: --",
+                "size": "Dung lượng: --",
+                "time": "Thời gian: --",
+                "notify_download_complete": "Thông báo tải xong",
+                "notify_menu": "Thông báo",
+                "notify_on": "Bật",
+                "notify_off": "Tắt",
+                "Thất bại": "Thất bại"
+            },
+            "English": {
+                "app_title": "Social Media Downloader",
+                "subtitle": "Download Video & Audio like a Pro Max",
+                "link_label": "Video link:",
+                "paste": "Paste",
+                "filename_label": "Filename:",
+                "filename_placeholder": "Leave blank to use default name",
+                "folder_label": "Folder:",
+                "choose": "Browse",
+                "file_exists_mp4": "MP4 file name already exists!",
+                "file_exists_mp3": "MP3 file name already exists!",
+                "format_label": "Format:",
+                "mp4": "MP4",
+                "mp3": "MP3",
+                "ready": "Ready to download",
+                "downloading": "Downloading...",
+                "download_now": "Download now",
+                "history": "History",
+                "footer": "© 2025 Thang MupMip. All rights reserved.",
+                "success": "Downloaded:",
+                "open_file": "Open File",
+                "open_folder": "Open Folder",
+                "close": "Close",
+                "dont_ask_again": "Don't ask again",
+                "confirm_overwrite": "{ext} file name already exists. Overwrite?",
+                "confirm": "Confirm",
+                "error": "Error",
+                "warning": "Warning",
+                "info": "Info",
+                "cancel": "Cancel",
+                "pause": "Pause",
+                "resume": "Resume",
+                "download_cancelled": "Download cancelled",
+                "download_failed": "Download failed!",
+                "download_success": "Download completed",
+                "choose_folder": "Please choose a folder!",
+                "invalid_url": "Invalid video link!",
+                "input_url": "Please enter a video link!",
+                "input_folder": "Please choose a folder!",
+                "ffmpeg_missing": "FFmpeg is not installed. Please install FFmpeg to download video or audio.",
+                "select_format": "Please select a format (MP4 or MP3)!",
+                "STT": "No.",
+                "Tên file": "Filename",
+                "Định dạng": "Type",
+                "Kích thước": "Size",
+                "Thư mục lưu": "Folder",
+                "Thời gian": "Time",
+                "Trạng thái": "Status",
+                "URL": "URL",
+                "Không rõ": "Unknown",
+                "Thành công": "Success",
+                "Chưa có lịch sử tải nào.": "No download history yet.",
+                "Xóa toàn bộ": "Clear all",
+                "Xóa đã chọn": "Delete selected",
+                "Copy URL": "Copy URL",
+                "Xóa": "Delete",
+                "speed": "Speed: --",
+                "size": "Size: --",
+                "time": "Time: --",
+                "notify_download_complete": "Download complete notification",
+                "notify_menu": "Popup",
+                "notify_on": "On",
+                "notify_off": "Off",
+                "Thất bại": "Failed"
+            }
+        }
+        self.load_settings()
+        self.root.title(self.get_text("app_title"))
         self.root.geometry(APP_CONFIG["app_size"])
         self.root.resizable(False, False)
+        
+        # Thêm menu bar
+        self.create_menubar()
         
         # Set icon cho ứng dụng
         icon_path = os.path.join(ASSETS_DIR, "CH.ico")
@@ -93,6 +238,9 @@ class DownloaderApp:
         # Biến theo dõi trạng thái sắp xếp
         self.current_sort_reverse = False
         
+        # Thêm biến trạng thái
+        self.notify_download_complete = True
+
         self.create_widgets()
 
     def center_window(self):
@@ -102,6 +250,28 @@ class DownloaderApp:
         x = (screen_width // 2) - (self.root.winfo_width() // 2)
         y = (screen_height // 2) - (self.root.winfo_height() // 2)
         self.root.geometry(f"{APP_CONFIG['app_size']}+{x}+{y}")
+
+    def create_menubar(self):
+        menubar = Menu(self.root)
+        label_history = self.get_text("history") if self.current_language == "Tiếng Việt" else "History"
+        label_language = self.get_text("Ngôn ngữ") if self.current_language == "Tiếng Việt" else "Language"
+        label_theme = self.get_text("Giao diện") if self.current_language == "Tiếng Việt" else "Theme"
+        menubar.add_command(label=label_history, command=self.show_download_history)
+        language_menu = Menu(menubar, tearoff=0)
+        language_menu.add_command(label="Tiếng Việt", command=lambda: self.change_language("Tiếng Việt"))
+        language_menu.add_command(label="English", command=lambda: self.change_language("English"))
+        menubar.add_cascade(label=label_language, menu=language_menu)
+        theme_menu = Menu(menubar, tearoff=0)
+        theme_menu.add_command(label="Tối" if self.current_language == "Tiếng Việt" else "Dark", command=lambda: self.change_theme("Tối" if self.current_language == "Tiếng Việt" else "Dark"))
+        theme_menu.add_command(label="Sáng" if self.current_language == "Tiếng Việt" else "Light", command=lambda: self.change_theme("Sáng" if self.current_language == "Tiếng Việt" else "Light"))
+        theme_menu.add_command(label="Hệ thống" if self.current_language == "Tiếng Việt" else "System", command=lambda: self.change_theme("Hệ thống" if self.current_language == "Tiếng Việt" else "System"))
+        menubar.add_cascade(label=label_theme, menu=theme_menu)
+        # Thông báo tải xong: submenu Bật/Tắt hoặc On/Off
+        notify_menu = Menu(menubar, tearoff=0)
+        notify_menu.add_radiobutton(label=self.get_text("notify_on"), value=1, variable=self.notify_var, command=lambda: self.set_notify_download_complete(True))
+        notify_menu.add_radiobutton(label=self.get_text("notify_off"), value=0, variable=self.notify_var, command=lambda: self.set_notify_download_complete(False))
+        menubar.add_cascade(label=self.get_text("notify_menu"), menu=notify_menu)
+        self.root.config(menu=menubar)
 
     def create_widgets(self):
         self.create_header()
@@ -116,51 +286,51 @@ class DownloaderApp:
         title_frame = ctk.CTkFrame(header_frame, fg_color="transparent")
         title_frame.pack(fill="x", padx=10)
         
-        title_label = ctk.CTkLabel(title_frame, text=APP_CONFIG["app_title"], font=APP_CONFIG["font_title"])
+        title_label = ctk.CTkLabel(title_frame, text=self.get_text("app_title"), font=APP_CONFIG["font_title"])
         title_label.pack(pady=5)
         
-        subtitle_label = ctk.CTkLabel(header_frame, text="Tải Video & Audio cực kỳ Pro Max", font=APP_CONFIG["font_subtitle"])
+        subtitle_label = ctk.CTkLabel(header_frame, text=self.get_text("subtitle"), font=APP_CONFIG["font_subtitle"])
         subtitle_label.pack()
 
     def create_main_frame(self):
         self.main_frame = ctk.CTkFrame(self.root)
         self.main_frame.pack(fill="both", expand=True, padx=20, pady=10)
         
-        ctk.CTkLabel(self.main_frame, text="Link video:", font=APP_CONFIG["font_normal"]).grid(row=0, column=0, sticky="w", pady=5, padx=15)
-        self.url_entry = ctk.CTkEntry(self.main_frame, width=350, placeholder_text="Facebook, Instagram, TikTok, Youtube ...")
+        ctk.CTkLabel(self.main_frame, text=self.get_text("link_label"), font=APP_CONFIG["font_normal"]).grid(row=0, column=0, sticky="w", pady=5, padx=15)
+        self.url_entry = ctk.CTkEntry(self.main_frame, width=350, placeholder_text=self.get_text("input_url"))
         self.url_entry.grid(row=0, column=1, pady=5, sticky="w")
         
         paste_button = ctk.CTkButton(
             self.main_frame, 
-            text="Dán", 
-            width=80,
+            text=self.get_text("paste"), 
+            width=90,
             command=self.paste_url,
             font=APP_CONFIG["font_normal"]
         )
         paste_button.grid(row=0, column=2, pady=5, padx=15, sticky="w")
         
-        ctk.CTkLabel(self.main_frame, text="Tên file:", font=APP_CONFIG["font_normal"]).grid(row=1, column=0, sticky="w", pady=5, padx=15)
-        self.filename_entry = ctk.CTkEntry(self.main_frame, width=350, placeholder_text="Để trống để sử dụng tên mặc định")
+        ctk.CTkLabel(self.main_frame, text=self.get_text("filename_label"), font=APP_CONFIG["font_normal"]).grid(row=1, column=0, sticky="w", pady=5, padx=15)
+        self.filename_entry = ctk.CTkEntry(self.main_frame, width=350, placeholder_text=self.get_text("filename_placeholder"))
         self.filename_entry.grid(row=1, column=1, columnspan=2, sticky="w", pady=5)
         
-        ctk.CTkLabel(self.main_frame, text="Thư mục:", font=APP_CONFIG["font_normal"]).grid(row=2, column=0, sticky="w", pady=5, padx=15)
+        ctk.CTkLabel(self.main_frame, text=self.get_text("folder_label"), font=APP_CONFIG["font_normal"]).grid(row=2, column=0, sticky="w", pady=5, padx=15)
         last_folder = load_last_folder()
         self.folder_var = ctk.StringVar(value=last_folder)
         self.folder_entry = ctk.CTkEntry(self.main_frame, textvariable=self.folder_var, width=350)
         self.folder_entry.grid(row=2, column=1, pady=5, sticky="w")
         
-        folder_button = ctk.CTkButton(self.main_frame, text="Chọn", command=self.select_folder, width=80)
+        folder_button = ctk.CTkButton(self.main_frame, text=self.get_text("choose"), command=self.select_folder, width=90)
         folder_button.grid(row=2, column=2, pady=5, padx=15, sticky="w")
         
         self.file_status_label = ctk.CTkLabel(self.main_frame, text="", text_color="red", font=APP_CONFIG["font_small"])
         self.file_status_label.grid(row=3, column=1, columnspan=2, sticky="w", pady=(0,5))
         
-        ctk.CTkLabel(self.main_frame, text="Định dạng:", font=APP_CONFIG["font_normal"]).grid(row=3, column=0, sticky="w", pady=5, padx=15)
+        ctk.CTkLabel(self.main_frame, text=self.get_text("format_label"), font=APP_CONFIG["font_normal"]).grid(row=3, column=0, sticky="w", pady=5, padx=15)
         
-        mp4_button = ctk.CTkButton(self.main_frame, text="MP4", command=lambda: self.toggle_format("mp4"), width=80, fg_color=("green", "#1D6F42") if self.mp4_selected.get() else "gray", state="normal")
+        mp4_button = ctk.CTkButton(self.main_frame, text=self.get_text("mp4"), command=lambda: self.toggle_format("mp4"), width=80, fg_color=("green", "#1D6F42") if self.mp4_selected.get() else "gray", state="normal")
         mp4_button.grid(row=3, column=1, pady=5, padx=0, sticky="w")
         
-        mp3_button = ctk.CTkButton(self.main_frame, text="MP3", command=lambda: self.toggle_format("mp3"), width=80, fg_color=("green", "#1D6F42") if self.mp3_selected.get() else "gray", state="normal")
+        mp3_button = ctk.CTkButton(self.main_frame, text=self.get_text("mp3"), command=lambda: self.toggle_format("mp3"), width=80, fg_color=("green", "#1D6F42") if self.mp3_selected.get() else "gray", state="normal")
         mp3_button.grid(row=3, column=1, pady=5, padx=85, sticky="w")
         
         # Progress Frame mới
@@ -170,7 +340,7 @@ class DownloaderApp:
         # Label cho tiến trình
         self.progress_status = ctk.CTkLabel(
             progress_frame, 
-            text="Sẵn sàng tải xuống", 
+            text=self.get_text("ready"), 
             font=APP_CONFIG["font_small"],
             anchor="w"
         )
@@ -204,7 +374,7 @@ class DownloaderApp:
             width=30,
             height=25,
             command=self.toggle_download,
-            font=("Arial", 14)
+            font=("Roboto", 14)
         )
         self.pause_play_button.pack(side="left", padx=2)
         self.pause_play_button.configure(state="disabled")
@@ -216,7 +386,7 @@ class DownloaderApp:
             width=30,
             height=25,
             command=self.cancel_download,
-            font=("Arial", 14)
+            font=("Roboto", 14)
         )
         self.cancel_button.pack(side="left", padx=2)
         self.cancel_button.configure(state="disabled")
@@ -233,7 +403,7 @@ class DownloaderApp:
         # Labels cho thông tin tải với chiều rộng cố định
         self.speed_label = ctk.CTkLabel(
             info_frame, 
-            text="Tốc độ: --", 
+            text=self.get_text("speed"), 
             font=APP_CONFIG["font_small"],
             width=120,
             anchor="w"
@@ -242,7 +412,7 @@ class DownloaderApp:
         
         self.size_label = ctk.CTkLabel(
             info_frame, 
-            text="Dung lượng: --", 
+            text=self.get_text("size"), 
             font=APP_CONFIG["font_small"],
             width=180,
             anchor="w"
@@ -251,7 +421,7 @@ class DownloaderApp:
         
         self.time_label = ctk.CTkLabel(
             info_frame,
-            text="Thời gian: --",
+            text=self.get_text("time"),
             font=APP_CONFIG["font_small"],
             width=150,
             anchor="w"
@@ -262,18 +432,15 @@ class DownloaderApp:
         button_frame = ctk.CTkFrame(self.root, fg_color="transparent")
         button_frame.pack(pady=10)
 
-        self.download_button = ctk.CTkButton(button_frame, text="Tải ngay", command=self.start_download, font=APP_CONFIG["button_font"])
+        self.download_button = ctk.CTkButton(button_frame, text=self.get_text("download_now"), command=self.start_download, font=APP_CONFIG["button_font"])
         self.download_button.grid(row=0, column=0, padx=5, pady=0, sticky="w")
 
-        self.history_button = ctk.CTkButton(button_frame, text="Lịch sử tải", command=self.show_download_history, font=APP_CONFIG["button_font"])
-        self.history_button.grid(row=0, column=1, padx=5, pady=0, sticky="w")
-        
         self.main_frame.columnconfigure(1, weight=1)
         self.mp4_selected.trace("w", self.update_button_colors)
         self.mp3_selected.trace("w", self.update_button_colors)
 
     def create_footer(self):
-        footer_label = ctk.CTkLabel(self.root, text="© 2025 Thắng MupMip. All rights reserved.", font=("Arial", 12))
+        footer_label = ctk.CTkLabel(self.root, text=self.get_text("footer"), font=("Roboto", 12))
         footer_label.pack(side="bottom", pady=10)
 
     def toggle_format(self, format_type):
@@ -321,13 +488,13 @@ class DownloaderApp:
                 final_name = get_clean_filename(name_input, "mp4")
                 final_path = os.path.join(folder, final_name)
                 if os.path.exists(final_path):
-                    self.file_status_label.configure(text="Tên file MP4 đã tồn tại!")
+                    self.file_status_label.configure(text=self.get_text("file_exists_mp4"))
                     return
             if self.mp3_selected.get():
                 final_name = get_clean_filename(name_input, "mp3")
                 final_path = os.path.join(folder, final_name)
                 if os.path.exists(final_path):
-                    self.file_status_label.configure(text="Tên file MP3 đã tồn tại!")
+                    self.file_status_label.configure(text=self.get_text("file_exists_mp3"))
                     return
             self.file_status_label.configure(text="")
         else:
@@ -358,7 +525,7 @@ class DownloaderApp:
                 # Hiển thị phần trăm
                 percent = progress * 100
                 self.progress_status.configure(
-                    text=f"Đang tải: {percent:.1f}%"
+                    text=f"{self.get_text('downloading')} {percent:.1f}%"
                 )
                 
                 # Hiển thị tốc độ
@@ -384,7 +551,7 @@ class DownloaderApp:
                 
         elif d['status'] == 'finished':
             if not self.is_cancelled:  # Chỉ cập nhật nếu không phải do hủy
-                self.progress_status.configure(text="Đang xử lý...")
+                self.progress_status.configure(text=self.get_text("download_success"))
                 self.speed_label.configure(text="Tốc độ: --")
                 self.time_label.configure(text="Thời gian: --")
                 self.size_label.configure(text="Dung lượng: --")
@@ -392,7 +559,7 @@ class DownloaderApp:
             
         elif d['status'] == 'error':
             if not self.is_cancelled:  # Chỉ hiển thị lỗi nếu không phải do hủy
-                self.progress_status.configure(text="Lỗi tải xuống!")
+                self.progress_status.configure(text=self.get_text("download_failed"))
                 self.progress_bar.set(0)
                 self.speed_label.configure(text="Tốc độ: --")
                 self.time_label.configure(text="Thời gian: --")
@@ -402,73 +569,67 @@ class DownloaderApp:
     def reset_ui_state(self):
         """Reset tất cả trạng thái UI về mặc định"""
         self.progress_bar.set(0)
-        self.progress_status.configure(text="Sẵn sàng tải xuống")
+        self.progress_status.configure(text=self.get_text("ready"))
         self.speed_label.configure(text="Tốc độ: --")
         self.time_label.configure(text="Thời gian: --")
         self.size_label.configure(text="Dung lượng: --")     
         self.url_entry.delete(0, ctk.END)
-        self.url_entry.configure(placeholder_text="Facebook, Instagram, TikTok, Youtube ...")
+        self.url_entry.configure(placeholder_text=self.get_text("input_url"))
         self.filename_entry.delete(0, ctk.END)
-        self.filename_entry.configure(placeholder_text="Để trống để sử dụng tên mặc định")
+        self.filename_entry.configure(placeholder_text=self.get_text("filename_placeholder"))
 
     def download_thread(self, url, file_type, final_path, parent_window):
         try:
-            # Gọi hàm download_video đã được cập nhật
             download_success = download_video(url, final_path, self.progress_callback)
-            
             if download_success and os.path.exists(final_path):
-                # Tính kích thước file
-                size = f"{os.path.getsize(final_path) / 1024 / 1024:.2f} MB"
-                folder_path = os.path.dirname(final_path).replace("/", "\\")
-                
-                # Ghi lịch sử tải
                 parent_window.after(0, lambda: add_download_history(
                     url, file_type, final_path, 
-                    size=size,
+                    size=f"{os.path.getsize(final_path) / 1024 / 1024:.2f} MB",
                     status="Thành công",
-                    folder_path=folder_path
+                    folder_path=os.path.dirname(final_path).replace("/", "\\")
                 ))
-                
-                # Cập nhật UI khi hoàn thành
-                parent_window.after(0, lambda: self.progress_status.configure(text="Tải xuống hoàn tất"))
+                parent_window.after(0, lambda: self.progress_status.configure(text=self.get_text("download_success")))
                 parent_window.after(0, lambda: self.update_control_buttons("finished"))
-                
-                # Hiển thị popup hoàn thành
-                parent_window.after(0, lambda: show_download_complete_popup(final_path, parent_window))
-                
+                # Chỉ hiển thị popup nếu notify_download_complete đang bật
+                if self.notify_download_complete:
+                    parent_window.after(0, lambda: show_download_complete_popup(
+                        final_path, parent_window,
+                        notify_state=self.notify_download_complete,
+                        on_notify_change=self.set_notify_download_complete
+                    ))
         except Exception as e:
             if str(e) == "Download cancelled":
-                # Ghi lịch sử thất bại do hủy
                 parent_window.after(0, lambda: add_download_history(
                     url, file_type, final_path,
                     size="Không rõ",
                     status="Đã hủy",
                     folder_path="Không rõ"
                 ))
-                # Reset UI khi hủy
-                parent_window.after(0, lambda: self.progress_status.configure(text="Đã hủy tải xuống"))
+                parent_window.after(0, lambda: self.progress_status.configure(text=self.get_text("download_cancelled")))
                 parent_window.after(0, lambda: self.progress_bar.set(0))
-                parent_window.after(0, lambda: self.speed_label.configure(text="Tốc độ: --"))
-                parent_window.after(0, lambda: self.time_label.configure(text="Thời gian: --"))
-                parent_window.after(0, lambda: self.size_label.configure(text="Dung lượng: --"))
+                parent_window.after(0, lambda: self.speed_label.configure(text=self.get_text("speed")))
+                parent_window.after(0, lambda: self.time_label.configure(text=self.get_text("time")))
+                parent_window.after(0, lambda: self.size_label.configure(text=self.get_text("size")))
                 parent_window.after(0, lambda: self.update_control_buttons("ready"))
+                if os.path.exists(final_path):
+                    try:
+                        os.remove(final_path)
+                    except Exception as ex:
+                        print(f"Không thể xóa file tạm: {ex}")
             else:
-                # Ghi lịch sử thất bại
                 parent_window.after(0, lambda: add_download_history(
                     url, file_type, final_path,
                     size="Không rõ",
                     status="Thất bại",
                     folder_path="Không rõ"
                 ))
-                # Hiển thị thông báo lỗi
-                parent_window.after(0, lambda: self.progress_status.configure(text="Lỗi tải xuống!"))
+                parent_window.after(0, lambda: self.progress_status.configure(text=self.get_text("download_failed")))
                 parent_window.after(0, lambda: self.progress_bar.set(0))
-                parent_window.after(0, lambda: self.speed_label.configure(text="Tốc độ: --"))
-                parent_window.after(0, lambda: self.time_label.configure(text="Thời gian: --"))
-                parent_window.after(0, lambda: self.size_label.configure(text="Dung lượng: --"))
+                parent_window.after(0, lambda: self.speed_label.configure(text=self.get_text("speed")))
+                parent_window.after(0, lambda: self.time_label.configure(text=self.get_text("time")))
+                parent_window.after(0, lambda: self.size_label.configure(text=self.get_text("size")))
                 parent_window.after(0, lambda: self.update_control_buttons("ready"))
-                parent_window.after(0, lambda: messagebox.showerror("Lỗi tải xuống", f"Không thể tải: {str(e)}"))
-                
+                parent_window.after(0, lambda: messagebox.showerror(self.get_text("error"), f"Không thể tải: {str(e)}"))
         finally:
             self.is_downloading = False
             parent_window.after(0, lambda: self.download_button.configure(state="normal"))
@@ -481,20 +642,20 @@ class DownloaderApp:
 
         url = self.url_entry.get().strip()
         if not url:
-            self.show_message("Lỗi", "Vui lòng nhập link video!", "error")
+            self.show_message("Lỗi", self.get_text("input_url"), "error")
             return
             
         if not validate_url(url):
-            self.show_message("Lỗi", "Link video không hợp lệ!", "error")
+            self.show_message("Lỗi", self.get_text("invalid_url"), "error")
             return
             
         folder = self.folder_var.get().strip()
         if not folder:
-            self.show_message("Lỗi", "Vui lòng chọn thư mục lưu!", "error")
+            self.show_message("Lỗi", self.get_text("input_folder"), "error")
             return
             
         if not shutil.which("ffmpeg"):
-            self.show_message("Lỗi", "FFmpeg không được cài đặt. Vui lòng cài FFmpeg để tải video hoặc audio.", "error")
+            self.show_message("Lỗi", self.get_text("ffmpeg_missing"), "error")
             return
             
         name_input = self.filename_entry.get().strip()
@@ -507,7 +668,7 @@ class DownloaderApp:
         
         # Reset thanh tiến trình và thông tin
         self.progress_bar.set(0)
-        self.progress_status.configure(text="Đang chuẩn bị...")
+        self.progress_status.configure(text=self.get_text("downloading"))
         self.download_start_time = None
         
         # Kích hoạt các nút điều khiển ngay khi bắt đầu tải
@@ -521,7 +682,7 @@ class DownloaderApp:
             final_path = os.path.join(folder, clean_name)
 
             if os.path.exists(final_path):
-                if not self.show_message("Xác nhận", f"Tên file MP4 đã tồn tại. Bạn có muốn ghi đè?", "yesno"):
+                if not self.show_message(self.get_text("confirm"), self.get_text("confirm_overwrite", ext=file_type), "yesno"):
                     return
 
             self.is_downloading = True
@@ -534,7 +695,7 @@ class DownloaderApp:
             final_path = os.path.join(folder, clean_name)
 
             if os.path.exists(final_path):
-                if not self.show_message("Xác nhận", f"Tên file MP3 đã tồn tại. Bạn có muốn ghi đè?", "yesno"):
+                if not self.show_message(self.get_text("confirm"), self.get_text("confirm_overwrite", ext=file_type), "yesno"):
                     return
 
             self.is_downloading = True
@@ -542,67 +703,47 @@ class DownloaderApp:
             threading.Thread(target=self.download_thread, args=(url, file_type, final_path, self.root), daemon=True).start()
             
         else:
-            self.show_message("Cảnh báo", "Vui lòng chọn một định dạng (MP4 hoặc MP3)!", "warning")
+            self.show_message("Cảnh báo", self.get_text("select_format"), "warning")
             self.is_downloading = False
 
     def show_download_history(self):
         history = get_download_history()
         history_window = ctk.CTkToplevel(self.root)
-        history_window.title("Lịch sử tải - Social Media Downloader")
+        history_window.title(self.get_text("history") + " - Social Media Downloader")
         history_window.geometry("800x500")
         history_window.resizable(True, True)
         history_window.minsize(600, 400)
         history_window.attributes("-topmost", True)
-
-        # Thêm biến để đánh dấu cửa sổ lịch sử
         history_window.is_history_window = True
-        
-        # Biến để kiểm soát topmost
         self.topmost_var = ctk.BooleanVar(value=True)
-
-        # Xử lý sự kiện khi cửa sổ được kích hoạt lại
         def on_history_window_focus(event):
             if self.topmost_var.get():
                 history_window.attributes("-topmost", True)
-        
         history_window.bind("<FocusIn>", on_history_window_focus)
-
         history_window.update_idletasks()
         screen_width = history_window.winfo_screenwidth()
         screen_height = history_window.winfo_screenheight()
         x = (screen_width // 2) - (history_window.winfo_width() // 2)
         y = (screen_height // 2) - (history_window.winfo_height() // 2)
         history_window.geometry(f"800x500+{x}+{y}")
-
         main_frame = ctk.CTkFrame(history_window)
         main_frame.pack(fill="both", expand=True, padx=10, pady=10)
-
-        # Frame cho thanh tìm kiếm và toolbar
         top_frame = ctk.CTkFrame(main_frame)
         top_frame.pack(fill="x", pady=(0, 5))
-
-        # Thanh tìm kiếm
-        search_entry = ctk.CTkEntry(top_frame, placeholder_text="Tìm kiếm (URL, Tên file, Thời gian)...", width=300)
+        search_entry = ctk.CTkEntry(top_frame, placeholder_text=self.get_text("search_placeholder") if "search_placeholder" in self.translations[self.current_language] else "Tìm kiếm (URL, Tên file, Thời gian)...", width=300)
         search_entry.pack(side="left", fill="x", expand=True, padx=(0, 5))
-
-        # Toolbar
         toolbar_frame = ctk.CTkFrame(top_frame)
         toolbar_frame.pack(side="right")
-
-        # Treeview
         columns = tuple(DEFAULT_COLUMNS)
         tree = ttk.Treeview(main_frame, columns=columns, show="headings", height=350)
         tree.pack(fill="both", expand=True, pady=5)
-
         tree.configure(style="Custom.Treeview")
         style = ttk.Style()
         style.theme_use("clam")
         style.configure("Custom.Treeview", background="#2b2b2b", fieldbackground="#2b2b2b", foreground="white")
         style.map("Custom.Treeview", background=[("selected", "#0066cc")], foreground=[("selected", "white")])
-
         for col in columns:
-            tree.heading(col, text=col, command=lambda _col=col: self.treeview_sort_column(tree, _col, False))
-            # Thiết lập kích thước cố định cho từng cột
+            tree.heading(col, text=self.get_text(col), command=lambda _col=col: self.treeview_sort_column(tree, _col, False))
             if col == "STT":
                 tree.column(col, width=30, minwidth=20, anchor="w")
             elif col == "URL":
@@ -619,9 +760,8 @@ class DownloaderApp:
                 tree.column(col, width=80, minwidth=30, anchor="w")
             elif col == "Thư mục lưu":
                 tree.column(col, width=100, minwidth=30, anchor="w")
-
         if not history:
-            empty_values = ["Chưa có lịch sử tải nào."] + [""] * (len(columns) - 1)
+            empty_values = [self.get_text("Chưa có lịch sử tải nào.")] + [""] * (len(columns) - 1)
             tree.insert("", "end", values=empty_values)
         else:
             for i, entry in enumerate(reversed(history[-50:]), 1):
@@ -630,27 +770,21 @@ class DownloaderApp:
                     "URL": entry['url'],
                     "Tên file": os.path.basename(entry['file_path']),
                     "Định dạng": entry['file_type'],
-                    "Kích thước": entry.get('size', 'Không rõ'),
+                    "Kích thước": entry.get('size', self.get_text("Không rõ")),
                     "Thời gian": entry['timestamp'],
-                    "Trạng thái": entry.get('status', 'Thành công'),
-                    "Thư mục lưu": entry.get('folder_path', 'Không rõ')
+                    "Trạng thái": self.get_text(entry.get('status', 'Thành công')),
+                    "Thư mục lưu": entry.get('folder_path', self.get_text("Không rõ"))
                 }
                 ordered_values = [values_dict[col] for col in columns]
                 tree.insert("", "end", values=ordered_values)
-
-        # Thêm các nút vào toolbar sau khi tạo treeview
-        btn_clear = ctk.CTkButton(toolbar_frame, text="Xóa toàn bộ", width=100, command=lambda: self.clear_history(tree, history_window))
+        btn_clear = ctk.CTkButton(toolbar_frame, text=self.get_text("Xóa toàn bộ"), width=100, command=lambda: self.clear_history(tree, history_window))
         btn_clear.pack(side="left", padx=2)
-
-        btn_delete_selected = ctk.CTkButton(toolbar_frame, text="Xóa đã chọn", width=100, command=lambda: self.delete_selected(tree, history_window))
+        btn_delete_selected = ctk.CTkButton(toolbar_frame, text=self.get_text("Xóa đã chọn"), width=100, command=lambda: self.delete_selected(tree, history_window))
         btn_delete_selected.pack(side="left", padx=2)
-
         def on_search(event):
             self.filter_history(tree, history, search_entry.get())
-
         search_entry.bind("<KeyRelease>", on_search)
         tree.bind("<Button-3>", lambda e: self.show_context_menu(e, tree, history))
-
         history_window.grab_set()
         history_window.transient(self.root)
 
@@ -738,31 +872,24 @@ class DownloaderApp:
             tree.insert("", "end", values=ordered_values)
 
     def show_context_menu(self, event, tree, history):
-        """Hiển thị menu chuột phải"""
         item = tree.identify_row(event.y)
         if item:
             tree.selection_clear()
             tree.selection_set(item)
             values = tree.item(item, "values")
-            
-            # Lấy thông tin file từ values theo thứ tự cột mới
             values_dict = dict(zip(DEFAULT_COLUMNS, values))
-            
             file_name = values_dict["Tên file"]
             folder_path = values_dict["Thư mục lưu"]
             url = values_dict["URL"]
-            file_path = os.path.join(folder_path, file_name) if folder_path != "Không rõ" else None
-            
-            # Lấy cửa sổ cha của tree (history_window)
-            history_window = tree.master.master  # frame -> history_window
-
+            file_path = os.path.join(folder_path, file_name) if folder_path != self.get_text("Không rõ") else None
+            history_window = tree.master.master
             context_menu = Menu(self.root, tearoff=0)
-            context_menu.add_command(label="Mở File", command=lambda: self.open_file(file_path, history_window))
-            context_menu.add_command(label="Mở Folder", command=lambda: self.open_folder_with_highlight(file_path, history_window))
+            context_menu.add_command(label=self.get_text("open_file"), command=lambda: self.open_file(file_path, history_window))
+            context_menu.add_command(label=self.get_text("open_folder"), command=lambda: self.open_folder_with_highlight(file_path, history_window))
             context_menu.add_separator()
-            context_menu.add_command(label="Copy URL", command=lambda: self.copy_url_from_history(url))
+            context_menu.add_command(label=self.get_text("Copy URL"), command=lambda: self.copy_url_from_history(url))
             context_menu.add_separator()
-            context_menu.add_command(label="Xóa", command=lambda: self.delete_selected(tree, history_window))
+            context_menu.add_command(label=self.get_text("Xóa"), command=lambda: self.delete_selected(tree, history_window))
             context_menu.tk_popup(event.x_root, event.y_root)
 
     def copy_url_from_history(self, url):
@@ -813,17 +940,17 @@ class DownloaderApp:
         
         if self.is_paused:
             self.pause_play_button.configure(text="▶")  # Chuyển sang nút play
-            self.progress_status.configure(text="Đã tạm dừng")
+            self.progress_status.configure(text=self.get_text("pause"))
         else:
             self.pause_play_button.configure(text="⏸")  # Chuyển sang nút pause
-            self.progress_status.configure(text="Đang tải...")
+            self.progress_status.configure(text=self.get_text("downloading"))
 
     def cancel_download(self):
         """Hủy quá trình tải xuống"""
         if self.show_message("Xác nhận", "Bạn có chắc muốn hủy tải xuống?", "yesno"):
             self.is_cancelled = True
             self.is_downloading = False
-            self.progress_status.configure(text="Đã hủy tải xuống")
+            self.progress_status.configure(text=self.get_text("download_cancelled"))
             self.progress_bar.set(0)
             self.speed_label.configure(text="Tốc độ: --")
             self.time_label.configure(text="Thời gian: --")
@@ -854,9 +981,10 @@ class DownloaderApp:
             self.show_message("Lỗi", "Không thể dán từ clipboard!", "error")
 
     def show_message(self, title, message, type="info", parent=None):
-        """Hiển thị thông báo luôn ở trên cùng"""
         if parent is None:
             parent = self.root
+        title = self.get_text(title) if title in self.translations[self.current_language] else title
+        message = self.get_text(message) if message in self.translations[self.current_language] else message
         if type == "info":
             messagebox.showinfo(title, message, parent=parent)
         elif type == "error":
@@ -865,10 +993,11 @@ class DownloaderApp:
             messagebox.showwarning(title, message, parent=parent)
         elif type == "yesno":
             return messagebox.askyesno(title, message, parent=parent)
-        parent.lift()  # Đảm bảo cửa sổ cha luôn ở trên cùng
+        parent.lift()
 
     def show_history_message(self, title, message, type="info", parent=None):
-        """Hiển thị thông báo trong cửa sổ lịch sử"""
+        title = self.get_text(title) if title in self.translations[self.current_language] else title
+        message = self.get_text(message) if message in self.translations[self.current_language] else message
         if type == "info":
             messagebox.showinfo(title, message, parent=parent)
         elif type == "error":
@@ -878,7 +1007,67 @@ class DownloaderApp:
         elif type == "yesno":
             return messagebox.askyesno(title, message, parent=parent)
         if parent:
-            parent.lift()  # Đảm bảo cửa sổ lịch sử luôn ở trên cùng
+            parent.lift()
+
+    def change_language(self, value):
+        self.current_language = value
+        self.save_settings()
+        self.create_menubar()
+        for widget in self.root.winfo_children():
+            widget.destroy()
+        self.create_menubar()
+        self.create_widgets()
+
+    def change_theme(self, value):
+        self.current_theme = value
+        self.save_settings()
+        self.apply_theme(value)
+
+    def apply_theme(self, value):
+        if value == "Tối" or value == "Dark":
+            ctk.set_appearance_mode("dark")
+        elif value == "Sáng" or value == "Light":
+            ctk.set_appearance_mode("light")
+        else:
+            ctk.set_appearance_mode("system")
+
+    def load_settings(self):
+        if os.path.exists(self.config_path):
+            try:
+                with open(self.config_path, "r", encoding="utf-8") as f:
+                    config = json.load(f)
+                if "language" in config:
+                    self.current_language = config["language"]
+                if "theme" in config:
+                    self.current_theme = config["theme"]
+                    self.apply_theme(self.current_theme)
+                if "notify_download_complete" in config:
+                    self.notify_download_complete = config["notify_download_complete"]
+            except Exception as e:
+                print(f"Không thể đọc config: {e}")
+
+    def save_settings(self):
+        config = {}
+        if os.path.exists(self.config_path):
+            try:
+                with open(self.config_path, "r", encoding="utf-8") as f:
+                    config = json.load(f)
+            except:
+                pass
+        config["language"] = self.current_language
+        config["theme"] = self.current_theme
+        config["notify_download_complete"] = self.notify_download_complete
+        with open(self.config_path, "w", encoding="utf-8") as f:
+            json.dump(config, f, ensure_ascii=False, indent=4)
+
+    def get_text(self, key):
+        return self.translations[self.current_language].get(key, key)
+
+    def set_notify_download_complete(self, value):
+        self.notify_download_complete = value
+        self.notify_var.set(1 if value else 0)
+        self.save_settings()
+        self.create_menubar()  # Cập nhật lại menubar khi đổi từ popup
 
 def run_app():
     ctk.set_appearance_mode("dark")  # Mặc định dark mode

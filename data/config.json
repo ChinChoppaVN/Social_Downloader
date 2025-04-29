@@ -3,5 +3,8 @@
     "settings": {
         "theme": "dark",
         "language": "vi"
-    }
+    },
+    "language": "Tiếng Việt",
+    "theme": "Dark",
+    "notify_download_complete": true
 }

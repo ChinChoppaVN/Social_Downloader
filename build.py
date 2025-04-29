@@ -69,7 +69,7 @@ def main():
         
         # Đường dẫn tới các file cần thiết
         icon_path = os.path.join(current_dir, "assets", "CH.ico")
-        main_script = os.path.join(current_dir, "src", "Main.py")
+        main_script = os.path.join(current_dir, "src", "main.py")
         
         # Các file và thư mục cần được đóng gói cùng
         additional_files = [
