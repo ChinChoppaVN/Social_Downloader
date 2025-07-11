@@ -1,94 +1,84 @@
-# Social Media Downloader
+# Social Media Downloader v2.0
 
 ![Logo](assets/CH.ico)
 
 ## Giới thiệu
 
-Social Media Downloader là ứng dụng miễn phí giúp bạn tải xuống video và âm thanh từ các nền tảng mạng xã hội phổ biến như YouTube, Facebook, TikTok và nhiều trang web khác. Với giao diện đơn giản, dễ sử dụng, ứng dụng là lựa chọn hoàn hảo cho người dùng muốn lưu trữ nội dung yêu thích để xem offline.
+**Social Media Downloader** là ứng dụng miễn phí giúp bạn tải video và âm thanh từ các nền tảng phổ biến như **YouTube, TikTok, Vimeo, SoundCloud**... với giao diện hiện đại, dễ dùng, tối ưu cho người dùng cuối. Ứng dụng phù hợp để lưu trữ nội dung yêu thích, học tập, giải trí offline.
 
-## Tính năng chính
+## Tính năng nổi bật
 
-- **Tải video/âm thanh từ nhiều nguồn**:
+- **Giao diện dạng tab hiện đại**:
+  - Tab 1: Tải video/âm thanh từng link
+  - Tab 2: Tải playlist (danh sách phát) hàng loạt
+- **Hỗ trợ nhiều nền tảng**:
   - YouTube
   - TikTok
-  - Facebook
-  - Instagram
-  - SoundCloud
   - Vimeo
-  - Và nhiều trang web khác...
-
-- **Hỗ trợ nhiều định dạng**:
-  - MP4 (video chất lượng cao)
-  - MP3 (âm thanh chất lượng cao)
-
-- **Dễ dàng sử dụng**:
-  - Chỉ cần dán liên kết
-  - Tùy chọn đặt tên file theo ý muốn
-  - Nhấn "Tải ngay"
-  - Lưu lịch sử tải xuống
-
-- **Tự động cập nhật công cụ tải**:
-  - Luôn hoạt động ngay cả khi các trang web thay đổi
+  - SoundCloud
+- **Tải video hoặc audio chất lượng cao** (MP4, MP3)
+- **Tải toàn bộ playlist YouTube** chỉ với 1 click, tự động đặt tên file hợp lý, hiển thị tiến trình từng video
+- **Lưu lịch sử tải chi tiết**: Xem lại, tìm kiếm, mở file/thư mục, xóa từng mục hoặc toàn bộ
+- **Popup hoàn thành tải xuống thông minh**:
+  - 3 lựa chọn: Mở file, Mở thư mục, Đóng
+  - Tùy chọn "Không hỏi lại" để tự động thực hiện hành động yêu thích lần sau
+- **Cảnh báo thân thiện, rõ ràng** khi gặp lỗi bản quyền, DRM, hoặc link không hợp lệ
+- **Tùy chỉnh giao diện (Tối/Sáng/Hệ thống), ngôn ngữ (Tiếng Việt/English), thông báo**
+- **Tự động nhận diện link playlist/video, nhắc nhở chuyển tab phù hợp**
 
 ## Yêu cầu hệ thống
 
-- Windows 7/8/10/11 (phiên bản 64-bit)
-- 100MB dung lượng ổ đĩa trống
+- Windows 7/8/10/11 (64-bit)
+- ~100MB dung lượng ổ đĩa trống
 - Kết nối Internet
 
 ## Cài đặt
 
-1. Tải xuống file cài đặt
-2. Chạy file cài đặt "SocialMediaDownloader_Setup.exe"
+1. Tải file cài đặt từ trang phát hành
+2. Chạy file "SocialMediaDownloader_Setup.exe"
 3. Làm theo hướng dẫn trên màn hình
-4. Ứng dụng sẽ tự động tạo biểu tượng trên Desktop và Start Menu
+4. Ứng dụng sẽ tự tạo biểu tượng trên Desktop và Start Menu
 
-## Hướng dẫn sử dụng
+## Hướng dẫn sử dụng nhanh
 
-### Tải xuống video:
+### Tải video hoặc audio từng link
+1. Chọn **tab "Tải video/audio"**
+2. Dán link video vào ô "Link video"
+3. Chọn định dạng (MP4 hoặc MP3)
+4. Chọn thư mục lưu, đặt tên file (tùy chọn)
+5. Nhấn **"Tải ngay"** và chờ hoàn tất
+6. Khi popup hiện ra, chọn mở file, mở thư mục hoặc đóng
 
-1. Sao chép liên kết video từ trình duyệt (YouTube, Facebook, TikTok...)
-2. Khởi động ứng dụng "Social Media Downloader"
-3. Dán liên kết vào ô "Link video"
-4. Chọn định dạng mong muốn (MP4 hoặc MP3)
-5. Chọn thư mục lưu trong ô "Thư mục" 
-6. Đặt tên file (tùy chọn) hoặc để trống để sử dụng tên mặc định
-7. Nhấn nút "Tải ngay"
-8. Đợi quá trình tải hoàn tất
+### Tải playlist (danh sách phát)
+1. Chọn **tab "Tải playlist"**
+2. Dán link playlist YouTube vào ô "Link playlist"
+3. Chọn định dạng (MP4 hoặc MP3)
+4. Chọn thư mục lưu
+5. Nhấn **"Tải ngay"**
+6. Xác nhận số lượng video, theo dõi tiến trình từng file
+7. Khi hoàn thành, popup sẽ cho phép mở file cuối cùng tải thành công hoặc mở thư mục
 
-### Quản lý lịch sử tải:
+### Quản lý lịch sử tải
+- Nhấn **"Lịch sử tải"** trên menubar
+- Xem, tìm kiếm, mở file/thư mục, xóa mục đã chọn hoặc toàn bộ
 
-1. Nhấn nút "Lịch sử tải" trong giao diện chính
-2. Xem danh sách các video/âm thanh đã tải xuống
-3. Mở file hoặc thư mục bằng cách nhấp chuột phải vào mục trong danh sách
-4. Tìm kiếm trong lịch sử bằng thanh tìm kiếm ở trên cùng
+## Lưu ý & Giải đáp nhanh
 
-## Các vấn đề thường gặp
-
-### Không tải được video:
-
-- Đảm bảo liên kết hợp lệ và video không bị giới hạn (ví dụ: video riêng tư)
-- Cho phép ứng dụng cập nhật công cụ tải khi được hỏi
-- Kiểm tra kết nối Internet
-
-### Lỗi khi tải xuống:
-
-- Đảm bảo bạn có đủ dung lượng trống trên ổ đĩa
-- Thử chọn thư mục lưu khác nếu gặp lỗi quyền truy cập
-- Khởi động lại ứng dụng và thử lại
-
-### Video không có âm thanh:
-
-- Đảm bảo bạn đã chọn đúng định dạng (MP4)
-- Một số video có thể không có âm thanh từ nguồn gốc
+- **Không tải được video?**
+  - Kiểm tra link hợp lệ, video không bị giới hạn bản quyền/riêng tư
+  - Một số video có DRM hoặc bị chặn, app sẽ cảnh báo rõ ràng
+- **Không tải được playlist?**
+  - Đảm bảo link đúng định dạng playlist YouTube
+  - Nếu dán nhầm link playlist vào tab video/audio, app sẽ nhắc bạn chuyển tab
+- **Lỗi "Không thể tải video này. Hãy thử lại sau!"**
+  - Do chính sách YouTube/DRM, không phải lỗi app
+- **Lỗi quyền truy cập/thư mục**
+  - Thử chọn thư mục khác hoặc chạy app với quyền admin
 
 ## Liên hệ & Hỗ trợ
-
 - Email: quyetthang.media@gmail.com
 
-
-**Lưu ý**: Ứng dụng này chỉ dành cho mục đích cá nhân. Vui lòng tuân thủ các điều khoản dịch vụ của các nền tảng và tôn trọng bản quyền khi tải xuống nội dung.
+**Lưu ý:** Ứng dụng chỉ dành cho mục đích cá nhân. Vui lòng tuân thủ điều khoản dịch vụ của các nền tảng và tôn trọng bản quyền nội dung.
 
 ## Tác giả
-
 - **Thắng MupMip** - [GitHub](https://github.com/ChinChoppaVN) 

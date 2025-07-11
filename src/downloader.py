@@ -30,7 +30,7 @@ def download_video(url, output_path, progress_callback=None):
         ydl_opts = {
             'quiet': True,
             'no_warnings': True,
-            'extract_flat': False,
+            'extract_flat': False,  # Đặt False để tải toàn bộ playlist
             'ignoreerrors': True,  # Bỏ qua lỗi và tiếp tục
             'nocheckcertificate': True,
             'prefer_insecure': True,
@@ -58,16 +58,22 @@ def download_video(url, output_path, progress_callback=None):
         
         # Tải video
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            # Lấy thông tin video
+            # Lấy thông tin video/playlist
             info = ydl.extract_info(url, download=False)
             
-            # Nếu không tìm thấy định dạng phù hợp, thử tải định dạng mặc định
-            if not info.get('formats'):
-                ydl_opts['format'] = 'best'
-                with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                    ydl.download([url])
-            else:
+            # Nếu là playlist, tải toàn bộ playlist
+            if 'entries' in info:
                 ydl.download([url])
+                return True
+            # Nếu là video đơn lẻ
+            else:
+                # Nếu không tìm thấy định dạng phù hợp, thử tải định dạng mặc định
+                if not info.get('formats'):
+                    ydl_opts['format'] = 'best'
+                    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                        ydl.download([url])
+                else:
+                    ydl.download([url])
                 
         # Kiểm tra file tải xuống
         if os.path.exists(output_path) and os.path.getsize(output_path) > 0:

@@ -5,6 +5,6 @@
         "language": "vi"
     },
     "language": "Tiếng Việt",
-    "theme": "Dark",
-    "notify_download_complete": true
+    "theme": "System",
+    "notify_download_complete": false
 }

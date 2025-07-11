@@ -131,51 +131,38 @@ def check_yt_dlp_version():
     try:
         logging.info("Đang kiểm tra phiên bản yt-dlp...")
         import yt_dlp
-        
-        # Kiểm tra phiên bản yt-dlp hiện tại
         current_version = yt_dlp.version.__version__
         logging.info(f"Phiên bản yt-dlp hiện tại: '{current_version}'")
-        
-        # Trong Sandbox, có thể không có kết nối internet hoặc quyền
-        # Bỏ qua việc kiểm tra phiên bản online nếu đang chạy trong môi trường hạn chế
         if getattr(sys, 'frozen', False):
             try:
-                # Thử kiểm tra kết nối internet với timeout ngắn
                 import urllib.request
                 import json
                 from packaging.version import parse as parse_version
                 from tkinter import messagebox
-                
-                # Thiết lập timeout ngắn để không làm chậm khởi động
+                import customtkinter as ctk
+                import threading
+                from src.utils import download_yt_dlp
+                # Lấy version mới nhất từ PyPI
                 request = urllib.request.Request("https://pypi.org/pypi/yt-dlp/json")
                 response = urllib.request.urlopen(request, timeout=2)
                 data = json.loads(response.read())
                 latest_version = data["info"]["version"]
-                
                 logging.info(f"Phiên bản yt-dlp mới nhất: '{latest_version}'")
-                
-                # So sánh phiên bản
                 current_v = parse_version(current_version)
                 latest_v = parse_version(latest_version)
-                
                 if current_v < latest_v:
                     result = messagebox.askyesno(
                         "Cập nhật yt-dlp",
                         f"Có phiên bản yt-dlp mới ({latest_version}). Phiên bản hiện tại là {current_version}.\n\nBạn có muốn cập nhật không?"
                     )
                     if result:
-                        try:
-                            application_path = os.path.dirname(sys.executable)
-                            subprocess.run([sys.executable, "-m", "pip", "install", "--upgrade", "yt-dlp"], 
-                                          check=True, cwd=application_path)
-                            messagebox.showinfo("Thành công", "Đã cập nhật yt-dlp. Vui lòng khởi động lại ứng dụng.")
-                        except Exception as update_err:
-                            logging.error(f"Lỗi khi cập nhật yt-dlp: {update_err}")
-                            messagebox.showerror("Lỗi", f"Không thể cập nhật yt-dlp: {update_err}")
+                        messagebox.showinfo(
+                            "Yêu cầu quyền quản trị viên",
+                            "Để cập nhật yt-dlp, vui lòng khởi động lại ứng dụng bằng quyền Administrator (chuột phải vào biểu tượng ứng dụng, chọn 'Run as administrator').\n\nSau đó chọn cập nhật lại."
+                        )
+                        return False
             except Exception as e:
-                # Lỗi khi kiểm tra phiên bản online - bỏ qua và tiếp tục
                 logging.warning(f"Không thể kiểm tra phiên bản yt-dlp online: {e}")
-        
         return True
     except Exception as e:
         logging.error(f"Lỗi kiểm tra phiên bản yt-dlp: {e}")

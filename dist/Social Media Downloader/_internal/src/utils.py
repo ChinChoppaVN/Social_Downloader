@@ -186,3 +186,23 @@ def export_download_history(export_path):
     except Exception as e:
         logging.error(f"Lỗi khi xuất lịch sử: {e}")
         return False
+
+def download_yt_dlp(dest_path, progress_callback=None):
+    """Tải yt-dlp.exe mới nhất từ GitHub về dest_path. Gọi progress_callback(downloaded, total) nếu có."""
+    import requests
+    url = "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe"
+    try:
+        with requests.get(url, stream=True, timeout=60) as r:
+            r.raise_for_status()
+            total = int(r.headers.get('content-length', 0))
+            downloaded = 0
+            with open(dest_path, 'wb') as f:
+                for chunk in r.iter_content(chunk_size=8192):
+                    if chunk:
+                        f.write(chunk)
+                        downloaded += len(chunk)
+                        if progress_callback:
+                            progress_callback(downloaded, total)
+        return True, None
+    except Exception as e:
+        return False, str(e)
