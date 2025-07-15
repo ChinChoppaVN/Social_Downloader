@@ -127,6 +127,16 @@ def check_requirements():
         messagebox.showerror("Lỗi", f"Lỗi không xác định: {e}")
         return False
 
+def is_admin():
+    if os.name == 'nt':
+        import ctypes
+        try:
+            return ctypes.windll.shell32.IsUserAnAdmin()
+        except:
+            return False
+    else:
+        return os.geteuid() == 0
+
 def check_yt_dlp_version():
     try:
         logging.info("Đang kiểm tra phiên bản yt-dlp...")
@@ -156,17 +166,46 @@ def check_yt_dlp_version():
                         f"Có phiên bản yt-dlp mới ({latest_version}). Phiên bản hiện tại là {current_version}.\n\nBạn có muốn cập nhật không?"
                     )
                     if result:
-                        messagebox.showinfo(
-                            "Yêu cầu quyền quản trị viên",
-                            "Để cập nhật yt-dlp, vui lòng khởi động lại ứng dụng bằng quyền Administrator (chuột phải vào biểu tượng ứng dụng, chọn 'Run as administrator').\n\nSau đó chọn cập nhật lại."
-                        )
-                        return False
+                        if not is_admin():
+                            messagebox.showinfo(
+                                "Yêu cầu quyền quản trị viên",
+                                "Để cập nhật yt-dlp, vui lòng khởi động lại ứng dụng bằng quyền Administrator (chuột phải vào biểu tượng ứng dụng, chọn 'Run as administrator').\n\nSau đó chọn cập nhật lại."
+                            )
+                            return False
+                        # Nếu đã là admin thì tiến hành tải yt-dlp như cũ
+                        def do_update():
+                            assets_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "assets")
+                            dest_path = os.path.join(assets_dir, "yt-dlp.exe")
+                            progress_popup = ctk.CTkToplevel()
+                            progress_popup.title("Đang cập nhật yt-dlp...")
+                            progress_popup.geometry("400x120")
+                            label = ctk.CTkLabel(progress_popup, text="Đang tải yt-dlp mới nhất...")
+                            label.pack(pady=10)
+                            progress = ctk.CTkProgressBar(progress_popup, width=300)
+                            progress.pack(pady=10)
+                            progress.set(0)
+                            def progress_callback(downloaded, total):
+                                percent = downloaded / total if total else 0
+                                progress.set(percent)
+                                label.configure(text=f"Đang tải yt-dlp: {percent*100:.1f}%")
+                                progress_popup.update_idletasks()
+                            def run_download():
+                                ok, err = download_yt_dlp(dest_path, progress_callback)
+                                progress_popup.destroy()
+                                if ok:
+                                    messagebox.showinfo("Thành công", "Đã cập nhật yt-dlp thành công!")
+                                else:
+                                    messagebox.showerror("Lỗi", f"Không thể cập nhật yt-dlp: {err}")
+                            threading.Thread(target=run_download, daemon=True).start()
+                        do_update()
+                        return True
             except Exception as e:
-                logging.warning(f"Không thể kiểm tra phiên bản yt-dlp online: {e}")
+                logging.error(f"Lỗi khi kiểm tra/cập nhật yt-dlp: {e}")
+                return False
         return True
     except Exception as e:
-        logging.error(f"Lỗi kiểm tra phiên bản yt-dlp: {e}")
-        return True  # Vẫn trả về True để ứng dụng tiếp tục chạy
+        logging.error(f"Lỗi khi kiểm tra phiên bản yt-dlp: {e}")
+        return False
 
 def main():
     """Hàm chính để chạy ứng dụng"""

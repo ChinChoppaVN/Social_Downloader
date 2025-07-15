@@ -245,7 +245,7 @@ class DownloaderApp:
         # Thêm biến lưu hành động hoàn thành gần nhất và trạng thái không hỏi lại (chỉ trong RAM)
         self.last_complete_action = None  # 'open_file', 'open_folder', 'close'
         self.skip_complete_popup = False  # True nếu đã tick 'Không hỏi lại' trong phiên hiện tại
-
+        
         self.create_widgets()
 
     def center_window(self):
@@ -775,7 +775,7 @@ class DownloaderApp:
         self.download_start_time = None
         self.pause_play_button.configure(state="normal")
         self.cancel_button.configure(state="normal")
-        
+
         # Bắt đầu thread tải xuống ngay
         self.is_downloading = True
         self.download_button.configure(state="disabled")
@@ -824,7 +824,7 @@ class DownloaderApp:
             except Exception as e:
                 self.root.after(0, lambda: self.show_message("Lỗi", f"Không thể chuẩn bị tải xuống: {str(e)}", "error"))
                 self.root.after(0, lambda: self.reset_ui_state())
-        
+            
         # Chạy thread chuẩn bị
         threading.Thread(target=prepare_download, daemon=True).start()
 
@@ -1199,14 +1199,14 @@ class DownloaderApp:
             return
         popup = ctk.CTkToplevel(parent_window)
         popup.title(self.get_text("success"))
-        popup.geometry("400x150")
+        popup.geometry("400x110")  # Giảm chiều cao popup
         popup.resizable(False, False)
         popup.attributes("-topmost", True)
         main_frame = ctk.CTkFrame(popup)
         main_frame.pack(fill="both", expand=True, padx=10, pady=5)
         message_label = ctk.CTkLabel(
             main_frame,
-            text=f"{self.get_text('success')} {os.path.basename(file_path)}",
+            text=os.path.basename(file_path),  # Chỉ hiện tên file
             font=APP_CONFIG["font_normal"]
         )
         message_label.pack(pady=5)

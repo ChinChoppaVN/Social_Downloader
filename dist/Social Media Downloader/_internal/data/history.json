@@ -115,5 +115,32 @@
         "timestamp": "2025-07-10 23:24:08",
         "status": "Thành công",
         "folder_path": "D:\\Code app\\Test"
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=xLPGtQoRUbk",
+        "file_type": "mp4",
+        "file_path": "D:/Code app/Test\\01 - Kodaline_The_One_(Official_Music_Video).mp4",
+        "size": "48.45 MB",
+        "timestamp": "2025-07-12 22:47:40",
+        "status": "Thành công",
+        "folder_path": "D:\\Code app\\Test"
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=5qx4wmsPOAI",
+        "file_type": "mp4",
+        "file_path": "D:/Code app/Test\\02 - 【Bendy_And_The_Ink_Machine_Chapter_3_Song】_All_Eyes_On_Me_by_OR3O.mp4",
+        "size": "128.81 MB",
+        "timestamp": "2025-07-12 22:47:48",
+        "status": "Thành công",
+        "folder_path": "D:\\Code app\\Test"
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=UXAdlaUhrlE&ab_channel=1MILLIONDanceStudio",
+        "file_type": "mp4",
+        "file_path": "D:/Code app/Test\\Shawn_Mendes,_Camila_Cabello_Señorita_May_J_Lee_X_Austin_Pak_Choreography.mp4",
+        "size": "96.73 MB",
+        "timestamp": "2025-07-14 23:11:47",
+        "status": "Thành công",
+        "folder_path": "D:\\Code app\\Test"
     }
 ]

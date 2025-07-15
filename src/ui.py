@@ -1199,14 +1199,14 @@ class DownloaderApp:
             return
         popup = ctk.CTkToplevel(parent_window)
         popup.title(self.get_text("success"))
-        popup.geometry("400x150")
+        popup.geometry("400x110")  # Giảm chiều cao popup
         popup.resizable(False, False)
         popup.attributes("-topmost", True)
         main_frame = ctk.CTkFrame(popup)
         main_frame.pack(fill="both", expand=True, padx=10, pady=5)
         message_label = ctk.CTkLabel(
             main_frame,
-            text=f"{self.get_text('success')} {os.path.basename(file_path)}",
+            text=os.path.basename(file_path),  # Chỉ hiện tên file
             font=APP_CONFIG["font_normal"]
         )
         message_label.pack(pady=5)
