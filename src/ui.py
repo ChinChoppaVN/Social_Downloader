@@ -298,7 +298,20 @@ class DownloaderApp:
         self.create_footer()
 
     def create_main_tab(self, parent):
-        # Toàn bộ code trong create_main_frame chuyển vào đây, thay self.main_frame -> parent
+        """Create the main download tab with form inputs and progress display"""
+        self._create_url_input_section(parent)
+        self._create_filename_input_section(parent) 
+        self._create_folder_selection_section(parent)
+        self._create_format_selection_section(parent)
+        self._create_download_button_section(parent)
+        self._create_progress_section(parent)
+        
+        parent.columnconfigure(1, weight=1)
+        self.mp4_selected.trace("w", self.update_button_colors)
+        self.mp3_selected.trace("w", self.update_button_colors)
+    
+    def _create_url_input_section(self, parent):
+        """Create URL input field with paste button"""
         ctk.CTkLabel(parent, text=self.get_text("link_label"), font=APP_CONFIG["font_normal"]).grid(row=0, column=0, sticky="w", pady=5, padx=15)
         self.url_entry = ctk.CTkEntry(parent, width=320, placeholder_text=self.get_text("input_url"))
         self.url_entry.grid(row=0, column=1, pady=5, sticky="w")
@@ -310,9 +323,15 @@ class DownloaderApp:
             font=APP_CONFIG["font_normal"]
         )
         paste_button.grid(row=0, column=2, pady=5, padx=15, sticky="w")
+    
+    def _create_filename_input_section(self, parent):
+        """Create filename input field"""
         ctk.CTkLabel(parent, text=self.get_text("filename_label"), font=APP_CONFIG["font_normal"]).grid(row=1, column=0, sticky="w", pady=5, padx=15)
         self.filename_entry = ctk.CTkEntry(parent, width=320, placeholder_text=self.get_text("filename_placeholder"))
         self.filename_entry.grid(row=1, column=1, columnspan=2, sticky="w", pady=5)
+    
+    def _create_folder_selection_section(self, parent):
+        """Create folder selection field with browse button"""
         ctk.CTkLabel(parent, text=self.get_text("folder_label"), font=APP_CONFIG["font_normal"]).grid(row=2, column=0, sticky="w", pady=5, padx=15)
         last_folder = load_last_folder()
         self.folder_var = ctk.StringVar(value=last_folder)
@@ -320,20 +339,49 @@ class DownloaderApp:
         self.folder_entry.grid(row=2, column=1, pady=5, sticky="w")
         folder_button = ctk.CTkButton(parent, text=self.get_text("choose"), command=self.select_folder, width=90)
         folder_button.grid(row=2, column=2, pady=5, padx=15, sticky="w")
+        
+        # File status label for showing existence warnings
         self.file_status_label = ctk.CTkLabel(parent, text="", text_color="red", font=APP_CONFIG["font_small"])
         self.file_status_label.grid(row=3, column=1, columnspan=2, sticky="w", pady=(0,5))
+    
+    def _create_format_selection_section(self, parent):
+        """Create format selection buttons (MP4/MP3)"""
         ctk.CTkLabel(parent, text=self.get_text("format_label"), font=APP_CONFIG["font_normal"]).grid(row=3, column=0, sticky="w", pady=5, padx=15)
-        mp4_button = ctk.CTkButton(parent, text=self.get_text("mp4"), command=lambda: self.toggle_format("mp4"), width=80, fg_color=("green", "#1D6F42") if self.mp4_selected.get() else "gray", state="normal")
-        mp4_button.grid(row=3, column=1, pady=5, padx=0, sticky="w")
-        mp3_button = ctk.CTkButton(parent, text=self.get_text("mp3"), command=lambda: self.toggle_format("mp3"), width=80, fg_color=("green", "#1D6F42") if self.mp3_selected.get() else "gray", state="normal")
-        mp3_button.grid(row=3, column=1, pady=5, padx=85, sticky="w")
-        # Nút tải xuống đặt lên trên tiến trình
+        
+        mp4_button = self._create_format_button(parent, "mp4", self.mp4_selected, 0)
+        mp3_button = self._create_format_button(parent, "mp3", self.mp3_selected, 85)
+    
+    def _create_format_button(self, parent, format_type, selected_var, padx_offset):
+        """Helper method to create format selection buttons"""
+        button = ctk.CTkButton(
+            parent, 
+            text=self.get_text(format_type), 
+            command=lambda: self.toggle_format(format_type), 
+            width=80, 
+            fg_color=("green", "#1D6F42") if selected_var.get() else "gray", 
+            state="normal"
+        )
+        button.grid(row=3, column=1, pady=5, padx=padx_offset, sticky="w")
+        return button
+    
+    def _create_download_button_section(self, parent):
+        """Create download button section"""
         button_frame = ctk.CTkFrame(parent, fg_color="transparent")
         button_frame.grid(row=4, column=0, columnspan=3, pady=(10, 0))
-        self.download_button = ctk.CTkButton(button_frame, text=self.get_text("download_now"), command=self.start_download, font=APP_CONFIG["button_font"])
+        self.download_button = ctk.CTkButton(
+            button_frame, 
+            text=self.get_text("download_now"), 
+            command=self.start_download, 
+            font=APP_CONFIG["button_font"]
+        )
         self.download_button.grid(row=0, column=0, padx=5, pady=0, sticky="w")
+    
+    def _create_progress_section(self, parent):
+        """Create progress bar and info display section"""
         progress_frame = ctk.CTkFrame(parent)
         progress_frame.grid(row=5, column=0, columnspan=3, sticky="ew", padx=15, pady=5)
+        
+        # Progress status label
         self.progress_status = ctk.CTkLabel(
             progress_frame, 
             text=self.get_text("ready"), 
@@ -341,8 +389,19 @@ class DownloaderApp:
             anchor="w"
         )
         self.progress_status.pack(fill="x", padx=5, pady=(5,0))
-        progress_control_frame = ctk.CTkFrame(progress_frame, fg_color="transparent")
+        
+        # Progress bar with control buttons
+        self._create_progress_bar_with_controls(progress_frame)
+        
+        # Info labels (speed, size, time)
+        self._create_progress_info_labels(progress_frame)
+    
+    def _create_progress_bar_with_controls(self, parent):
+        """Create progress bar with pause/cancel controls"""
+        progress_control_frame = ctk.CTkFrame(parent, fg_color="transparent")
         progress_control_frame.pack(fill="x", padx=5, pady=5)
+        
+        # Progress bar
         self.progress_bar = ctk.CTkProgressBar(
             progress_control_frame,
             width=350,
@@ -354,8 +413,11 @@ class DownloaderApp:
         )
         self.progress_bar.pack(side="left", fill="x", expand=True, padx=(0,10))
         self.progress_bar.set(0)
+        
+        # Control buttons
         control_buttons_frame = ctk.CTkFrame(progress_control_frame, fg_color="transparent")
         control_buttons_frame.pack(side="right")
+        
         self.pause_play_button = ctk.CTkButton(
             control_buttons_frame,
             text="⏸",
@@ -366,6 +428,7 @@ class DownloaderApp:
         )
         self.pause_play_button.pack(side="left", padx=2)
         self.pause_play_button.configure(state="disabled")
+        
         self.cancel_button = ctk.CTkButton(
             control_buttons_frame,
             text="✕",
@@ -376,11 +439,15 @@ class DownloaderApp:
         )
         self.cancel_button.pack(side="left", padx=2)
         self.cancel_button.configure(state="disabled")
-        info_frame = ctk.CTkFrame(progress_frame, fg_color="transparent")
+    
+    def _create_progress_info_labels(self, parent):
+        """Create info labels for download progress (speed, size, time)"""
+        info_frame = ctk.CTkFrame(parent, fg_color="transparent")
         info_frame.pack(fill="x", padx=5, pady=(0,5))
         info_frame.grid_columnconfigure(0, weight=1)
         info_frame.grid_columnconfigure(1, weight=1)
         info_frame.grid_columnconfigure(2, weight=1)
+        
         self.speed_label = ctk.CTkLabel(
             info_frame, 
             text=self.get_text("speed"), 
@@ -389,6 +456,7 @@ class DownloaderApp:
             anchor="w"
         )
         self.speed_label.grid(row=0, column=0, padx=5)
+        
         self.size_label = ctk.CTkLabel(
             info_frame, 
             text=self.get_text("size"), 
@@ -397,6 +465,7 @@ class DownloaderApp:
             anchor="w"
         )
         self.size_label.grid(row=0, column=1, padx=5)
+        
         self.time_label = ctk.CTkLabel(
             info_frame,
             text=self.get_text("time"),
@@ -405,53 +474,123 @@ class DownloaderApp:
             anchor="w"
         )
         self.time_label.grid(row=0, column=2, padx=5)
-        parent.columnconfigure(1, weight=1)
-        self.mp4_selected.trace("w", self.update_button_colors)
-        self.mp3_selected.trace("w", self.update_button_colors)
 
     def create_playlist_tab(self, parent):
-        # Khung giao diện cơ bản cho tab tải playlist (placeholder, sẽ bổ sung sau)
+        """Create the playlist download tab with specialized UI components"""
+        self._create_playlist_url_input_section(parent)
+        self._create_playlist_folder_selection_section(parent)
+        self._create_playlist_format_selection_section(parent)
+        self._create_playlist_download_button_section(parent)
+        self._create_playlist_progress_section(parent)
+    
+    def _create_playlist_url_input_section(self, parent):
+        """Create playlist URL input with paste functionality"""
         ctk.CTkLabel(parent, text=self.get_text("Link playlist:"), font=APP_CONFIG["font_normal"]).grid(row=0, column=0, sticky="w", pady=5, padx=15)
         self.playlist_url_entry = ctk.CTkEntry(parent, width=320, placeholder_text=self.get_text("Link playlist:"))
         self.playlist_url_entry.grid(row=0, column=1, pady=5, sticky="w")
-        def paste_playlist_url():
-            try:
-                url = self.root.clipboard_get()
-                self.playlist_url_entry.delete(0, ctk.END)
-                self.playlist_url_entry.insert(0, url)
-            except Exception as e:
-                logging.error(f"Không thể dán từ clipboard: {e}")
-                self.show_message("Lỗi", "Không thể dán từ clipboard!", "error")
-        ctk.CTkButton(parent, text=self.get_text("paste"), width=90, command=paste_playlist_url, font=APP_CONFIG["font_normal"]).grid(row=0, column=2, pady=5, padx=15, sticky="w")
+        
+        paste_button = ctk.CTkButton(
+            parent, 
+            text=self.get_text("paste"), 
+            width=90, 
+            command=self._paste_playlist_url, 
+            font=APP_CONFIG["font_normal"]
+        )
+        paste_button.grid(row=0, column=2, pady=5, padx=15, sticky="w")
+    
+    def _paste_playlist_url(self):
+        """Paste URL from clipboard to playlist entry"""
+        try:
+            url = self.root.clipboard_get()
+            self.playlist_url_entry.delete(0, ctk.END)
+            self.playlist_url_entry.insert(0, url)
+        except Exception as e:
+            logging.error(f"Cannot paste from clipboard: {e}")
+            self.show_message("error", "Cannot paste from clipboard!", "error")
+    
+    def _create_playlist_folder_selection_section(self, parent):
+        """Create folder selection for playlist downloads"""
         ctk.CTkLabel(parent, text=self.get_text("folder_label"), font=APP_CONFIG["font_normal"]).grid(row=1, column=0, sticky="w", pady=5, padx=15)
         self.playlist_folder_var = ctk.StringVar(value=load_last_folder())
         self.playlist_folder_entry = ctk.CTkEntry(parent, textvariable=self.playlist_folder_var, width=320)
         self.playlist_folder_entry.grid(row=1, column=1, pady=5, sticky="w")
-        ctk.CTkButton(parent, text=self.get_text("choose"), command=self.select_folder, width=90).grid(row=1, column=2, pady=5, padx=15, sticky="w")
+        
+        folder_button = ctk.CTkButton(parent, text=self.get_text("choose"), command=self.select_folder, width=90)
+        folder_button.grid(row=1, column=2, pady=5, padx=15, sticky="w")
+    
+    def _create_playlist_format_selection_section(self, parent):
+        """Create format selection for playlist downloads"""
         ctk.CTkLabel(parent, text=self.get_text("format_label"), font=APP_CONFIG["font_normal"]).grid(row=2, column=0, sticky="w", pady=5, padx=15)
+        
+        # Initialize playlist format variables
         self.playlist_mp4_selected = ctk.BooleanVar(value=True)
         self.playlist_mp3_selected = ctk.BooleanVar(value=False)
-        def toggle_playlist_format(fmt):
-            if fmt == "mp4":
-                self.playlist_mp4_selected.set(True)
-                self.playlist_mp3_selected.set(False)
-            else:
-                self.playlist_mp4_selected.set(False)
-                self.playlist_mp3_selected.set(True)
-            update_playlist_button_colors()
-        def update_playlist_button_colors():
-            for widget in parent.grid_slaves(row=2, column=1):
-                if isinstance(widget, ctk.CTkButton):
-                    if widget.cget("text") == self.get_text("mp4"):
-                        widget.configure(fg_color=("green", "#1D6F42") if self.playlist_mp4_selected.get() else "gray", state="normal")
-                    elif widget.cget("text") == self.get_text("mp3"):
-                        widget.configure(fg_color=("green", "#1D6F42") if self.playlist_mp3_selected.get() else "gray", state="normal")
-        ctk.CTkButton(parent, text=self.get_text("mp4"), command=lambda: toggle_playlist_format("mp4"), width=80, fg_color=("green", "#1D6F42") if self.playlist_mp4_selected.get() else "gray", state="normal").grid(row=2, column=1, pady=5, padx=0, sticky="w")
-        ctk.CTkButton(parent, text=self.get_text("mp3"), command=lambda: toggle_playlist_format("mp3"), width=80, fg_color=("green", "#1D6F42") if self.playlist_mp3_selected.get() else "gray", state="normal").grid(row=2, column=1, pady=5, padx=85, sticky="w")
-        ctk.CTkButton(parent, text=self.get_text("download_now"), font=APP_CONFIG["button_font"], command=self.start_download_playlist, width=120).grid(row=3, column=1, pady=15)
-        # Thêm progress bar và các label tiến trình cho tab playlist
+        
+        # Create format buttons using the common helper method
+        self._create_playlist_format_buttons(parent)
+    
+    def _create_playlist_format_buttons(self, parent):
+        """Create MP4/MP3 format buttons for playlist"""
+        mp4_button = ctk.CTkButton(
+            parent, 
+            text=self.get_text("mp4"), 
+            command=lambda: self._toggle_playlist_format("mp4"), 
+            width=80, 
+            fg_color=("green", "#1D6F42") if self.playlist_mp4_selected.get() else "gray", 
+            state="normal"
+        )
+        mp4_button.grid(row=2, column=1, pady=5, padx=0, sticky="w")
+        
+        mp3_button = ctk.CTkButton(
+            parent, 
+            text=self.get_text("mp3"), 
+            command=lambda: self._toggle_playlist_format("mp3"), 
+            width=80, 
+            fg_color=("green", "#1D6F42") if self.playlist_mp3_selected.get() else "gray", 
+            state="normal"
+        )
+        mp3_button.grid(row=2, column=1, pady=5, padx=85, sticky="w")
+        
+        # Store references for later color updates
+        self.playlist_mp4_button = mp4_button
+        self.playlist_mp3_button = mp3_button
+    
+    def _toggle_playlist_format(self, format_type):
+        """Toggle playlist format selection between MP4 and MP3"""
+        if format_type == "mp4":
+            self.playlist_mp4_selected.set(True)
+            self.playlist_mp3_selected.set(False)
+        else:
+            self.playlist_mp4_selected.set(False)
+            self.playlist_mp3_selected.set(True)
+        self._update_playlist_button_colors()
+    
+    def _update_playlist_button_colors(self):
+        """Update playlist format button colors based on selection"""
+        self.playlist_mp4_button.configure(
+            fg_color=("green", "#1D6F42") if self.playlist_mp4_selected.get() else "gray"
+        )
+        self.playlist_mp3_button.configure(
+            fg_color=("green", "#1D6F42") if self.playlist_mp3_selected.get() else "gray"
+        )
+    
+    def _create_playlist_download_button_section(self, parent):
+        """Create download button for playlist"""
+        download_button = ctk.CTkButton(
+            parent, 
+            text=self.get_text("download_now"), 
+            font=APP_CONFIG["button_font"], 
+            command=self.start_download_playlist, 
+            width=120
+        )
+        download_button.grid(row=3, column=1, pady=15)
+    
+    def _create_playlist_progress_section(self, parent):
+        """Create progress display for playlist downloads"""
         playlist_progress_frame = ctk.CTkFrame(parent)
         playlist_progress_frame.grid(row=4, column=0, columnspan=3, sticky="ew", padx=15, pady=5)
+        
+        # Progress status label
         self.playlist_progress_status = ctk.CTkLabel(
             playlist_progress_frame,
             text=self.get_text("ready"),
@@ -459,8 +598,18 @@ class DownloaderApp:
             anchor="w"
         )
         self.playlist_progress_status.pack(fill="x", padx=5, pady=(5,0))
-        playlist_progress_control_frame = ctk.CTkFrame(playlist_progress_frame, fg_color="transparent")
+        
+        # Progress bar
+        self._create_playlist_progress_bar(playlist_progress_frame)
+        
+        # Info labels
+        self._create_playlist_info_labels(playlist_progress_frame)
+    
+    def _create_playlist_progress_bar(self, parent):
+        """Create progress bar for playlist downloads"""
+        playlist_progress_control_frame = ctk.CTkFrame(parent, fg_color="transparent")
         playlist_progress_control_frame.pack(fill="x", padx=5, pady=5)
+        
         self.playlist_progress_bar = ctk.CTkProgressBar(
             playlist_progress_control_frame,
             width=320,
@@ -472,11 +621,15 @@ class DownloaderApp:
         )
         self.playlist_progress_bar.pack(side="left", fill="x", expand=True, padx=(0,10))
         self.playlist_progress_bar.set(0)
-        playlist_info_frame = ctk.CTkFrame(playlist_progress_frame, fg_color="transparent")
+    
+    def _create_playlist_info_labels(self, parent):
+        """Create info labels for playlist download progress"""
+        playlist_info_frame = ctk.CTkFrame(parent, fg_color="transparent")
         playlist_info_frame.pack(fill="x", padx=5, pady=(0,5))
         playlist_info_frame.grid_columnconfigure(0, weight=1)
         playlist_info_frame.grid_columnconfigure(1, weight=1)
         playlist_info_frame.grid_columnconfigure(2, weight=1)
+        
         self.playlist_speed_label = ctk.CTkLabel(
             playlist_info_frame,
             text=self.get_text("speed"),
@@ -485,7 +638,7 @@ class DownloaderApp:
             anchor="w"
         )
         self.playlist_speed_label.grid(row=0, column=0, padx=5)
-        # Bỏ label dung lượng, chỉ còn tốc độ và tiến trình
+        
         self.playlist_progress_count_label = ctk.CTkLabel(
             playlist_info_frame,
             text="Tiến trình: 0/0" if self.current_language == "Tiếng Việt" else "Progress: 0/0",
@@ -522,27 +675,33 @@ class DownloaderApp:
             self.mp4_selected.set(False)
 
     def update_button_colors(self, *args):
-        mp4_widgets = self.tab_download.grid_slaves(row=3, column=1)
-        mp4_button = None
-        for widget in mp4_widgets:
-            if isinstance(widget, ctk.CTkButton) and widget.grid_info()['padx'] == 0:
-                mp4_button = widget
-                break
+        """Update format button colors for main download tab"""
+        # Find and update MP4 button
+        mp4_button = self._find_format_button(self.tab_download, 3, 1, 0)
         if mp4_button:
-            mp4_button.configure(fg_color=("green", "#1D6F42") if self.mp4_selected.get() else "gray", state="normal")
+            self._update_button_color(mp4_button, self.mp4_selected.get())
         else:
-            logging.warning("Không tìm thấy nút MP4 tại row=3, column=1 với padx=0")
+            logging.warning("MP4 button not found at row=3, column=1 with padx=0")
         
-        mp3_widgets = self.tab_download.grid_slaves(row=3, column=1)
-        mp3_button = None
-        for widget in mp3_widgets:
-            if isinstance(widget, ctk.CTkButton) and widget.grid_info()['padx'] == 85:
-                mp3_button = widget
-                break
+        # Find and update MP3 button
+        mp3_button = self._find_format_button(self.tab_download, 3, 1, 85)
         if mp3_button:
-            mp3_button.configure(fg_color=("green", "#1D6F42") if self.mp3_selected.get() else "gray", state="normal")
+            self._update_button_color(mp3_button, self.mp3_selected.get())
         else:
-            logging.warning("Không tìm thấy nút MP3 tại row=3, column=1 với padx=85")
+            logging.warning("MP3 button not found at row=3, column=1 with padx=85")
+    
+    def _find_format_button(self, parent, row, column, padx_value):
+        """Helper method to find format button by grid position and padx value"""
+        widgets = parent.grid_slaves(row=row, column=column)
+        for widget in widgets:
+            if isinstance(widget, ctk.CTkButton) and widget.grid_info()['padx'] == padx_value:
+                return widget
+        return None
+    
+    def _update_button_color(self, button, is_selected):
+        """Helper method to update button color based on selection state"""
+        color = ("green", "#1D6F42") if is_selected else "gray"
+        button.configure(fg_color=color, state="normal")
 
     def select_folder(self):
         folder = filedialog.askdirectory(initialdir=self.folder_var.get())
@@ -571,162 +730,227 @@ class DownloaderApp:
             self.file_status_label.configure(text="")
 
     def progress_callback(self, d):
+        """Handle download progress updates from yt-dlp"""
         if d['status'] == 'downloading':
-            if hasattr(self, 'is_cancelled') and self.is_cancelled:
-                raise Exception("Download cancelled")
-                
-            if hasattr(self, 'is_paused') and self.is_paused:
-                while self.is_paused and not self.is_cancelled:
-                    self.root.update()  # Cập nhật giao diện trong khi tạm dừng
-                    self.root.after(100)  # Chờ 100ms
-                if self.is_cancelled:
-                    raise Exception("Download cancelled")
-                return
-            
-            # Tính toán phần trăm
-            total = d.get('total_bytes') or d.get('total_bytes_estimate', 0)
-            downloaded = d.get('downloaded_bytes', 0)
-            
-            if total > 0:
-                # Cập nhật progress bar
-                progress = downloaded / total
-                self.progress_bar.set(progress)
-                
-                # Hiển thị phần trăm
-                percent = progress * 100
-                self.progress_status.configure(
-                    text=f"{self.get_text('downloading')} {percent:.1f}%"
-                )
-                
-                # Hiển thị tốc độ
-                speed = d.get('speed', 0)
-                if speed:
-                    speed_mb = speed / 1024 / 1024
-                    self.speed_label.configure(text=f"Tốc độ: {speed_mb:.1f} MB/s")
-                
-                # Hiển thị thời gian còn lại
-                eta = d.get('eta', 0)
-                if eta:
-                    minutes = int(eta // 60)
-                    seconds = int(eta % 60)
-                    time_left = f"{minutes:02d}:{seconds:02d}"
-                    self.time_label.configure(text=f"Thời gian: {time_left}")
-                
-                # Hiển thị kích thước
-                downloaded_mb = downloaded / 1024 / 1024
-                total_mb = total / 1024 / 1024
-                self.size_label.configure(
-                    text=f"Dung lượng: {downloaded_mb:.1f}MB/{total_mb:.1f}MB"
-                )
-                
+            self._handle_downloading_status(d)
         elif d['status'] == 'finished':
-            if not self.is_cancelled:  # Chỉ cập nhật nếu không phải do hủy
-                self.progress_status.configure(text=self.get_text("download_success"))
-                self.speed_label.configure(text="Tốc độ: --")
-                self.time_label.configure(text="Thời gian: --")
-                self.size_label.configure(text="Dung lượng: --")
-                self.update_control_buttons("finished")
-            
+            self._handle_finished_status()
         elif d['status'] == 'error':
-            if not self.is_cancelled:  # Chỉ hiển thị lỗi nếu không phải do hủy
-                self.progress_status.configure(text=self.get_text("download_failed"))
-                self.progress_bar.set(0)
-                self.speed_label.configure(text="Tốc độ: --")
-                self.time_label.configure(text="Thời gian: --")
-                self.size_label.configure(text="Dung lượng: --")
-                self.update_control_buttons("ready")
+            self._handle_error_status()
+    
+    def _handle_downloading_status(self, d):
+        """Handle downloading status updates"""
+        # Check for cancellation
+        if hasattr(self, 'is_cancelled') and self.is_cancelled:
+            raise Exception("Download cancelled")
+            
+        # Handle pause state
+        if hasattr(self, 'is_paused') and self.is_paused:
+            self._wait_for_resume()
+            return
+        
+        # Update progress information
+        total = d.get('total_bytes') or d.get('total_bytes_estimate', 0)
+        downloaded = d.get('downloaded_bytes', 0)
+        
+        if total > 0:
+            self._update_download_progress(downloaded, total, d)
+    
+    def _wait_for_resume(self):
+        """Wait for download to resume from pause state"""
+        while self.is_paused and not self.is_cancelled:
+            self.root.update()  # Update UI during pause
+            self.root.after(100)  # Wait 100ms
+        if self.is_cancelled:
+            raise Exception("Download cancelled")
+    
+    def _update_download_progress(self, downloaded, total, d):
+        """Update all progress indicators during download"""
+        # Update progress bar
+        progress = downloaded / total
+        self.progress_bar.set(progress)
+        
+        # Update percentage display
+        percent = progress * 100
+        self.progress_status.configure(
+            text=f"{self.get_text('downloading')} {percent:.1f}%"
+        )
+        
+        # Update speed display
+        speed = d.get('speed', 0)
+        if speed:
+            speed_mb = speed / 1024 / 1024
+            self.speed_label.configure(text=f"Speed: {speed_mb:.1f} MB/s")
+        
+        # Update time remaining
+        eta = d.get('eta', 0)
+        if eta:
+            minutes = int(eta // 60)
+            seconds = int(eta % 60)
+            time_left = f"{minutes:02d}:{seconds:02d}"
+            self.time_label.configure(text=f"Time: {time_left}")
+        
+        # Update size display
+        downloaded_mb = downloaded / 1024 / 1024
+        total_mb = total / 1024 / 1024
+        self.size_label.configure(
+            text=f"Size: {downloaded_mb:.1f}MB/{total_mb:.1f}MB"
+        )
+    
+    def _handle_finished_status(self):
+        """Handle download finished status"""
+        if not self.is_cancelled:  # Only update if not cancelled
+            self.progress_status.configure(text=self.get_text("download_success"))
+            self._reset_progress_labels()
+            self.update_control_buttons("finished")
+    
+    def _handle_error_status(self):
+        """Handle download error status"""
+        if not self.is_cancelled:  # Only show error if not cancelled
+            self.progress_status.configure(text=self.get_text("download_failed"))
+            self.progress_bar.set(0)
+            self._reset_progress_labels()
+            self.update_control_buttons("ready")
+    
+    def _reset_progress_labels(self):
+        """Reset progress info labels to default state"""
+        self.speed_label.configure(text="Speed: --")
+        self.time_label.configure(text="Time: --")
+        self.size_label.configure(text="Size: --")
 
     def reset_ui_state(self):
-        """Reset tất cả trạng thái UI về mặc định"""
+        """Reset all UI state to default values"""
         self.progress_bar.set(0)
         self.progress_status.configure(text=self.get_text("ready"))
-        self.speed_label.configure(text="Tốc độ: --")
-        self.time_label.configure(text="Thời gian: --")
-        self.size_label.configure(text="Dung lượng: --")     
+        self._reset_progress_labels()
         self.url_entry.delete(0, ctk.END)
         self.url_entry.configure(placeholder_text=self.get_text("input_url"))
         self.filename_entry.delete(0, ctk.END)
         self.filename_entry.configure(placeholder_text=self.get_text("filename_placeholder"))
 
     def download_thread(self, url, file_type, final_path, parent_window):
+        """Execute download in separate thread with proper error handling"""
         try:
             download_success = download_video(url, final_path, self.progress_callback)
             if download_success and os.path.exists(final_path):
-                parent_window.after(0, lambda: add_download_history(
-                    url, file_type, final_path, 
-                    size=f"{os.path.getsize(final_path) / 1024 / 1024:.2f} MB",
-                    status="Thành công",
-                    folder_path=os.path.dirname(final_path).replace("/", "\\")
-                ))
-                parent_window.after(0, lambda: self.progress_status.configure(text=self.get_text("download_success")))
-                parent_window.after(0, lambda: self.progress_bar.set(1.0))  # Đảm bảo thanh tiến trình đạt 100%
-                parent_window.after(0, lambda: self.update_control_buttons("finished"))
-                # Nếu đã tick 'Không hỏi lại', tự động thực hiện lại hành động gần nhất
-                if self.skip_complete_popup and self.last_complete_action:
-                    if self.last_complete_action == "open_file":
-                        parent_window.after(0, lambda: self.open_file(final_path, parent_window))
-                    elif self.last_complete_action == "open_folder":
-                        parent_window.after(0, lambda: self.open_folder_with_highlight(final_path, parent_window))
-                    # Nếu là 'close' thì không làm gì (chỉ reset UI)
-                # Nếu chưa tick 'Không hỏi lại', hiển thị popup như bình thường
-                elif self.notify_download_complete:
-                    parent_window.after(0, lambda: self.show_download_complete_popup(
-                        final_path, parent_window,
-                        notify_state=self.notify_download_complete,
-                        on_notify_change=self.set_notify_download_complete
-                    ))
-        except Exception as e:
-            # Kiểm tra các lỗi phổ biến của yt-dlp liên quan đến DRM, signature, missing url
-            err_str = str(e)
-            if any(x in err_str for x in [
-                'Signature extraction failed',
-                'DRM protected',
-                'missing a url',
-                'SSAP',
-                'Some formats may be missing',
-            ]):
-                parent_window.after(0, lambda: self.show_message(
-                    "Thông báo",
-                    "Hiện không thể tải video này. Hãy thử lại sau!",
-                    "warning"
-                ))
-            
-            if str(e) == "Download cancelled":
-                parent_window.after(0, lambda: add_download_history(
-                    url, file_type, final_path,
-                    size="Không rõ",
-                    status="Đã hủy",
-                    folder_path="Không rõ"
-                ))
-                parent_window.after(0, lambda: self.progress_status.configure(text=self.get_text("download_cancelled")))
-                parent_window.after(0, lambda: self.progress_bar.set(0))
-                parent_window.after(0, lambda: self.speed_label.configure(text=self.get_text("speed")))
-                parent_window.after(0, lambda: self.time_label.configure(text=self.get_text("time")))
-                parent_window.after(0, lambda: self.size_label.configure(text=self.get_text("size")))
-                parent_window.after(0, lambda: self.update_control_buttons("ready"))
-                if os.path.exists(final_path):
-                    try:
-                        os.remove(final_path)
-                    except Exception as ex:
-                        print(f"Không thể xóa file tạm: {ex}")
+                self._handle_download_success(url, file_type, final_path, parent_window)
             else:
-                parent_window.after(0, lambda: add_download_history(
-                    url, file_type, final_path,
-                    size="Không rõ",
-                    status="Thất bại",
-                    folder_path="Không rõ"
-                ))
-                parent_window.after(0, lambda: self.progress_status.configure(text=self.get_text("download_failed")))
-                parent_window.after(0, lambda: self.progress_bar.set(0))
-                parent_window.after(0, lambda: self.speed_label.configure(text=self.get_text("speed")))
-                parent_window.after(0, lambda: self.time_label.configure(text=self.get_text("time")))
-                parent_window.after(0, lambda: self.size_label.configure(text=self.get_text("size")))
-                parent_window.after(0, lambda: self.update_control_buttons("ready"))
-                parent_window.after(0, lambda: messagebox.showerror(self.get_text("error"), f"Không thể tải: {str(e)}"))
+                self._handle_download_failure(url, file_type, final_path, parent_window, "Download failed")
+        except Exception as e:
+            self._handle_download_exception(e, url, file_type, final_path, parent_window)
         finally:
-            self.is_downloading = False
-            parent_window.after(0, lambda: self.download_button.configure(state="normal"))
-            parent_window.after(0, lambda: self.reset_ui_state())
+            self._cleanup_download_state(parent_window)
+    
+    def _handle_download_success(self, url, file_type, final_path, parent_window):
+        """Handle successful download completion"""
+        # Add to history
+        file_size = f"{os.path.getsize(final_path) / 1024 / 1024:.2f} MB"
+        parent_window.after(0, lambda: add_download_history(
+            url, file_type, final_path, 
+            size=file_size,
+            status="Success",
+            folder_path=os.path.dirname(final_path).replace("/", "\\")
+        ))
+        
+        # Update UI
+        parent_window.after(0, lambda: self.progress_status.configure(text=self.get_text("download_success")))
+        parent_window.after(0, lambda: self.progress_bar.set(1.0))
+        parent_window.after(0, lambda: self.update_control_buttons("finished"))
+        
+        # Handle completion popup
+        if self.skip_complete_popup and self.last_complete_action:
+            self._execute_saved_action(final_path, parent_window)
+        elif self.notify_download_complete:
+            self._show_completion_popup(final_path, parent_window)
+    
+    def _execute_saved_action(self, final_path, parent_window):
+        """Execute the previously saved completion action"""
+        if self.last_complete_action == "open_file":
+            parent_window.after(0, lambda: self.open_file(final_path, parent_window))
+        elif self.last_complete_action == "open_folder":
+            parent_window.after(0, lambda: self.open_folder_with_highlight(final_path, parent_window))
+        # If 'close', do nothing (just reset UI)
+    
+    def _show_completion_popup(self, final_path, parent_window):
+        """Show download completion popup"""
+        parent_window.after(0, lambda: self.show_download_complete_popup(
+            final_path, parent_window,
+            notify_state=self.notify_download_complete,
+            on_notify_change=self.set_notify_download_complete
+        ))
+    
+    def _handle_download_exception(self, e, url, file_type, final_path, parent_window):
+        """Handle download exceptions with specific error types"""
+        err_str = str(e)
+        
+        # Check for common yt-dlp errors (DRM, signature, etc.)
+        if self._is_known_yt_dlp_error(err_str):
+            parent_window.after(0, lambda: self.show_message(
+                "warning",
+                "Currently unable to download this video. Please try again later!",
+                "warning"
+            ))
+            return
+        
+        if str(e) == "Download cancelled":
+            self._handle_download_cancellation(url, file_type, final_path, parent_window)
+        else:
+            self._handle_download_failure(url, file_type, final_path, parent_window, str(e))
+    
+    def _is_known_yt_dlp_error(self, error_str):
+        """Check if error is a known yt-dlp issue"""
+        known_errors = [
+            'Signature extraction failed',
+            'DRM protected', 
+            'missing a url',
+            'SSAP',
+            'Some formats may be missing',
+        ]
+        return any(error in error_str for error in known_errors)
+    
+    def _handle_download_cancellation(self, url, file_type, final_path, parent_window):
+        """Handle download cancellation"""
+        parent_window.after(0, lambda: add_download_history(
+            url, file_type, final_path,
+            size="Unknown",
+            status="Cancelled",
+            folder_path="Unknown"
+        ))
+        parent_window.after(0, lambda: self.progress_status.configure(text=self.get_text("download_cancelled")))
+        parent_window.after(0, lambda: self.progress_bar.set(0))
+        parent_window.after(0, lambda: self._reset_progress_labels())
+        parent_window.after(0, lambda: self.update_control_buttons("ready"))
+        
+        # Clean up partial file
+        self._cleanup_partial_file(final_path)
+    
+    def _handle_download_failure(self, url, file_type, final_path, parent_window, error_msg):
+        """Handle general download failure"""
+        parent_window.after(0, lambda: add_download_history(
+            url, file_type, final_path,
+            size="Unknown",
+            status="Failed",
+            folder_path="Unknown"
+        ))
+        parent_window.after(0, lambda: self.progress_status.configure(text=self.get_text("download_failed")))
+        parent_window.after(0, lambda: self.progress_bar.set(0))
+        parent_window.after(0, lambda: self._reset_progress_labels())
+        parent_window.after(0, lambda: self.update_control_buttons("ready"))
+        parent_window.after(0, lambda: messagebox.showerror(self.get_text("error"), f"Cannot download: {error_msg}"))
+    
+    def _cleanup_partial_file(self, file_path):
+        """Remove partial download file if it exists"""
+        if os.path.exists(file_path):
+            try:
+                os.remove(file_path)
+            except Exception as ex:
+                logging.warning(f"Cannot remove partial file: {ex}")
+    
+    def _cleanup_download_state(self, parent_window):
+        """Clean up download state and re-enable UI"""
+        self.is_downloading = False
+        parent_window.after(0, lambda: self.download_button.configure(state="normal"))
+        parent_window.after(0, lambda: self.reset_ui_state())
 
     def is_youtube_playlist(self, url):
         parsed = urlparse(url)
@@ -1021,101 +1245,124 @@ class DownloaderApp:
             self.root.clipboard_append(url)
 
     def open_file(self, file_path, parent_window=None):
-        """Mở file được chọn"""
-        if file_path and os.path.exists(file_path):
-            try:
-                # Nếu parent_window được truyền vào, tắt thuộc tính topmost
-                if parent_window and hasattr(parent_window, 'attributes'):
-                    parent_window.attributes("-topmost", False)
-                
-                os.startfile(file_path)
-            except Exception as e:
-                self.show_message("Lỗi", f"Không thể mở file: {e}", "error")
-        else:
-            self.show_message("Lỗi", "File không tồn tại!", "error")
+        """Open the selected file using system default application"""
+        if not self._validate_file_path(file_path):
+            self.show_message("error", "File does not exist!", "error")
+            return
+            
+        try:
+            self._disable_parent_topmost(parent_window)
+            os.startfile(file_path)
+        except Exception as e:
+            self.show_message("error", f"Cannot open file: {e}", "error")
+    
+    def _validate_file_path(self, file_path):
+        """Validate if file path exists and is accessible"""
+        return file_path and os.path.exists(file_path)
+    
+    def _disable_parent_topmost(self, parent_window):
+        """Disable topmost attribute for parent window if applicable"""
+        if parent_window and hasattr(parent_window, 'attributes'):
+            parent_window.attributes("-topmost", False)
 
     def open_folder_with_highlight(self, file_path, parent_window=None):
-        """Mở thư mục và highlight file được chọn"""
-        if file_path and os.path.exists(file_path):
-            try:
-                # Nếu parent_window được truyền vào, tắt thuộc tính topmost
-                if parent_window and hasattr(parent_window, 'attributes'):
-                    parent_window.attributes("-topmost", False)
-                                
-                if platform.system() == "Windows":
-                    file_path = os.path.abspath(file_path)
-                    file_path = os.path.normpath(file_path)
-                    subprocess.run(['explorer', '/select,', file_path])
-                else:
-                    subprocess.run(["xdg-open", os.path.dirname(file_path)], check=True)
-            except Exception as e:
-                self.show_message("Lỗi", f"Không thể mở thư mục: {e}", "error")
+        """Open folder and highlight the selected file"""
+        if not self._validate_file_path(file_path):
+            self.show_message("error", "File does not exist!", "error")
+            return
+            
+        try:
+            self._disable_parent_topmost(parent_window)
+            self._open_folder_by_platform(file_path)
+        except Exception as e:
+            self.show_message("error", f"Cannot open folder: {e}", "error")
+    
+    def _open_folder_by_platform(self, file_path):
+        """Open folder with file highlighted based on platform"""
+        if platform.system() == "Windows":
+            # Normalize path for Windows
+            normalized_path = os.path.normpath(os.path.abspath(file_path))
+            subprocess.run(['explorer', '/select,', normalized_path])
         else:
-            self.show_message("Lỗi", "File không tồn tại!", "error")
+            # For Unix-like systems, just open the directory
+            subprocess.run(["xdg-open", os.path.dirname(file_path)], check=True)
 
     def toggle_download(self):
-        """Chuyển đổi giữa tạm dừng và tiếp tục tải"""
+        """Toggle between pause and resume download states"""
         if not hasattr(self, 'is_paused'):
             self.is_paused = False
             
         self.is_paused = not self.is_paused
         
         if self.is_paused:
-            self.pause_play_button.configure(text="▶")  # Chuyển sang nút play
+            self.pause_play_button.configure(text="▶")  # Switch to play button
             self.progress_status.configure(text=self.get_text("pause"))
         else:
-            self.pause_play_button.configure(text="⏸")  # Chuyển sang nút pause
+            self.pause_play_button.configure(text="⏸")  # Switch to pause button
             self.progress_status.configure(text=self.get_text("downloading"))
 
     def cancel_download(self):
-        """Hủy quá trình tải xuống"""
-        if self.show_message("Xác nhận", "Bạn có chắc muốn hủy tải xuống?", "yesno"):
+        """Cancel the current download process"""
+        if self.show_message("confirm", "Are you sure you want to cancel the download?", "yesno"):
             self.is_cancelled = True
             self.is_downloading = False
             self.progress_status.configure(text=self.get_text("download_cancelled"))
             self.progress_bar.set(0)
-            self.speed_label.configure(text="Tốc độ: --")
-            self.time_label.configure(text="Thời gian: --")
-            self.size_label.configure(text="Dung lượng: --")
+            self._reset_progress_labels()
             self.update_control_buttons("ready")
             self.download_button.configure(state="normal")
 
     def update_control_buttons(self, status="ready"):
-        """Cập nhật trạng thái các nút điều khiển"""
-        if status == "ready":  # Sẵn sàng tải
+        """Update control button states based on download status"""
+        if status == "ready":  # Ready to download
             self.pause_play_button.configure(state="disabled")
             self.cancel_button.configure(state="disabled")
-        elif status == "downloading":  # Đang tải
+        elif status == "downloading":  # Currently downloading
             self.pause_play_button.configure(state="normal")
             self.cancel_button.configure(state="normal")
-        elif status == "finished":  # Hoàn thành
+        elif status == "finished":  # Download completed
             self.pause_play_button.configure(state="disabled")
             self.cancel_button.configure(state="disabled")
 
     def paste_url(self):
-        """Dán link từ clipboard vào ô nhập URL"""
+        """Paste URL from clipboard into the URL entry field"""
         try:
             url = self.root.clipboard_get()
             self.url_entry.delete(0, ctk.END)
             self.url_entry.insert(0, url)
         except Exception as e:
-            logging.error(f"Không thể dán từ clipboard: {e}")
-            self.show_message("Lỗi", "Không thể dán từ clipboard!", "error")
+            logging.error(f"Cannot paste from clipboard: {e}")
+            self.show_message("error", "Cannot paste from clipboard!", "error")
 
-    def show_message(self, title, message, type="info", parent=None):
+    def show_message(self, title, message, msg_type="info", parent=None):
+        """Show message dialog with localized text"""
         if parent is None:
             parent = self.root
+            
+        # Translate title and message if they exist in translations
         title = self.get_text(title) if title in self.translations[self.current_language] else title
         message = self.get_text(message) if message in self.translations[self.current_language] else message
-        if type == "info":
-            messagebox.showinfo(title, message, parent=parent)
-        elif type == "error":
-            messagebox.showerror(title, message, parent=parent)
-        elif type == "warning":
-            messagebox.showwarning(title, message, parent=parent)
-        elif type == "yesno":
-            return messagebox.askyesno(title, message, parent=parent)
+        
+        # Show appropriate message box type
+        result = self._show_message_by_type(title, message, msg_type, parent)
         parent.lift()
+        return result
+    
+    def _show_message_by_type(self, title, message, msg_type, parent):
+        """Show message box based on type"""
+        message_handlers = {
+            "info": lambda: messagebox.showinfo(title, message, parent=parent),
+            "error": lambda: messagebox.showerror(title, message, parent=parent),
+            "warning": lambda: messagebox.showwarning(title, message, parent=parent),
+            "yesno": lambda: messagebox.askyesno(title, message, parent=parent)
+        }
+        
+        handler = message_handlers.get(msg_type)
+        if handler:
+            return handler()
+        else:
+            logging.warning(f"Unknown message type: {msg_type}")
+            return messagebox.showinfo(title, message, parent=parent)
 
     def show_history_message(self, title, message, type="info", parent=None):
         title = self.get_text(title) if title in self.translations[self.current_language] else title
@@ -1318,7 +1565,7 @@ class DownloaderApp:
         # Xác định định dạng
         if self.playlist_mp4_selected.get():
             fmt = "mp4"
-            ydl_format = "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best"
+            ydl_format = "bestvideo[ext=mp4][height<=2160]+bestaudio[ext=m4a]/best[ext=mp4]/best"
         else:
             fmt = "mp3"
             ydl_format = "bestaudio/best"
