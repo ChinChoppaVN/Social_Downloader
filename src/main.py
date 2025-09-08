@@ -174,75 +174,112 @@ def check_yt_dlp_version():
                             return False
                         # Nếu đã là admin thì tiến hành tải yt-dlp như cũ
                         def do_update():
-                            # Xác định đường dẫn assets dựa trên frozen hay không
-                            if getattr(sys, 'frozen', False):
-                                assets_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "assets")
-                            else:
-                                # Khi chạy từ source code
-                                root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-                                assets_dir = os.path.join(root_dir, "assets")
-                            
-                            dest_path = os.path.join(assets_dir, "yt-dlp.exe")
-                            logging.info(f"Đường dẫn tải yt-dlp: {dest_path}")
-                            
-                            # Tạo thư mục assets nếu chưa tồn tại
-                            if not os.path.exists(assets_dir):
-                                os.makedirs(assets_dir)
-                                logging.info(f"Đã tạo thư mục assets: {assets_dir}")
-                            
-                            # Tạo progress popup đơn giản
-                            import tkinter as tk
-                            temp_root = tk.Tk()
-                            temp_root.withdraw()  # Ẩn window chính
-                            
-                            progress_popup = ctk.CTkToplevel(temp_root)
-                            progress_popup.title("Đang cập nhật yt-dlp...")
-                            progress_popup.geometry("400x120")
-                            progress_popup.attributes("-topmost", True)
-                            progress_popup.resizable(False, False)
-                            
-                            # Căn giữa popup
-                            progress_popup.update_idletasks()
-                            screen_width = progress_popup.winfo_screenwidth()
-                            screen_height = progress_popup.winfo_screenheight()
-                            x = (screen_width // 2) - (progress_popup.winfo_width() // 2)
-                            y = (screen_height // 2) - (progress_popup.winfo_height() // 2)
-                            progress_popup.geometry(f"400x120+{x}+{y}")
-                            
-                            label = ctk.CTkLabel(progress_popup, text="Đang tải yt-dlp mới nhất...")
-                            label.pack(pady=10)
-                            progress = ctk.CTkProgressBar(progress_popup, width=300)
-                            progress.pack(pady=10)
-                            progress.set(0)
-                            
-                            progress_popup.grab_set()  # Lock focus vào popup
-                            
-                            def progress_callback(downloaded, total):
-                                try:
-                                    percent = downloaded / total if total else 0
-                                    progress.set(percent)
-                                    label.configure(text=f"Đang tải yt-dlp: {percent*100:.1f}%")
-                                    progress_popup.update_idletasks()
-                                except:
-                                    pass  # Popup có thể đã bị đóng
-                            
-                            def run_download():
-                                ok, err = download_yt_dlp(dest_path, progress_callback)
-                                try:
-                                    progress_popup.grab_release()
-                                    progress_popup.destroy()
-                                    temp_root.destroy()  # Đóng temp root
+                            try:
+                                logging.info("Starting yt-dlp update process...")
+                                
+                                # Xác định đường dẫn assets dựa trên frozen hay không
+                                if getattr(sys, 'frozen', False):
+                                    # Khi chạy từ exe, assets nằm trong _internal
+                                    application_path = os.path.dirname(sys.executable)
+                                    logging.info(f"Running from exe, app path: {application_path}")
+                                    
+                                    # Kiểm tra cả 2 vị trí có thể có assets
+                                    possible_assets_dirs = [
+                                        os.path.join(application_path, "_internal", "assets"),  # Vị trí chuẩn
+                                        os.path.join(application_path, "assets")               # Vị trí backup
+                                    ]
+                                    
+                                    # Chọn thư mục assets tồn tại hoặc tạo mới _internal/assets
+                                    assets_dir = None
+                                    for dir_path in possible_assets_dirs:
+                                        logging.info(f"Checking assets dir: {dir_path}, exists: {os.path.exists(dir_path)}")
+                                        if os.path.exists(dir_path):
+                                            assets_dir = dir_path
+                                            break
+                                    
+                                    # Nếu không tìm thấy, tạo trong _internal
+                                    if assets_dir is None:
+                                        assets_dir = possible_assets_dirs[0]  # _internal/assets
+                                        logging.info(f"No assets dir found, will create: {assets_dir}")
+                                else:
+                                    # Khi chạy từ source code
+                                    root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+                                    assets_dir = os.path.join(root_dir, "assets")
+                                    logging.info(f"Running from source, assets dir: {assets_dir}")
+                                
+                                dest_path = os.path.join(assets_dir, "yt-dlp.exe")
+                                logging.info(f"Selected assets directory: {assets_dir}")
+                                logging.info(f"yt-dlp download path: {dest_path}")
+                                
+                                # Tạo thư mục assets nếu chưa tồn tại
+                                if not os.path.exists(assets_dir):
+                                    os.makedirs(assets_dir)
+                                    logging.info(f"Created assets directory: {assets_dir}")
+                                else:
+                                    logging.info(f"Assets directory already exists: {assets_dir}")
+                                
+                                # Tạo progress popup đơn giản
+                                import tkinter as tk
+                                temp_root = tk.Tk()
+                                temp_root.withdraw()  # Ẩn window chính
+                                
+                                progress_popup = ctk.CTkToplevel(temp_root)
+                                progress_popup.title("Đang cập nhật yt-dlp...")
+                                progress_popup.geometry("400x120")
+                                progress_popup.attributes("-topmost", True)
+                                progress_popup.resizable(False, False)
+                                
+                                # Căn giữa popup
+                                progress_popup.update_idletasks()
+                                screen_width = progress_popup.winfo_screenwidth()
+                                screen_height = progress_popup.winfo_screenheight()
+                                x = (screen_width // 2) - (progress_popup.winfo_width() // 2)
+                                y = (screen_height // 2) - (progress_popup.winfo_height() // 2)
+                                progress_popup.geometry(f"400x120+{x}+{y}")
+                                
+                                label = ctk.CTkLabel(progress_popup, text="Đang tải yt-dlp mới nhất...")
+                                label.pack(pady=10)
+                                progress = ctk.CTkProgressBar(progress_popup, width=300)
+                                progress.pack(pady=10)
+                                progress.set(0)
+                                
+                                progress_popup.grab_set()  # Lock focus vào popup
+                                
+                                def progress_callback(downloaded, total):
+                                    try:
+                                        percent = downloaded / total if total else 0
+                                        progress.set(percent)
+                                        label.configure(text=f"Đang tải yt-dlp: {percent*100:.1f}%")
+                                        progress_popup.update_idletasks()
+                                    except:
+                                        pass  # Popup có thể đã bị đóng
+                                
+                                def run_download():
+                                    logging.info("Starting yt-dlp download...")
+                                    ok, err = download_yt_dlp(dest_path, progress_callback)
+                                    logging.info(f"Download result: ok={ok}, err={err}")
+                                    
+                                    try:
+                                        progress_popup.grab_release()
+                                        progress_popup.destroy()
+                                        temp_root.destroy()  # Đóng temp root
+                                    except:
+                                        pass  # Popup có thể đã bị đóng
+                                    
+                                    # Hiển thị kết quả cập nhật
                                     if ok:
                                         messagebox.showinfo("Thành công", "Đã cập nhật yt-dlp thành công!")
                                         logging.info("Cập nhật yt-dlp thành công")
                                     else:
                                         messagebox.showerror("Lỗi", f"Không thể cập nhật yt-dlp: {err}")
                                         logging.error(f"Lỗi cập nhật yt-dlp: {err}")
-                                except:
-                                    pass  # Popup có thể đã bị đóng
-                            
-                            # Chạy download trong thread để không block UI
-                            threading.Thread(target=run_download, daemon=True).start()
+                                
+                                # Chạy download trong thread để không block UI
+                                threading.Thread(target=run_download, daemon=True).start()
+                                
+                            except Exception as e:
+                                logging.error(f"Error in do_update(): {e}", exc_info=True)
+                                messagebox.showerror("Lỗi", f"Lỗi khi chuẩn bị cập nhật: {e}")
                         
                         do_update()
                         return True

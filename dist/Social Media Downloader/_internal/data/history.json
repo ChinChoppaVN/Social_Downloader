@@ -142,5 +142,23 @@
         "timestamp": "2025-07-14 23:11:47",
         "status": "Thành công",
         "folder_path": "D:\\Code app\\Test"
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=NbF2QyOhGU4&t=241s&ab_channel=PhenikaaUniversity",
+        "file_type": "mp4",
+        "file_path": "D:/Code app/Test\\Đại_học_Phenikaa_Đột_phá_Hiệu_quả_Tự_hào.mp4",
+        "size": "136.06 MB",
+        "timestamp": "2025-08-21 00:04:56",
+        "status": "Thành công",
+        "folder_path": "D:\\Code app\\Test"
+    },
+    {
+        "url": "https://web.facebook.com/watch/?v=2384544775337803",
+        "file_type": "mp4",
+        "file_path": "D:/Code app/Test\\Trải_nghiệm_cơm_văn_phòng_tại_Bánh_Mì_PewPew.mp4",
+        "size": "31.55 MB",
+        "timestamp": "2025-09-08 21:31:13",
+        "status": "Success",
+        "folder_path": "D:\\Code app\\Test"
     }
 ]

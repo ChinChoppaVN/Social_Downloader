@@ -309,16 +309,31 @@ def download_yt_dlp(dest_path, progress_callback=None):
     Returns:
         tuple: (success: bool, error_message: str or None)
     """
-    import requests
+    try:
+        import requests
+    except ImportError as e:
+        error_msg = "Requests library not found. Please install: pip install requests"
+        logging.error(error_msg)
+        return False, error_msg
     
     url = "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe"
+    logging.info(f"Downloading yt-dlp from: {url}")
+    logging.info(f"Destination: {dest_path}")
     
     try:
+        # Ensure destination directory exists
+        dest_dir = os.path.dirname(dest_path)
+        if not os.path.exists(dest_dir):
+            os.makedirs(dest_dir, exist_ok=True)
+            logging.info(f"Created directory: {dest_dir}")
+        
         with requests.get(url, stream=True, timeout=60) as response:
             response.raise_for_status()
+            logging.info(f"HTTP response: {response.status_code}")
             
             total_size = int(response.headers.get('content-length', 0))
             downloaded_size = 0
+            logging.info(f"File size: {total_size} bytes")
             
             with open(dest_path, 'wb') as file:
                 for chunk in response.iter_content(chunk_size=8192):
@@ -328,10 +343,29 @@ def download_yt_dlp(dest_path, progress_callback=None):
                         
                         # Call progress callback if provided
                         if progress_callback:
-                            progress_callback(downloaded_size, total_size)
-                            
-        return True, None
+                            try:
+                                progress_callback(downloaded_size, total_size)
+                            except Exception as cb_e:
+                                logging.warning(f"Progress callback error: {cb_e}")
         
+        # Verify download
+        if os.path.exists(dest_path) and os.path.getsize(dest_path) > 0:
+            logging.info(f"Download successful: {dest_path} ({os.path.getsize(dest_path)} bytes)")
+            return True, None
+        else:
+            error_msg = "Downloaded file is empty or does not exist"
+            logging.error(error_msg)
+            return False, error_msg
+        
+    except requests.RequestException as e:
+        error_msg = f"Network error: {e}"
+        logging.error(error_msg)
+        return False, error_msg
+    except PermissionError as e:
+        error_msg = f"Permission denied: {e}. Try running as administrator."
+        logging.error(error_msg)
+        return False, error_msg
     except Exception as e:
-        logging.error(f"Error downloading yt-dlp: {e}")
-        return False, str(e)
+        error_msg = f"Unexpected error: {e}"
+        logging.error(error_msg)
+        return False, error_msg

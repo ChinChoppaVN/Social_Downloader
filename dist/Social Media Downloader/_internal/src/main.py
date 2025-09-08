@@ -5,29 +5,29 @@ import logging
 import subprocess
 import json
 
-# Thêm đường dẫn của thư mục gốc vào sys.path
+# Add root directory path to sys.path
 root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if root_dir not in sys.path:
     sys.path.append(root_dir)
 
-# Thiết lập môi trường khi chạy từ exe
+# Setup environment when running from exe
 if getattr(sys, 'frozen', False):
-    # Nếu đang chạy từ exe
+    # If running from packaged exe
     application_path = os.path.dirname(sys.executable)
     
-    # Thêm đường dẫn assets vào PATH - kiểm tra cả trong _internal
+    # Add assets paths to PATH - check both direct and _internal locations
     assets_paths = [
-        os.path.join(application_path, "assets"),                  # Thư mục assets trực tiếp
-        os.path.join(application_path, "_internal", "assets"),    # Thư mục assets trong _internal
+        os.path.join(application_path, "assets"),                  # Direct assets folder
+        os.path.join(application_path, "_internal", "assets"),    # Assets folder in _internal
     ]
     
-    # Thêm tất cả các đường dẫn assets vào PATH
+    # Add all assets paths to PATH environment variable
     for assets_path in assets_paths:
         if os.path.exists(assets_path) and assets_path not in os.environ["PATH"]:
-            print(f"Thêm đường dẫn vào PATH: {assets_path}")
+            print(f"Adding path to PATH: {assets_path}")
             os.environ["PATH"] = assets_path + os.pathsep + os.environ["PATH"]
     
-    # Tạo thư mục data trong AppData
+    # Create data directory in AppData
     app_data_path = os.path.join(os.environ['APPDATA'], "Social Media Downloader")
     data_path = os.path.join(app_data_path, "data")
     if not os.path.exists(data_path):
@@ -38,32 +38,32 @@ from src.ui import run_app
 from src.utils import DATA_DIR  # Thêm import DATA_DIR từ utils
 
 def setup_logging():
-    """Thiết lập logging cơ bản"""
+    """Setup basic logging configuration"""
     try:
-        # Nếu đang chạy từ exe, sử dụng thư mục AppData
+        # If running from exe, use AppData directory
         if getattr(sys, 'frozen', False):
             app_data_path = os.path.join(os.environ['APPDATA'], "Social Media Downloader")
             if not os.path.exists(app_data_path):
                 os.makedirs(app_data_path)
             log_file = os.path.join(app_data_path, "app.log")
         else:
-            # Nếu đang chạy từ mã nguồn
+            # If running from source code
             log_dir = os.path.dirname(os.path.abspath(__file__))
             log_file = os.path.join(log_dir, "app.log")
         
-        # Thiết lập logging với cả file và console
+        # Setup logging with both file and console output
         logging.basicConfig(
-            level=logging.DEBUG,  # Tăng level để ghi nhiều thông tin hơn
+            level=logging.DEBUG,  # Increase level to capture more information
             format="%(asctime)s - %(levelname)s - %(message)s",
             handlers=[
                 logging.FileHandler(log_file),
-                logging.StreamHandler()  # Thêm handler để ghi ra console
+                logging.StreamHandler()  # Add handler for console output
             ]
         )
-        logging.info("Đã khởi tạo logging thành công")
+        logging.info("Logging initialized successfully")
     except Exception as e:
-        print(f"Không thể thiết lập logging: {e}")
-        # Cố gắng thiết lập logging cơ bản chỉ với console
+        print(f"Cannot setup logging: {e}")
+        # Try to setup basic logging with console only
         logging.basicConfig(
             level=logging.DEBUG,
             format="%(asctime)s - %(levelname)s - %(message)s",
@@ -71,24 +71,24 @@ def setup_logging():
         )
 
 def check_requirements():
-    """Kiểm tra các thư viện và công cụ cần thiết đã được cài đặt chưa"""
+    """Check if required libraries and tools are installed"""
     try:
-        logging.info("Đang kiểm tra các thư viện cần thiết...")
+        logging.info("Checking required libraries...")
         import customtkinter
-        logging.info("Đã import customtkinter thành công")
+        logging.info("Successfully imported customtkinter")
         
         import yt_dlp
-        logging.info("Đã import yt_dlp thành công")
+        logging.info("Successfully imported yt_dlp")
         
-        # Kiểm tra ffmpeg trong PATH
+        # Check ffmpeg in PATH
         ffmpeg_in_path = shutil.which("ffmpeg")
-        logging.info(f"ffmpeg trong PATH: {ffmpeg_in_path}")
+        logging.info(f"ffmpeg in PATH: {ffmpeg_in_path}")
         
-        # Nếu đang chạy từ exe, kiểm tra ffmpeg trong các thư mục assets
+        # If running from exe, check ffmpeg in assets directories
         if getattr(sys, 'frozen', False):
             application_path = os.path.dirname(sys.executable)
             
-            # Kiểm tra cả trong thư mục assets trực tiếp và trong _internal
+            # Check both direct assets folder and _internal location
             assets_paths = [
                 os.path.join(application_path, "assets"),
                 os.path.join(application_path, "_internal", "assets")
@@ -96,35 +96,35 @@ def check_requirements():
             
             for assets_path in assets_paths:
                 ffmpeg_path = os.path.join(assets_path, "ffmpeg.exe")
-                logging.info(f"Kiểm tra ffmpeg tại: {ffmpeg_path}")
-                logging.info(f"ffmpeg tồn tại: {os.path.exists(ffmpeg_path)}")
+                logging.info(f"Checking ffmpeg at: {ffmpeg_path}")
+                logging.info(f"ffmpeg exists: {os.path.exists(ffmpeg_path)}")
                 
                 if os.path.exists(ffmpeg_path):
-                    # Nếu tìm thấy ffmpeg, thêm đường dẫn vào PATH
+                    # If ffmpeg found, add path to PATH
                     if assets_path not in os.environ["PATH"]:
                         os.environ["PATH"] = assets_path + os.pathsep + os.environ["PATH"]
-                        logging.info(f"Đã thêm {assets_path} vào PATH")
+                        logging.info(f"Added {assets_path} to PATH")
                     return True
             
-            # Nếu đã kiểm tra tất cả đường dẫn mà vẫn không tìm thấy
-            logging.error("Không tìm thấy ffmpeg trong bất kỳ thư mục assets nào")
+            # If checked all paths and still not found
+            logging.error("Cannot find ffmpeg in any assets directory")
         
         if not ffmpeg_in_path:
-            logging.error("Lỗi: FFmpeg không được cài đặt hoặc không tìm thấy trong PATH")
+            logging.error("Error: FFmpeg not installed or not found in PATH")
             from tkinter import messagebox
-            messagebox.showerror("Lỗi", "FFmpeg không được cài đặt hoặc không tìm thấy. Ứng dụng có thể không hoạt động đúng.")
+            messagebox.showerror("Error", "FFmpeg not installed or not found. Application may not work correctly.")
             return False
         
         return True
     except ImportError as e:
-        logging.error(f"Lỗi: Thiếu thư viện cần thiết: {e}")
+        logging.error(f"Error: Missing required library: {e}")
         from tkinter import messagebox
-        messagebox.showerror("Lỗi", f"Thiếu thư viện cần thiết: {e}\nVui lòng cài đặt bằng cách chạy: pip install customtkinter yt-dlp")
+        messagebox.showerror("Error", f"Missing required library: {e}\nPlease install by running: pip install customtkinter yt-dlp")
         return False
     except Exception as e:
-        logging.error(f"Lỗi không xác định khi kiểm tra yêu cầu: {e}")
+        logging.error(f"Unknown error during requirements check: {e}")
         from tkinter import messagebox
-        messagebox.showerror("Lỗi", f"Lỗi không xác định: {e}")
+        messagebox.showerror("Error", f"Unknown error: {e}")
         return False
 
 def is_admin():
@@ -139,10 +139,10 @@ def is_admin():
 
 def check_yt_dlp_version():
     try:
-        logging.info("Đang kiểm tra phiên bản yt-dlp...")
+        logging.info("Checking yt-dlp version...")
         import yt_dlp
         current_version = yt_dlp.version.__version__
-        logging.info(f"Phiên bản yt-dlp hiện tại: '{current_version}'")
+        logging.info(f"Current yt-dlp version: '{current_version}'")
         if getattr(sys, 'frozen', False):
             try:
                 import urllib.request
@@ -174,29 +174,113 @@ def check_yt_dlp_version():
                             return False
                         # Nếu đã là admin thì tiến hành tải yt-dlp như cũ
                         def do_update():
-                            assets_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "assets")
-                            dest_path = os.path.join(assets_dir, "yt-dlp.exe")
-                            progress_popup = ctk.CTkToplevel()
-                            progress_popup.title("Đang cập nhật yt-dlp...")
-                            progress_popup.geometry("400x120")
-                            label = ctk.CTkLabel(progress_popup, text="Đang tải yt-dlp mới nhất...")
-                            label.pack(pady=10)
-                            progress = ctk.CTkProgressBar(progress_popup, width=300)
-                            progress.pack(pady=10)
-                            progress.set(0)
-                            def progress_callback(downloaded, total):
-                                percent = downloaded / total if total else 0
-                                progress.set(percent)
-                                label.configure(text=f"Đang tải yt-dlp: {percent*100:.1f}%")
-                                progress_popup.update_idletasks()
-                            def run_download():
-                                ok, err = download_yt_dlp(dest_path, progress_callback)
-                                progress_popup.destroy()
-                                if ok:
-                                    messagebox.showinfo("Thành công", "Đã cập nhật yt-dlp thành công!")
+                            try:
+                                logging.info("Starting yt-dlp update process...")
+                                
+                                # Xác định đường dẫn assets dựa trên frozen hay không
+                                if getattr(sys, 'frozen', False):
+                                    # Khi chạy từ exe, assets nằm trong _internal
+                                    application_path = os.path.dirname(sys.executable)
+                                    logging.info(f"Running from exe, app path: {application_path}")
+                                    
+                                    # Kiểm tra cả 2 vị trí có thể có assets
+                                    possible_assets_dirs = [
+                                        os.path.join(application_path, "_internal", "assets"),  # Vị trí chuẩn
+                                        os.path.join(application_path, "assets")               # Vị trí backup
+                                    ]
+                                    
+                                    # Chọn thư mục assets tồn tại hoặc tạo mới _internal/assets
+                                    assets_dir = None
+                                    for dir_path in possible_assets_dirs:
+                                        logging.info(f"Checking assets dir: {dir_path}, exists: {os.path.exists(dir_path)}")
+                                        if os.path.exists(dir_path):
+                                            assets_dir = dir_path
+                                            break
+                                    
+                                    # Nếu không tìm thấy, tạo trong _internal
+                                    if assets_dir is None:
+                                        assets_dir = possible_assets_dirs[0]  # _internal/assets
+                                        logging.info(f"No assets dir found, will create: {assets_dir}")
                                 else:
-                                    messagebox.showerror("Lỗi", f"Không thể cập nhật yt-dlp: {err}")
-                            threading.Thread(target=run_download, daemon=True).start()
+                                    # Khi chạy từ source code
+                                    root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+                                    assets_dir = os.path.join(root_dir, "assets")
+                                    logging.info(f"Running from source, assets dir: {assets_dir}")
+                                
+                                dest_path = os.path.join(assets_dir, "yt-dlp.exe")
+                                logging.info(f"Selected assets directory: {assets_dir}")
+                                logging.info(f"yt-dlp download path: {dest_path}")
+                                
+                                # Tạo thư mục assets nếu chưa tồn tại
+                                if not os.path.exists(assets_dir):
+                                    os.makedirs(assets_dir)
+                                    logging.info(f"Created assets directory: {assets_dir}")
+                                else:
+                                    logging.info(f"Assets directory already exists: {assets_dir}")
+                                
+                                # Tạo progress popup đơn giản
+                                import tkinter as tk
+                                temp_root = tk.Tk()
+                                temp_root.withdraw()  # Ẩn window chính
+                                
+                                progress_popup = ctk.CTkToplevel(temp_root)
+                                progress_popup.title("Đang cập nhật yt-dlp...")
+                                progress_popup.geometry("400x120")
+                                progress_popup.attributes("-topmost", True)
+                                progress_popup.resizable(False, False)
+                                
+                                # Căn giữa popup
+                                progress_popup.update_idletasks()
+                                screen_width = progress_popup.winfo_screenwidth()
+                                screen_height = progress_popup.winfo_screenheight()
+                                x = (screen_width // 2) - (progress_popup.winfo_width() // 2)
+                                y = (screen_height // 2) - (progress_popup.winfo_height() // 2)
+                                progress_popup.geometry(f"400x120+{x}+{y}")
+                                
+                                label = ctk.CTkLabel(progress_popup, text="Đang tải yt-dlp mới nhất...")
+                                label.pack(pady=10)
+                                progress = ctk.CTkProgressBar(progress_popup, width=300)
+                                progress.pack(pady=10)
+                                progress.set(0)
+                                
+                                progress_popup.grab_set()  # Lock focus vào popup
+                                
+                                def progress_callback(downloaded, total):
+                                    try:
+                                        percent = downloaded / total if total else 0
+                                        progress.set(percent)
+                                        label.configure(text=f"Đang tải yt-dlp: {percent*100:.1f}%")
+                                        progress_popup.update_idletasks()
+                                    except:
+                                        pass  # Popup có thể đã bị đóng
+                                
+                                def run_download():
+                                    logging.info("Starting yt-dlp download...")
+                                    ok, err = download_yt_dlp(dest_path, progress_callback)
+                                    logging.info(f"Download result: ok={ok}, err={err}")
+                                    
+                                    try:
+                                        progress_popup.grab_release()
+                                        progress_popup.destroy()
+                                        temp_root.destroy()  # Đóng temp root
+                                    except:
+                                        pass  # Popup có thể đã bị đóng
+                                    
+                                    # Hiển thị kết quả cập nhật
+                                    if ok:
+                                        messagebox.showinfo("Thành công", "Đã cập nhật yt-dlp thành công!")
+                                        logging.info("Cập nhật yt-dlp thành công")
+                                    else:
+                                        messagebox.showerror("Lỗi", f"Không thể cập nhật yt-dlp: {err}")
+                                        logging.error(f"Lỗi cập nhật yt-dlp: {err}")
+                                
+                                # Chạy download trong thread để không block UI
+                                threading.Thread(target=run_download, daemon=True).start()
+                                
+                            except Exception as e:
+                                logging.error(f"Error in do_update(): {e}", exc_info=True)
+                                messagebox.showerror("Lỗi", f"Lỗi khi chuẩn bị cập nhật: {e}")
+                        
                         do_update()
                         return True
             except Exception as e:
@@ -269,6 +353,9 @@ def main():
         # Chạy ứng dụng chính
         logging.info("Bắt đầu chạy giao diện người dùng")
         run_app()
+        
+        # Kiểm tra cập nhật yt-dlp sau khi UI đã khởi tạo
+        # Sẽ được gọi từ trong UI class sau khi window đã sẵn sàng
     except Exception as e:
         # Xử lý lỗi toàn cục
         error_msg = f"Lỗi không xử lý được khi khởi động ứng dụng: {e}"

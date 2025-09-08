@@ -1,3 +1,5 @@
 customtkinter==5.2.2
 yt-dlp==2025.2.19
-pyinstaller==6.5.0 
+pyinstaller==6.5.0
+requests==2.31.0
+packaging==23.2 
