@@ -18,6 +18,8 @@ def check_requirements():
         os.path.join(current_dir, "assets", "ffmpeg.exe"),
         os.path.join(current_dir, "assets", "ffprobe.exe"),
         os.path.join(current_dir, "assets", "ffplay.exe"),
+        os.path.join(current_dir, "assets", "yt-dlp.exe"),
+        os.path.join(current_dir, "assets", "themes", "sunset_coral.json"),
         os.path.join(current_dir, "src", "main.py")
     ]
     
@@ -95,6 +97,7 @@ def main():
             "--clean",                         # Xóa cache trước khi build
             *datas,                            # Thêm các file đi kèm
             "--hidden-import=customtkinter",    # Import ẩn các thư viện cần thiết
+            "--collect-all=customtkinter",      # Thu thập toàn bộ fonts, themes và assets của customtkinter
             "--hidden-import=yt_dlp",
             "--hidden-import=PIL",
             "--hidden-import=PIL._tkinter_finder",
@@ -120,6 +123,7 @@ def main():
             "--add-binary=assets/ffmpeg.exe;assets",    # Thêm ffmpeg
             "--add-binary=assets/ffprobe.exe;assets",   # Thêm ffprobe
             "--add-binary=assets/ffplay.exe;assets",    # Thêm ffplay
+            *(["--add-binary=assets/yt-dlp.exe;assets"] if os.path.exists(os.path.join(current_dir, "assets", "yt-dlp.exe")) else []),
             "--hidden-import=packaging",
             "--hidden-import=packaging.version",
         ]
@@ -150,11 +154,16 @@ def create_installer():
             logging.error(f"Không tìm thấy file script Inno Setup: {inno_script}")
             return False
         
-        # Đường dẫn đến Inno Setup Compiler (điều chỉnh nếu cần)
-        iscc_path = r"C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
+        # Đường dẫn đến Inno Setup Compiler (kiểm tra các vị trí phổ biến)
+        iscc_candidates = [
+            r"C:\Program Files (x86)\Inno Setup 6\ISCC.exe",
+            r"C:\Program Files\Inno Setup 6\ISCC.exe",
+            shutil.which("ISCC.exe") or ""
+        ]
+        iscc_path = next((p for p in iscc_candidates if p and os.path.exists(p)), None)
         
-        if not os.path.exists(iscc_path):
-            logging.error(f"Không tìm thấy Inno Setup Compiler")
+        if not iscc_path:
+            logging.error("Không tìm thấy Inno Setup Compiler (ISCC.exe). Vui lòng cài đặt Inno Setup 6.")
             return False
         
         # Chạy Inno Setup Compiler
@@ -165,10 +174,15 @@ def create_installer():
         process = subprocess.run(cmd, capture_output=True, text=True)
         
         if process.returncode == 0:
-            logging.info("Tạo file cài đặt thành công!")
+            setup_exe = os.path.join(current_dir, "installer", "SocialMediaDownloader_Setup.exe")
+            if os.path.exists(setup_exe):
+                size_mb = os.path.getsize(setup_exe) / (1024 * 1024)
+                logging.info(f"Tạo file cài đặt thành công tại: {setup_exe} ({size_mb:.1f} MB)")
+            else:
+                logging.info("Tạo file cài đặt thành công!")
             return True
         else:
-            logging.error(f"Lỗi khi tạo file cài đặt: {process.stderr}")
+            logging.error(f"Lỗi khi tạo file cài đặt: {process.stderr or process.stdout}")
             return False
             
     except Exception as e:

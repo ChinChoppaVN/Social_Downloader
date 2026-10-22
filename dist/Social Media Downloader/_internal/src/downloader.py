@@ -1,349 +1,293 @@
-"""Download module for handling video/audio downloads from various platforms.
-
-This module provides functionality to download videos and audio files from
-supported platforms using yt-dlp, with progress tracking and error handling.
-"""
-
-import os
-import sys
-import json
 import logging
-import platform
+import os
+import re
 import subprocess
-import shutil
-from functools import partial
+import threading
+import sys
+from src import paths
 
-import yt_dlp
-import customtkinter as ctk
-from tkinter import messagebox
-
-try:
-    import winsound  # For Windows sound notifications
-except ImportError:
-    winsound = None  # Not available on non-Windows platforms
-
-# Add root directory to sys.path
-root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-if root_dir not in sys.path:
-    sys.path.append(root_dir)
-
-# Import modules from root directory
-from src.utils import DATA_DIR
-
-
-def download_video(url, output_path, progress_callback=None):
-    """Download video from URL and save to output_path.
-    
-    Args:
-        url (str): The URL of the video to download
-        output_path (str): The path where the file will be saved
-        progress_callback (callable, optional): Callback function for progress updates
-        
-    Returns:
-        bool: True if download was successful, False otherwise
+class DownloaderProcess:
     """
-    try:
-        # Determine file type from output path extension
-        file_type = "mp3" if output_path.lower().endswith(".mp3") else "mp4"
+    Manages the execution of yt-dlp.exe as a subprocess, parsing its
+    output to provide real-time progress updates.
+    """
+    def __init__(self, url, output_path, file_type="mp4", quality="fhd", progress_callback=None, completion_callback=None):
+        self.url = url
+        self.output_path = output_path
+        self.file_type = file_type.lower()
+        self.quality = quality.lower() if quality else "fhd"
+        self.progress_callback = progress_callback
+        self.completion_callback = completion_callback
         
-        # Configure yt-dlp options
-        ydl_opts = _get_download_options(output_path, progress_callback)
-        
-        # Add format-specific configurations
-        if file_type == "mp3":
-            _configure_audio_options(ydl_opts)
-        else:
-            _configure_video_options(ydl_opts)
-        
-        # Execute download
-        return _execute_download(url, output_path, ydl_opts, file_type)
-        
-    except Exception as e:
-        logging.error(f"Error during video download: {e}")
-        if "Download cancelled" in str(e):
-            raise Exception("Download cancelled")
-        return False
+        self.process = None
+        self.thread = None
+        self.cancelled = False
+        self.final_file_path = output_path
 
+    def start(self):
+        """Starts the download process in a new thread."""
+        self.thread = threading.Thread(target=self._run_download, daemon=True)
+        self.thread.start()
 
-def _get_download_options(output_path, progress_callback):
-    """Get base download options for yt-dlp."""
-    return {
-        'quiet': True,
-        'no_warnings': True,
-        'extract_flat': False,  # Set False to download full playlist
-        'ignoreerrors': True,  # Skip errors and continue
-        'nocheckcertificate': True,
-        'prefer_insecure': True,
-        'outtmpl': output_path,
-        'progress_hooks': [progress_callback] if progress_callback else None,
-        'http_headers': {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-        }
-    }
-
-
-def _configure_audio_options(ydl_opts):
-    """Configure yt-dlp options for audio download (MP3)."""
-    ydl_opts.update({
-        'format': 'bestaudio/best',
-        'postprocessors': [{
-            'key': 'FFmpegExtractAudio',
-            'preferredcodec': 'mp3',
-            'preferredquality': '192',
-        }]
-    })
-
-
-def _configure_video_options(ydl_opts):
-    """Configure yt-dlp options for video download (MP4)."""
-    ydl_opts.update({
-        'format': 'bestvideo[ext=mp4][height<=2160]+bestaudio[ext=m4a]/best[ext=mp4]/best'  # Allow 4K H.264
-    })
-
-
-def _execute_download(url, output_path, ydl_opts, file_type):
-    """Execute the actual download with yt-dlp."""
-    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        # Get video/playlist information
-        info = ydl.extract_info(url, download=False)
-        
-        # Handle playlist vs single video
-        if 'entries' in info:
-            ydl.download([url])  # Download entire playlist
-        else:
-            # Handle single video
-            if not info.get('formats'):
-                # Fallback to best available format
-                ydl_opts['format'] = 'best'
-                with yt_dlp.YoutubeDL(ydl_opts) as fallback_ydl:
-                    fallback_ydl.download([url])
-            else:
-                ydl.download([url])
-    
-    # Verify download success
-    return _verify_download_success(output_path, file_type)
-
-
-def _verify_download_success(output_path, file_type):
-    """Verify that the download was successful."""
-    if os.path.exists(output_path) and os.path.getsize(output_path) > 0:
-        return True
-    
-    # Special handling for MP3 files that might have different names
-    if file_type == "mp3":
-        return _find_and_rename_mp3_file(output_path)
-    
-    return False
-
-
-def _find_and_rename_mp3_file(expected_path):
-    """Find MP3 file that might have been created with a different name."""
-    dir_path = os.path.dirname(expected_path)
-    base_name = os.path.splitext(os.path.basename(expected_path))[0]
-    
-    # Look for MP3 file that might have been created with different name
-    for file in os.listdir(dir_path):
-        if file.startswith(base_name) and file.endswith('.mp3'):
-            mp3_path = os.path.join(dir_path, file)
-            # Try to rename file to expected name
+    def cancel(self):
+        """Cancels the running download process."""
+        self.cancelled = True
+        if self.process and self.process.poll() is None:
+            logging.info("Terminating yt-dlp process...")
             try:
-                os.rename(mp3_path, expected_path)
-                return True
-            except OSError:
-                return os.path.exists(mp3_path)
-    
-    return False
+                self.process.terminate()
+            except Exception as e:
+                logging.warning(f"Error terminating process: {e}")
+            
+    def _run_download(self):
+        """The main logic for building and running the yt-dlp command."""
+        command = self._build_command()
+        logging.info(f"Executing command: {' '.join(command)}")
 
-
-def show_error_on_main_thread(parent_window, message):
-    """Display error message on main thread with sound notification."""
-    parent_window.after(0, lambda: messagebox.showerror("Download Error", message))
-    _play_system_sound("error")
-
-
-def _play_system_sound(sound_type):
-    """Play system sound notification."""
-    if winsound is None:
-        return  # Not available on non-Windows platforms
-    
-    try:
-        sound_map = {
-            "error": "SystemExclamation",
-            "success": "SystemAsterisk",
-            "warning": "SystemExclamation"
-        }
-        sound_name = sound_map.get(sound_type, "SystemAsterisk")
-        winsound.PlaySound(sound_name, winsound.SND_ALIAS)
-    except Exception as e:
-        logging.debug(f"Could not play system sound: {e}")
-
-
-def show_download_complete_popup(file_path, parent_window, notify_state=True, on_notify_change=None):
-    """Display download completion popup with options to open file/folder."""
-    # Play success sound notification
-    _play_system_sound("success")
-    
-    # Disable topmost attribute for history windows
-    _disable_history_windows_topmost(parent_window)
-        
-    popup = ctk.CTkToplevel(parent_window)
-    popup.title("Download Complete!")
-    popup.geometry("400x180")  # Increase height to accommodate additional button
-    popup.attributes("-topmost", True)
-    popup.resizable(False, False)
-
-    # Center popup
-    popup.update_idletasks()
-    screen_width = popup.winfo_screenwidth()
-    screen_height = popup.winfo_screenheight()
-    x = (screen_width // 2) - (popup.winfo_width() // 2)
-    y = (screen_height // 2) - (popup.winfo_height() // 2)
-    popup.geometry(f"400x180+{x}+{y}")
-
-    # Create and display filename label with length limit
-    filename_label = _create_filename_label(popup, file_path)
-    filename_label.pack(pady=(20, 10), padx=20)
-
-    # Create action buttons frame
-    button_frame = _create_action_buttons(popup, file_path)
-    button_frame.pack(pady=(10, 5), padx=20, fill="x")
-
-    # Add "Don't ask again" checkbox
-    _create_dont_ask_checkbox(popup, notify_state, on_notify_change)
-
-    popup.grab_set()
-    popup.transient(parent_window)
-
-
-def _disable_history_windows_topmost(parent_window):
-    """Disable topmost attribute for any open history windows."""
-    for widget in parent_window.winfo_toplevel().winfo_children():
-        if isinstance(widget, ctk.CTkToplevel) and hasattr(widget, 'is_history_window'):
-            widget.attributes("-topmost", False)
-
-
-def _create_filename_label(popup, file_path):
-    """Create filename label with truncation for long names."""
-    filename = os.path.basename(file_path)
-    if not filename or filename.strip() == "":
-        filename = "video_youtube"  # Default if name is empty
-
-    max_chars = 30  # Display maximum 30 characters
-    if len(filename) > max_chars:
-        wrapped_filename = filename[:max_chars] + "..."  # Truncate and add "..."
-    else:
-        wrapped_filename = filename  # Display as-is if shorter
-
-    # Create label with limited content, centered
-    return ctk.CTkLabel(
-        popup, 
-        text=f"Download completed:\n{wrapped_filename}", 
-        font=("Helvetica", 16, "bold"), 
-        justify="center"
-    )
-
-
-def _create_action_buttons(popup, file_path):
-    """Create action buttons for the completion popup."""
-    button_frame = ctk.CTkFrame(popup)
-    btn_width = 100
-    
-    def open_file(path):
-        """Open the downloaded file."""
         try:
-            os.startfile(path)
-            popup.destroy()
-        except Exception as e:
-            messagebox.showerror("Error", f"Cannot open file: {e}")
+            creationflags = subprocess.CREATE_NO_WINDOW if sys.platform == 'win32' else 0
 
-    def open_folder_with_highlight(path):
-        """Open folder containing the file and highlight it."""
-        try:
-            if platform.system() == "Windows":
-                # Normalize path for Windows
-                path = os.path.normpath(os.path.abspath(path))
-                # Check if file exists
-                if not os.path.exists(path):
-                    raise FileNotFoundError(f"File not found: {path}")
-                # Use explorer to open and highlight file
-                subprocess.run(['explorer', '/select,', path])
+            self.process = subprocess.Popen(
+                command,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                encoding='utf-8',
+                errors='replace',
+                creationflags=creationflags
+            )
+
+            # Read stdout line by line
+            for line in iter(self.process.stdout.readline, ''):
+                if self.cancelled:
+                    break
+                self._parse_output(line)
+
+            stdout_rest, stderr_output = self.process.communicate()
+
+            if self.cancelled:
+                logging.info("Download was cancelled by user.")
+                if self.completion_callback:
+                    self.completion_callback(False, "Download was cancelled.", None)
+                return
+
+            if self.process.returncode == 0:
+                final_path = self._locate_final_file()
+                if final_path and os.path.exists(final_path) and os.path.getsize(final_path) > 0:
+                    self.final_file_path = final_path
+                    if self.completion_callback:
+                        self.completion_callback(True, "Download finished successfully.", final_path)
+                else:
+                    logging.error(f"yt-dlp exited successfully but output file is missing. Stderr: {stderr_output}")
+                    if self.completion_callback:
+                        self.completion_callback(False, "Output file not found after download.", None)
             else:
-                subprocess.run(["xdg-open", os.path.dirname(path)], check=True)
-            popup.destroy()
-        except FileNotFoundError as e:
-            messagebox.showerror("Error", str(e))
+                logging.error(f"yt-dlp process failed with code {self.process.returncode}. Stderr: {stderr_output}")
+                err_message = self._extract_error(stderr_output)
+                if self.completion_callback:
+                    self.completion_callback(False, err_message, None)
+
+        except FileNotFoundError:
+            logging.critical(f"Cannot find yt-dlp executable at {paths.YT_DLP_PATH}")
+            if self.completion_callback:
+                self.completion_callback(False, "yt-dlp executable not found.", None)
         except Exception as e:
-            messagebox.showerror("Error", f"Cannot open folder: {e}")
-    
-    # Create buttons
-    btn_open = ctk.CTkButton(
-        button_frame, 
-        text="Open File", 
-        command=partial(open_file, file_path), 
-        width=btn_width
-    )
-    btn_open.pack(side="left", expand=True, fill="x", padx=5)
-    
-    btn_folder = ctk.CTkButton(
-        button_frame, 
-        text="Open Folder", 
-        command=partial(open_folder_with_highlight, file_path), 
-        width=btn_width
-    )
-    btn_folder.pack(side="left", expand=True, fill="x", padx=5)
-    
-    btn_close = ctk.CTkButton(
-        button_frame, 
-        text="Close", 
-        command=popup.destroy, 
-        width=btn_width
-    )
-    btn_close.pack(side="left", expand=True, fill="x", padx=5)
-    
-    return button_frame
+            logging.error(f"An unexpected error occurred in downloader thread: {e}", exc_info=True)
+            if self.completion_callback:
+                self.completion_callback(False, f"An unexpected error occurred: {e}", None)
 
+    def _build_command(self):
+        """Constructs the command-line arguments for yt-dlp."""
+        ytdlp_bin = paths.YT_DLP_PATH or "yt-dlp"
+        command = [
+            ytdlp_bin,
+            self.url,
+            '--output', self.output_path,
+            '--progress',
+            '--newline',
+            '--no-warnings',
+            '--ignore-errors',
+            '--prefer-insecure'
+        ]
 
-def _create_dont_ask_checkbox(popup, notify_state, on_notify_change):
-    """Create "Don't ask again" checkbox with state management."""
-    dont_ask_again = ctk.BooleanVar(value=notify_state)
+        if paths.FFMPEG_PATH and os.path.exists(paths.FFMPEG_PATH):
+            command.extend(['--ffmpeg-location', paths.FFMPEG_PATH])
 
-    def on_dont_ask_again():
-        """Handle checkbox state change event."""
-        # Save state to config file
-        _save_dont_ask_config(dont_ask_again.get())
+        if self.file_type == 'mp3':
+            command.extend([
+                '--extract-audio',
+                '--audio-format', 'mp3',
+                '--audio-quality', '192K'
+            ])
+        else:
+            # 4K or FHD
+            if self.quality == '4k':
+                format_str = 'bestvideo[height<=2160]+bestaudio/best[height<=2160]/best'
+            else:
+                format_str = 'bestvideo[height<=1080]+bestaudio/best[height<=1080]/best'
+            command.extend([
+                '--format', format_str,
+                '--merge-output-format', 'mp4'
+            ])
         
-        # Call callback to sync state with UI if provided
-        if on_notify_change:
-            on_notify_change(dont_ask_again.get())
+        return command
 
-    checkbox = ctk.CTkCheckBox(
-        popup,
-        text="Don't ask again",
-        variable=dont_ask_again,
-        command=on_dont_ask_again,
-        font=("Helvetica", 13),
-        width=12,
-        height=12
-    )
-    checkbox.place(relx=1.0, rely=1.0, anchor="se", x=-10, y=-10)
+    def _parse_output(self, line):
+        """
+        Parses a line of output from yt-dlp to find progress information.
+        Example line: [download]  15.5% of ~101.44MiB at 790.23KiB/s ETA 02:08
+        """
+        if not self.progress_callback:
+            return
+
+        percent_match = re.search(r'\[download\]\s+([\d\.]+)%', line)
+        if percent_match:
+            try:
+                percent = float(percent_match.group(1))
+                size_match = re.search(r'of\s+~?([\d\.]+\w+)', line)
+                speed_match = re.search(r'at\s+([\d\.]+\w+/s)', line)
+                eta_match = re.search(r'ETA\s+([\d:]+)', line)
+
+                total_size = size_match.group(1) if size_match else "--"
+                speed = speed_match.group(1) if speed_match else "--"
+                eta = eta_match.group(1) if eta_match else "--"
+
+                progress_info = {
+                    'status': 'downloading',
+                    'progress': percent / 100.0,
+                    'percent': percent,
+                    'total_size': total_size,
+                    'speed': speed,
+                    'eta': eta
+                }
+                self.progress_callback(progress_info)
+            except Exception as e:
+                logging.debug(f"Progress parse warning: {e}")
+
+    def _locate_final_file(self):
+        """Find the exact output file on disk, handling potential container changes."""
+        if os.path.exists(self.output_path):
+            return self.output_path
+
+        dir_path = os.path.dirname(self.output_path)
+        base_name = os.path.splitext(os.path.basename(self.output_path))[0]
+
+        if not os.path.exists(dir_path):
+            return None
+
+        # Look for matching base name with expected extension
+        expected_ext = f".{self.file_type}"
+        for fname in os.listdir(dir_path):
+            if fname.startswith(base_name) and fname.lower().endswith(expected_ext):
+                found = os.path.join(dir_path, fname)
+                try:
+                    if found != self.output_path:
+                        os.rename(found, self.output_path)
+                        return self.output_path
+                    return found
+                except Exception:
+                    return found
+
+        # Fallback: look for any file with same base name created recently
+        for fname in os.listdir(dir_path):
+            if fname.startswith(base_name):
+                return os.path.join(dir_path, fname)
+
+        return None
+
+    def _extract_error(self, stderr):
+        """Extract a clean, user-friendly error from stderr."""
+        if not stderr:
+            return "Download failed due to an unknown error."
+        if "Unsupported URL" in stderr:
+            return "The provided URL is not supported."
+        if "HTTP Error 404" in stderr:
+            return "Video not found (404 Error)."
+        if "Video unavailable" in stderr:
+            return "This video is unavailable."
+        if "Private video" in stderr:
+            return "This video is private."
+        if "Sign in to confirm your age" in stderr:
+            return "Age-restricted video: Login required."
+        
+        lines = [ln.strip() for ln in stderr.strip().split('\n') if ln.strip()]
+        for ln in reversed(lines):
+            if "ERROR:" in ln:
+                return ln.split("ERROR:", 1)[1].strip()
+        return lines[-1] if lines else "Download failed."
 
 
-def _save_dont_ask_config(dont_ask_state):
-    """Save the 'don't ask again' state to config file."""
-    config = {}
-    config_file = os.path.join(DATA_DIR, "config.json")
-    
-    if os.path.exists(config_file):
-        try:
-            with open(config_file, "r", encoding="utf-8") as f:
-                config = json.load(f)
-        except Exception as e:
-            logging.warning(f"Could not read config file: {e}")
-    
-    config["dont_show_complete_popup"] = dont_ask_state
-    
+def fetch_video_title(url):
+    """Fetch video title using yt-dlp CLI without downloading."""
+    ytdlp_bin = paths.YT_DLP_PATH or "yt-dlp"
     try:
-        with open(config_file, "w", encoding="utf-8") as f:
-            json.dump(config, f, ensure_ascii=False, indent=4)
+        creationflags = subprocess.CREATE_NO_WINDOW if sys.platform == 'win32' else 0
+        cmd = [ytdlp_bin, "--print", "%(title)s", "--no-warnings", "--skip-download", url]
+        result = subprocess.run(cmd, capture_output=True, text=True, encoding='utf-8', errors='replace', creationflags=creationflags, timeout=15)
+        if result.returncode == 0 and result.stdout.strip():
+            return result.stdout.strip().split('\n')[0].strip()
     except Exception as e:
-        logging.error(f"Could not save config file: {e}")
+        logging.warning(f"Failed to fetch video title via CLI: {e}")
+    return "video"
+
+
+def fetch_playlist_entries(url):
+    """
+    Fetch all video entries (url and title) from a playlist without downloading.
+    Returns: list of dicts [{'url': ..., 'title': ...}]
+    """
+    ytdlp_bin = paths.YT_DLP_PATH or "yt-dlp"
+    entries = []
+    try:
+        creationflags = subprocess.CREATE_NO_WINDOW if sys.platform == 'win32' else 0
+        cmd = [
+            ytdlp_bin,
+            "--flat-playlist",
+            "--print", "%(url)s\t%(title)s",
+            "--no-warnings",
+            url
+        ]
+        result = subprocess.run(cmd, capture_output=True, text=True, encoding='utf-8', errors='replace', creationflags=creationflags, timeout=30)
+        if result.returncode == 0 and result.stdout.strip():
+            for line in result.stdout.strip().split('\n'):
+                parts = line.split('\t', 1)
+                if len(parts) == 2:
+                    v_url = parts[0].strip()
+                    v_title = parts[1].strip()
+                    if not v_url.startswith("http"):
+                        v_url = f"https://www.youtube.com/watch?v={v_url}"
+                    entries.append({'url': v_url, 'title': v_title})
+                elif len(parts) == 1 and parts[0].strip():
+                    v_url = parts[0].strip()
+                    if not v_url.startswith("http"):
+                        v_url = f"https://www.youtube.com/watch?v={v_url}"
+                    entries.append({'url': v_url, 'title': 'video'})
+    except Exception as e:
+        logging.error(f"Failed to fetch playlist entries via CLI: {e}")
+    return entries
+
+
+def download_video(url, output_path, progress_callback=None, quality="fhd"):
+    """
+    Synchronous compatibility helper to download a video using DownloaderProcess.
+    """
+    file_type = "mp3" if output_path.lower().endswith(".mp3") else "mp4"
+    done_event = threading.Event()
+    result = {'success': False, 'message': ''}
+
+    def _on_done(success, message, final_path):
+        result['success'] = success
+        result['message'] = message
+        done_event.set()
+
+    proc = DownloaderProcess(
+        url=url,
+        output_path=output_path,
+        file_type=file_type,
+        quality=quality,
+        progress_callback=progress_callback,
+        completion_callback=_on_done
+    )
+    proc.start()
+    done_event.wait()
+    return result['success']

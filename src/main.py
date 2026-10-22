@@ -35,7 +35,8 @@ if getattr(sys, 'frozen', False):
 
 # Import các module từ thư mục src
 from src.ui import run_app
-from src.utils import DATA_DIR  # Thêm import DATA_DIR từ utils
+from src.utils import DATA_DIR
+from src import paths
 
 def setup_logging():
     """Setup basic logging configuration"""
@@ -70,62 +71,117 @@ def setup_logging():
             handlers=[logging.StreamHandler()]
         )
 
-def check_requirements():
-    """Check if required libraries and tools are installed"""
+def get_exe_version(exe_path):
+    """Lấy phiên bản thực thi từ tham số --version."""
     try:
-        logging.info("Checking required libraries...")
-        import customtkinter
-        logging.info("Successfully imported customtkinter")
-        
-        import yt_dlp
-        logging.info("Successfully imported yt_dlp")
-        
-        # Check ffmpeg in PATH
-        ffmpeg_in_path = shutil.which("ffmpeg")
-        logging.info(f"ffmpeg in PATH: {ffmpeg_in_path}")
-        
-        # If running from exe, check ffmpeg in assets directories
-        if getattr(sys, 'frozen', False):
-            application_path = os.path.dirname(sys.executable)
+        creationflags = subprocess.CREATE_NO_WINDOW if sys.platform == 'win32' else 0
+        res = subprocess.run([exe_path, "--version"], capture_output=True, text=True, creationflags=creationflags, timeout=5)
+        if res.returncode == 0 and res.stdout.strip():
+            from packaging.version import parse as parse_v
+            return parse_v(res.stdout.strip())
+    except Exception:
+        pass
+    return None
+
+def find_executables():
+    """Tìm đường dẫn tuyệt đối cho ffmpeg.exe và yt-dlp.exe và lưu vào module paths."""
+    logging.info("Searching for required executables...")
+    
+    # Định nghĩa các thư mục assets tiềm năng
+    if getattr(sys, 'frozen', False):
+        application_path = os.path.dirname(sys.executable)
+        assets_dirs = [
+            os.path.join(application_path, "_internal", "assets"),
+            os.path.join(application_path, "assets")
+        ]
+    else:
+        root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        assets_dirs = [os.path.join(root_dir, "assets")]
+
+    executables = {
+        "ffmpeg.exe": "FFMPEG_PATH",
+        "yt-dlp.exe": "YT_DLP_PATH"
+    }
+    
+    app_data_path = os.path.join(os.environ.get('APPDATA', ''), "Social Media Downloader")
+    user_ytdlp = os.path.join(app_data_path, "bin", "yt-dlp.exe")
+
+    found_all = True
+    for exe_name, path_variable in executables.items():
+        found = False
+
+        # Ưu tiên kiểm tra phiên bản mới nhất giữa AppData và Bundled đối với yt-dlp.exe
+        if exe_name == "yt-dlp.exe":
+            bundled_ytdlp = None
+            for assets_dir in assets_dirs:
+                p = os.path.join(assets_dir, exe_name)
+                if os.path.exists(p):
+                    bundled_ytdlp = p
+                    break
             
-            # Check both direct assets folder and _internal location
-            assets_paths = [
-                os.path.join(application_path, "assets"),
-                os.path.join(application_path, "_internal", "assets")
-            ]
-            
-            for assets_path in assets_paths:
-                ffmpeg_path = os.path.join(assets_path, "ffmpeg.exe")
-                logging.info(f"Checking ffmpeg at: {ffmpeg_path}")
-                logging.info(f"ffmpeg exists: {os.path.exists(ffmpeg_path)}")
-                
-                if os.path.exists(ffmpeg_path):
-                    # If ffmpeg found, add path to PATH
-                    if assets_path not in os.environ["PATH"]:
-                        os.environ["PATH"] = assets_path + os.pathsep + os.environ["PATH"]
-                        logging.info(f"Added {assets_path} to PATH")
-                    return True
-            
-            # If checked all paths and still not found
-            logging.error("Cannot find ffmpeg in any assets directory")
+            chosen_ytdlp = None
+            if bundled_ytdlp and os.path.exists(user_ytdlp):
+                v_bundled = get_exe_version(bundled_ytdlp)
+                v_user = get_exe_version(user_ytdlp)
+                logging.info(f"So sánh phiên bản yt-dlp - Bản gốc: {v_bundled}, Bản cập nhật AppData: {v_user}")
+                if v_user and v_bundled and v_user >= v_bundled:
+                    chosen_ytdlp = user_ytdlp
+                else:
+                    chosen_ytdlp = bundled_ytdlp
+            elif os.path.exists(user_ytdlp):
+                chosen_ytdlp = user_ytdlp
+            elif bundled_ytdlp:
+                chosen_ytdlp = bundled_ytdlp
+
+            if chosen_ytdlp:
+                logging.info(f"Sử dụng yt-dlp tại: {chosen_ytdlp}")
+                setattr(paths, path_variable, chosen_ytdlp)
+                found = True
+        else:
+            for assets_dir in assets_dirs:
+                exe_path = os.path.join(assets_dir, exe_name)
+                logging.info(f"Checking for {exe_name} at: {exe_path}")
+                if os.path.exists(exe_path):
+                    logging.info(f"Found {exe_name} at: {exe_path}")
+                    setattr(paths, path_variable, exe_path)
+                    found = True
+                    break
         
-        if not ffmpeg_in_path:
-            logging.error("Error: FFmpeg not installed or not found in PATH")
+        if not found:
+            # Check system PATH as fallback
+            base_name = os.path.splitext(exe_name)[0]
+            which_path = shutil.which(exe_name) or shutil.which(base_name)
+            if which_path and os.path.exists(which_path):
+                logging.info(f"Found {exe_name} in system PATH: {which_path}")
+                setattr(paths, path_variable, which_path)
+                found = True
+
+        if not found and exe_name == "yt-dlp.exe":
+            # Tự động tải về thư mục người dùng
             from tkinter import messagebox
-            messagebox.showerror("Error", "FFmpeg not installed or not found. Application may not work correctly.")
-            return False
-        
-        return True
-    except ImportError as e:
-        logging.error(f"Error: Missing required library: {e}")
-        from tkinter import messagebox
-        messagebox.showerror("Error", f"Missing required library: {e}\nPlease install by running: pip install customtkinter yt-dlp")
-        return False
-    except Exception as e:
-        logging.error(f"Unknown error during requirements check: {e}")
-        from tkinter import messagebox
-        messagebox.showerror("Error", f"Unknown error: {e}")
-        return False
+            from src.utils import download_yt_dlp, get_ytdlp_update_path
+            target_path = get_ytdlp_update_path()
+            answer = messagebox.askyesno(
+                "Tải yt-dlp",
+                "Chưa tìm thấy yt-dlp.exe trên máy.\nBạn có muốn tự động tải về ngay không?"
+            )
+            if answer:
+                ok, err = download_yt_dlp(target_path)
+                if ok and os.path.exists(paths.YT_DLP_PATH or target_path):
+                    setattr(paths, path_variable, paths.YT_DLP_PATH or target_path)
+                    found = True
+                    messagebox.showinfo("Thành công", "Đã tải yt-dlp.exe thành công!")
+                else:
+                    messagebox.showerror("Lỗi", f"Không thể tải yt-dlp.exe: {err}")
+
+        if not found:
+            logging.error(f"CRITICAL: Could not find {exe_name} in any assets directory.")
+            from tkinter import messagebox
+            messagebox.showerror("Lỗi nghiêm trọng", f"Không tìm thấy file {exe_name}. Ứng dụng không thể hoạt động.")
+            found_all = False
+
+    return found_all
+
 
 def is_admin():
     if os.name == 'nt':
@@ -137,159 +193,7 @@ def is_admin():
     else:
         return os.geteuid() == 0
 
-def check_yt_dlp_version():
-    try:
-        logging.info("Checking yt-dlp version...")
-        import yt_dlp
-        current_version = yt_dlp.version.__version__
-        logging.info(f"Current yt-dlp version: '{current_version}'")
-        if getattr(sys, 'frozen', False):
-            try:
-                import urllib.request
-                import json
-                from packaging.version import parse as parse_version
-                from tkinter import messagebox
-                import customtkinter as ctk
-                import threading
-                from src.utils import download_yt_dlp
-                # Lấy version mới nhất từ PyPI
-                request = urllib.request.Request("https://pypi.org/pypi/yt-dlp/json")
-                response = urllib.request.urlopen(request, timeout=2)
-                data = json.loads(response.read())
-                latest_version = data["info"]["version"]
-                logging.info(f"Phiên bản yt-dlp mới nhất: '{latest_version}'")
-                current_v = parse_version(current_version)
-                latest_v = parse_version(latest_version)
-                if current_v < latest_v:
-                    result = messagebox.askyesno(
-                        "Cập nhật yt-dlp",
-                        f"Có phiên bản yt-dlp mới ({latest_version}). Phiên bản hiện tại là {current_version}.\n\nBạn có muốn cập nhật không?"
-                    )
-                    if result:
-                        if not is_admin():
-                            messagebox.showinfo(
-                                "Yêu cầu quyền quản trị viên",
-                                "Để cập nhật yt-dlp, vui lòng khởi động lại ứng dụng bằng quyền Administrator (chuột phải vào biểu tượng ứng dụng, chọn 'Run as administrator').\n\nSau đó chọn cập nhật lại."
-                            )
-                            return False
-                        # Nếu đã là admin thì tiến hành tải yt-dlp như cũ
-                        def do_update():
-                            try:
-                                logging.info("Starting yt-dlp update process...")
-                                
-                                # Xác định đường dẫn assets dựa trên frozen hay không
-                                if getattr(sys, 'frozen', False):
-                                    # Khi chạy từ exe, assets nằm trong _internal
-                                    application_path = os.path.dirname(sys.executable)
-                                    logging.info(f"Running from exe, app path: {application_path}")
-                                    
-                                    # Kiểm tra cả 2 vị trí có thể có assets
-                                    possible_assets_dirs = [
-                                        os.path.join(application_path, "_internal", "assets"),  # Vị trí chuẩn
-                                        os.path.join(application_path, "assets")               # Vị trí backup
-                                    ]
-                                    
-                                    # Chọn thư mục assets tồn tại hoặc tạo mới _internal/assets
-                                    assets_dir = None
-                                    for dir_path in possible_assets_dirs:
-                                        logging.info(f"Checking assets dir: {dir_path}, exists: {os.path.exists(dir_path)}")
-                                        if os.path.exists(dir_path):
-                                            assets_dir = dir_path
-                                            break
-                                    
-                                    # Nếu không tìm thấy, tạo trong _internal
-                                    if assets_dir is None:
-                                        assets_dir = possible_assets_dirs[0]  # _internal/assets
-                                        logging.info(f"No assets dir found, will create: {assets_dir}")
-                                else:
-                                    # Khi chạy từ source code
-                                    root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-                                    assets_dir = os.path.join(root_dir, "assets")
-                                    logging.info(f"Running from source, assets dir: {assets_dir}")
-                                
-                                dest_path = os.path.join(assets_dir, "yt-dlp.exe")
-                                logging.info(f"Selected assets directory: {assets_dir}")
-                                logging.info(f"yt-dlp download path: {dest_path}")
-                                
-                                # Tạo thư mục assets nếu chưa tồn tại
-                                if not os.path.exists(assets_dir):
-                                    os.makedirs(assets_dir)
-                                    logging.info(f"Created assets directory: {assets_dir}")
-                                else:
-                                    logging.info(f"Assets directory already exists: {assets_dir}")
-                                
-                                # Tạo progress popup đơn giản
-                                import tkinter as tk
-                                temp_root = tk.Tk()
-                                temp_root.withdraw()  # Ẩn window chính
-                                
-                                progress_popup = ctk.CTkToplevel(temp_root)
-                                progress_popup.title("Đang cập nhật yt-dlp...")
-                                progress_popup.geometry("400x120")
-                                progress_popup.attributes("-topmost", True)
-                                progress_popup.resizable(False, False)
-                                
-                                # Căn giữa popup
-                                progress_popup.update_idletasks()
-                                screen_width = progress_popup.winfo_screenwidth()
-                                screen_height = progress_popup.winfo_screenheight()
-                                x = (screen_width // 2) - (progress_popup.winfo_width() // 2)
-                                y = (screen_height // 2) - (progress_popup.winfo_height() // 2)
-                                progress_popup.geometry(f"400x120+{x}+{y}")
-                                
-                                label = ctk.CTkLabel(progress_popup, text="Đang tải yt-dlp mới nhất...")
-                                label.pack(pady=10)
-                                progress = ctk.CTkProgressBar(progress_popup, width=300)
-                                progress.pack(pady=10)
-                                progress.set(0)
-                                
-                                progress_popup.grab_set()  # Lock focus vào popup
-                                
-                                def progress_callback(downloaded, total):
-                                    try:
-                                        percent = downloaded / total if total else 0
-                                        progress.set(percent)
-                                        label.configure(text=f"Đang tải yt-dlp: {percent*100:.1f}%")
-                                        progress_popup.update_idletasks()
-                                    except:
-                                        pass  # Popup có thể đã bị đóng
-                                
-                                def run_download():
-                                    logging.info("Starting yt-dlp download...")
-                                    ok, err = download_yt_dlp(dest_path, progress_callback)
-                                    logging.info(f"Download result: ok={ok}, err={err}")
-                                    
-                                    try:
-                                        progress_popup.grab_release()
-                                        progress_popup.destroy()
-                                        temp_root.destroy()  # Đóng temp root
-                                    except:
-                                        pass  # Popup có thể đã bị đóng
-                                    
-                                    # Hiển thị kết quả cập nhật
-                                    if ok:
-                                        messagebox.showinfo("Thành công", "Đã cập nhật yt-dlp thành công!")
-                                        logging.info("Cập nhật yt-dlp thành công")
-                                    else:
-                                        messagebox.showerror("Lỗi", f"Không thể cập nhật yt-dlp: {err}")
-                                        logging.error(f"Lỗi cập nhật yt-dlp: {err}")
-                                
-                                # Chạy download trong thread để không block UI
-                                threading.Thread(target=run_download, daemon=True).start()
-                                
-                            except Exception as e:
-                                logging.error(f"Error in do_update(): {e}", exc_info=True)
-                                messagebox.showerror("Lỗi", f"Lỗi khi chuẩn bị cập nhật: {e}")
-                        
-                        do_update()
-                        return True
-            except Exception as e:
-                logging.error(f"Lỗi khi kiểm tra/cập nhật yt-dlp: {e}")
-                return False
-        return True
-    except Exception as e:
-        logging.error(f"Lỗi khi kiểm tra phiên bản yt-dlp: {e}")
-        return False
+
 
 def main():
     """Hàm chính để chạy ứng dụng"""
@@ -340,22 +244,25 @@ def main():
             except Exception as e:
                 logging.error(f"Lỗi khi reset cài đặt 'không hỏi lại': {e}")
         
-        # Kiểm tra các yêu cầu
-        if not check_requirements():
-            logging.error("Không đáp ứng các yêu cầu cần thiết, thoát ứng dụng")
+        # Kiểm tra và tìm các file thực thi cần thiết
+        if not find_executables():
+            logging.error("Không tìm thấy các file thực thi cần thiết, thoát ứng dụng.")
+            sys.exit(1)
+
+        # Kiểm tra các yêu cầu thư viện Python
+        try:
+            import customtkinter
+            import PIL
+            import packaging
+        except ImportError as e:
+            logging.error(f"Thiếu thư viện Python cần thiết: {e}")
             from tkinter import messagebox
-            messagebox.showerror("Lỗi", "Ứng dụng không thể khởi động do thiếu các thành phần cần thiết.")
+            messagebox.showerror("Lỗi", f"Thiếu thư viện: {e.name}. Vui lòng cài đặt bằng pip.")
             sys.exit(1)
         
-        # Kiểm tra và cập nhật yt-dlp nếu cần
-        check_yt_dlp_version()
-        
-        # Chạy ứng dụng chính
+        # Chạy ứng dụng chính (kiểm tra cập nhật yt-dlp sẽ chạy ngầm sau khi UI sẵn sàng)
         logging.info("Bắt đầu chạy giao diện người dùng")
         run_app()
-        
-        # Kiểm tra cập nhật yt-dlp sau khi UI đã khởi tạo
-        # Sẽ được gọi từ trong UI class sau khi window đã sẵn sàng
     except Exception as e:
         # Xử lý lỗi toàn cục
         error_msg = f"Lỗi không xử lý được khi khởi động ứng dụng: {e}"

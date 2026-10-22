@@ -1,16 +1,21 @@
 # -*- mode: python ; coding: utf-8 -*-
 from PyInstaller.utils.hooks import collect_submodules
+from PyInstaller.utils.hooks import collect_all
 
+datas = [('D:\\Code_app\\Social_Downloader\\assets', 'assets'), ('D:\\Code_app\\Social_Downloader\\data', 'data'), ('D:\\Code_app\\Social_Downloader\\src', 'src')]
+binaries = [('assets/ffmpeg.exe', 'assets'), ('assets/ffprobe.exe', 'assets'), ('assets/ffplay.exe', 'assets'), ('assets/yt-dlp.exe', 'assets')]
 hiddenimports = ['customtkinter', 'yt_dlp', 'PIL', 'PIL._tkinter_finder', 'PIL._imaging', 'PIL.Image', 'PIL.ImageTk', 'tkinter', 'json', 'csv', 'threading', 'shutil', 'os', 'sys', 'datetime', 're', 'platform', 'subprocess', 'src.ui', 'src.downloader', 'src.utils', 'packaging', 'packaging.version']
 hiddenimports += collect_submodules('PIL')
 hiddenimports += collect_submodules('src')
+tmp_ret = collect_all('customtkinter')
+datas += tmp_ret[0]; binaries += tmp_ret[1]; hiddenimports += tmp_ret[2]
 
 
 a = Analysis(
-    ['d:\\Code_app\\Social_Downloader\\src\\main.py'],
+    ['D:\\Code_app\\Social_Downloader\\src\\main.py'],
     pathex=[],
-    binaries=[('assets/ffmpeg.exe', 'assets'), ('assets/ffprobe.exe', 'assets'), ('assets/ffplay.exe', 'assets')],
-    datas=[('d:\\Code_app\\Social_Downloader\\assets', 'assets'), ('d:\\Code_app\\Social_Downloader\\data', 'data'), ('d:\\Code_app\\Social_Downloader\\src', 'src')],
+    binaries=binaries,
+    datas=datas,
     hiddenimports=hiddenimports,
     hookspath=[],
     hooksconfig={},
@@ -36,7 +41,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['d:\\Code_app\\Social_Downloader\\assets\\CH.ico'],
+    icon=['D:\\Code_app\\Social_Downloader\\assets\\CH.ico'],
 )
 coll = COLLECT(
     exe,

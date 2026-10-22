@@ -1,0 +1,14 @@
+[Unit]
+Description=Social Media Downloader Landing Page
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/var/www/smd-web
+ExecStart=/usr/bin/python3 /var/www/smd-web/server.py --port 8082
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

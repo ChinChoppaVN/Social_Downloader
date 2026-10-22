@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Media Downloader - Tải Video, Trọn Bộ Playlist & Hàng Loạt Link Tốc Độ Cao</title>
+  <meta name="description" content="Công cụ tải Video, trọn bộ Playlist YouTube, hàng loạt link từ file .txt, TikTok không logo, Facebook, tách MP3 320kbps. Miễn phí 100%, không quảng cáo, cài đặt là dùng ngay.">
+  <meta name="keywords" content="social media downloader, tai playlist youtube, tai hang loat link video, tai video youtube 4k, tai tiktok khong logo, tach nhac mp3 320kbps">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://smd.thangmedia.site/">
+  <meta property="og:title" content="Social Media Downloader v2.0 - Tải Playlist & Hàng Loạt Link">
+  <meta property="og:description" content="Tải trọn bộ Playlist YouTube, tải hàng loạt link từ file .txt, video 4K, TikTok không logo và tách MP3 320kbps. Nhanh chóng & Miễn phí 100%.">
+  <meta property="og:image" content="/assets/logo.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+  <link rel="apple-touch-icon" href="/assets/logo.png">
+
+  <!-- Fonts: Inter & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <!-- Header / Navigation -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="#" class="brand-logo">
+        <img src="/assets/logo.png" alt="Social Media Downloader Logo" class="logo-img" width="40" height="40">
+        <div class="brand-text">
+          <span class="brand-name">Social Media Downloader</span>
+          <span class="badge-version">v2.0</span>
+        </div>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#features">Tính năng nổi bật</a>
+        <a href="#playlist-feature">Tải Playlist</a>
+        <a href="#platforms">Nền tảng hỗ trợ</a>
+        <a href="#how-it-works">Cài đặt</a>
+        <a href="#faq">Hỏi đáp</a>
+      </nav>
+
+      <div class="header-actions">
+        <button id="theme-toggle" class="btn-icon" aria-label="Đổi giao diện Sáng / Tối" title="Đổi giao diện">
+          <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+          <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+
+        <a href="#download" class="btn btn-primary btn-sm">
+          <span>Tải ngay</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container hero-container">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        <span>✨ Phiên bản v2.0 • Tải trọn Playlist & Hàng loạt link • Miễn phí 100%</span>
+      </div>
+
+      <h1 class="hero-title">
+        Tải Trọn Bộ Playlist, Hàng Loạt Link & Video <br>
+        <span class="text-gradient">Chất Lượng Gốc Tốc Độ Cao</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        Ứng dụng Windows mạnh mẽ giúp bạn tải <strong>toàn bộ Playlist YouTube</strong> chỉ trong 1 click, 
+        tải <strong>hàng loạt link từ file .txt</strong>, video <strong>TikTok không dính logo</strong>, Facebook Reels và tách nhạc <strong>MP3 320kbps</strong>. 
+        Tải về là dùng ngay, không cần cấu hình phức tạp.
+      </p>
+
+      <div class="hero-cta" id="download">
+        <a href="https://github.com/ChinChoppaVN/Social_Downloader/releases/latest/download/SocialMediaDownloader_Setup.exe" class="btn btn-primary btn-lg" id="download-btn">
+          <svg class="btn-icon-svg" viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
+            <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.901-1.801"/>
+          </svg>
+          <div class="btn-text-group">
+            <span class="btn-title">Tải về cho Windows</span>
+            <span class="btn-desc">Bản cài đặt Setup.exe (~98 MB) • v2.0</span>
+          </div>
+        </a>
+
+        <a href="https://github.com/ChinChoppaVN/Social_Downloader" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-lg">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+          </svg>
+          <span>Xem GitHub</span>
+        </a>
+      </div>
+
+      <div class="hero-specs">
+        <span>✓ Tải trọn Playlist 1-Click</span>
+        <span>✓ Nạp danh sách file .txt</span>
+        <span>✓ Tương thích Windows 10 & 11</span>
+        <span>✓ Miễn phí & Không quảng cáo</span>
+      </div>
+
+      <!-- App Mockup UI Preview -->
+      <div class="app-mockup-wrapper">
+        <div class="mockup-window">
+          <div class="mockup-header">
+            <div class="window-dots">
+              <span class="dot dot-red"></span>
+              <span class="dot dot-yellow"></span>
+              <span class="dot dot-green"></span>
+            </div>
+            <div class="window-title">🎬 Social Media Downloader v2.0 - Sunset Coral</div>
+            <div class="window-badge">Windows 64-bit</div>
+          </div>
+          <div class="mockup-body">
+            <!-- Mockup Mode Switcher -->
+            <div class="mockup-tabs">
+              <button class="mockup-tab-btn active" id="tab-single">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+                <span>Tải Video Đơn</span>
+              </button>
+              <button class="mockup-tab-btn" id="tab-playlist">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                <span>Tải Playlist & Hàng Loạt Link</span>
+                <span class="tab-highlight">Mới</span>
+              </button>
+            </div>
+
+            <!-- View 1: Single Video View -->
+            <div class="mockup-view" id="view-single">
+              <div class="mockup-input-row">
+                <div class="mockup-input">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                  <span class="mockup-placeholder">https://www.youtube.com/watch?v=dQw4w9WgXcQ</span>
+                </div>
+                <button class="mockup-btn-paste">Thử dán link</button>
+              </div>
+
+              <div class="mockup-options-row">
+                <div class="mockup-pill active">
+                  <span class="pill-check">●</span> Video MP4
+                </div>
+                <div class="mockup-pill">
+                  <span class="pill-check">○</span> Âm thanh MP3
+                </div>
+                <div class="mockup-select">
+                  <span>Chất lượng: 1080p Full HD / 4K</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
+              </div>
+
+              <div class="mockup-progress-card">
+                <div class="progress-info">
+                  <span class="progress-title">Never Gonna Give You Up (Official Music Video).mp4</span>
+                  <span class="progress-percent">82% • 18.5 MB/s</span>
+                </div>
+                <div class="progress-bar-bg">
+                  <div class="progress-bar-fill" style="width: 82%;"></div>
+                </div>
+                <div class="progress-meta">
+                  <span>Đã tải: 42.5 MB / 51.8 MB (1080p HD)</span>
+                  <span>Còn lại: 00:00:02</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- View 2: Playlist & Batch View -->
+            <div class="mockup-view" id="view-playlist" style="display: none;">
+              <div class="playlist-header-box">
+                <div class="playlist-info-meta">
+                  <span class="badge-playlist">Danh sách phát YouTube</span>
+                  <strong>Khoá học Lập trình Web Fullstack 2026</strong>
+                  <span class="playlist-count">Đã chọn 28/28 video • Tổng 2.4 GB</span>
+                </div>
+                <div class="playlist-actions">
+                  <button class="btn-batch-action">Chọn tất cả</button>
+                  <button class="btn-batch-action btn-batch-primary">Tải toàn bộ (28)</button>
+                </div>
+              </div>
+
+              <div class="playlist-items-list">
+                <div class="queue-item done">
+                  <span class="queue-status">✓</span>
+                  <span class="queue-num">01</span>
+                  <span class="queue-name">Bài 1: Giới thiệu tổng quan và cài đặt môi trường.mp4</span>
+                  <span class="queue-size">85 MB</span>
+                  <span class="queue-badge-done">Xong</span>
+                </div>
+                <div class="queue-item active">
+                  <span class="queue-status-anim">▶</span>
+                  <span class="queue-num">02</span>
+                  <div class="queue-active-content">
+                    <span class="queue-name">Bài 2: Kiến trúc cơ bản và thực hành bài đầu tiên.mp4</span>
+                    <div class="queue-progress-bar">
+                      <div class="queue-progress-fill" style="width: 65%;"></div>
+                    </div>
+                  </div>
+                  <span class="queue-percent">65% • 22 MB/s</span>
+                </div>
+                <div class="queue-item pending">
+                  <span class="queue-status">⏳</span>
+                  <span class="queue-num">03</span>
+                  <span class="queue-name">Bài 3: Xử lý dữ liệu và kết nối API nâng cao.mp4</span>
+                  <span class="queue-size">140 MB</span>
+                  <span class="queue-badge-pending">Chờ tải...</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Big Feature Spotlight: Playlist & Batch Links -->
+  <section class="section playlist-spotlight-section" id="playlist-feature">
+    <div class="container">
+      <div class="spotlight-box">
+        <div class="spotlight-content">
+          <div class="spotlight-tag">⭐ Tính năng đắt giá nhất</div>
+          <h2 class="spotlight-title">Tải trọn Playlist YouTube & Hàng loạt link chỉ trong 1 lần bấm</h2>
+          <p class="spotlight-desc">
+            Không còn phải mất hàng giờ ngồi bấm copy-paste từng video một cách thủ công. 
+            Social Media Downloader được tối ưu hóa đặc biệt cho người thích lưu trữ cả album nhạc, trọn bộ bài giảng hoặc series video dài tập.
+          </p>
+
+          <div class="spotlight-features-list">
+            <div class="spotlight-feature-item">
+              <div class="feature-bullet">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <div>
+                <strong>Tự động nhận diện danh sách phát (Playlist)</strong>
+                <p>Chỉ cần dán link Playlist, app sẽ tự động bóc tách từng video, hiển thị danh sách cho bạn chọn lọc bài cần tải hoặc tải toàn bộ.</p>
+              </div>
+            </div>
+
+            <div class="spotlight-feature-item">
+              <div class="feature-bullet">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <div>
+                <strong>Nạp danh sách hàng chục link từ file text (.txt)</strong>
+                <p>Lưu sẵn danh sách link vào một file ghi chú <code>.txt</code>. Chỉ cần bấm "Nạp file", ứng dụng sẽ tự động tải nối tiếp từng video đến khi hoàn tất.</p>
+              </div>
+            </div>
+
+            <div class="spotlight-feature-item">
+              <div class="feature-bullet">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <div>
+                <strong>Hàng đợi thông minh (Queue) & Không gián đoạn</strong>
+                <p>Tải lần lượt tuần tự, tự động bỏ qua nếu gặp video lỗi và tiếp tục các video tiếp theo mà không dừng chương trình.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="spotlight-visual">
+          <div class="batch-preview-card">
+            <div class="preview-card-header">
+              <span class="preview-dot"></span>
+              <span>Hàng đợi tải hàng loạt (Batch Queue)</span>
+              <span class="preview-badge">Tự động 100%</span>
+            </div>
+            <div class="preview-code-block">
+              <div class="code-line"><span class="c-comment"># Nạp danh sách từ links.txt</span></div>
+              <div class="code-line">youtube.com/watch?v=video_01 <span class="c-ok">✓ Xong (1080p)</span></div>
+              <div class="code-line">youtube.com/watch?v=video_02 <span class="c-ok">✓ Xong (1080p)</span></div>
+              <div class="code-line">youtube.com/playlist?list=... <span class="c-run">▶ Đang tải (12/45 video)</span></div>
+              <div class="code-line">tiktok.com/@user/video/34... <span class="c-wait">⏳ Hàng đợi tiếp theo</span></div>
+              <div class="code-line">instagram.com/reel/Cw9... <span class="c-wait">⏳ Hàng đợi tiếp theo</span></div>
+            </div>
+            <div class="preview-card-footer">
+              <span>Tốc độ: <strong>26.4 MB/s</strong></span>
+              <span>Tổng tiến trình: <strong>48%</strong></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Platforms Supported -->
+  <section class="section platforms-section" id="platforms">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Hỗ trợ trọn vẹn các nền tảng giải trí hàng đầu</h2>
+        <p class="section-desc">Chỉ cần dán đường dẫn, phần mềm sẽ tự động nhận diện và trích xuất chất lượng gốc cao nhất.</p>
+      </div>
+
+      <div class="platforms-grid">
+        <div class="platform-card">
+          <div class="platform-icon yt-icon">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </div>
+          <h3>YouTube</h3>
+          <p>Tải Video 1080p, 2K, 4K sắc nét. Hỗ trợ tải trọn bộ Playlist và toàn bộ video ngắn Shorts.</p>
+        </div>
+
+        <div class="platform-card">
+          <div class="platform-icon tt-icon">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.98v8.68c-.01 2.37-.89 4.75-2.58 6.44-1.68 1.69-4.06 2.58-6.44 2.58-2.37 0-4.75-.89-6.44-2.58C-.54 21.48-.54 16.71 1.15 15.02c1.69-1.69 4.07-2.58 6.44-2.58.46 0 .91.04 1.36.11v4.11c-.45-.14-.93-.21-1.41-.21-1.3 0-2.6.52-3.52 1.44-.92.92-1.44 2.22-1.44 3.52 0 1.3.52 2.6 1.44 3.52.92.92 2.22 1.44 3.52 1.44 1.3 0 2.6-.52 3.52-1.44.92-.92 1.44-2.22 1.44-3.52V.02z"/></svg>
+          </div>
+          <h3>TikTok</h3>
+          <p>Tự động phát hiện và xoá hoàn toàn Watermark (logo TikTok), lưu video chất lượng gốc không mờ nhòe.</p>
+        </div>
+
+        <div class="platform-card">
+          <div class="platform-icon fb-icon">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </div>
+          <h3>Facebook</h3>
+          <p>Tải video bảng tin, nhóm cộng đồng, video Watch và toàn bộ video ngắn Facebook Reels ở độ phân giải cao nhất.</p>
+        </div>
+
+        <div class="platform-card">
+          <div class="platform-icon ig-icon">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </div>
+          <h3>Instagram</h3>
+          <p>Tải bài đăng video, Story và Instagram Reels giữ nguyên chất lượng gốc và âm thanh nguyên bản.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bento Features Section -->
+  <section class="section features-section" id="features">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Những tính năng tạo nên sự khác biệt</h2>
+        <p class="section-desc">Mọi thứ được thiết kế tối giản để mang lại kết quả nhanh nhất, chất lượng tốt nhất mà bạn không cần phải bận tâm về kỹ thuật.</p>
+      </div>
+
+      <div class="bento-grid">
+        <!-- Feature 1: Video 4K & Full HD -->
+        <div class="bento-card">
+          <div class="bento-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg>
+          </div>
+          <h3>Video 4K & Full HD sắc nét</h3>
+          <p>Tự động lựa chọn luồng hình ảnh và âm thanh chất lượng tốt nhất có thể, cho ra file video hoàn chỉnh, sắc nét đến từng khung hình.</p>
+        </div>
+
+        <!-- Feature 2: Audio Extraction -->
+        <div class="bento-card">
+          <div class="bento-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+          </div>
+          <h3>Tách nhạc MP3 320kbps chuẩn studio</h3>
+          <p>Trích xuất âm thanh ca nhạc chất lượng cao, tự động đính kèm ảnh bìa album và thông tin ca sĩ/bài hát đầy đủ.</p>
+        </div>
+
+        <!-- Feature 3: Auto Algorithm Update -->
+        <div class="bento-card">
+          <div class="bento-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+          </div>
+          <h3>Tự động cập nhật 1-click</h3>
+          <p>Khi YouTube hoặc TikTok thay đổi cấu trúc khiến tải bị chậm, bạn chỉ cần bấm nút cập nhật ngay trong phần mềm để nhận bản vá mới tức thì.</p>
+        </div>
+
+        <!-- Feature 4: Ready to run -->
+        <div class="bento-card">
+          <div class="bento-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          </div>
+          <h3>Cài đặt là dùng ngay</h3>
+          <p>Tất cả các bộ máy xử lý đã được đóng gói trọn vẹn trong 1 bộ cài duy nhất. Người dùng không cần hiểu biết kỹ thuật hay cài thêm ứng dụng nào khác.</p>
+        </div>
+
+        <!-- Feature 5: Theme & Multilingual -->
+        <div class="bento-card bento-card-large">
+          <div class="bento-content">
+            <span class="feature-tag">Trải nghiệm hiện đại</span>
+            <h3>Giao diện Sunset Coral & Hỗ trợ song ngữ</h3>
+            <p>
+              Thiết kế theo triết lý phẳng không viền, tông màu ấm áp dịu mắt. 
+              Tự động chuyển đổi giữa chế độ Sáng và Tối (Dark/Light mode) giúp làm việc lâu không mỏi mắt, cùng tùy chọn Tiếng Việt và English thân thiện.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="section steps-section" id="how-it-works">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Chỉ 3 bước đơn giản để bắt đầu</h2>
+        <p class="section-desc">Không cần cấu hình, không cần tài khoản đăng ký. Mọi thứ đã sẵn sàng cho bạn.</p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">01</div>
+          <h3>Tải bộ cài đặt</h3>
+          <p>Nhấn nút tải file <code>SocialMediaDownloader_Setup.exe</code> từ trang phát hành chính thức trên GitHub.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">02</div>
+          <h3>Cài đặt nhanh chóng</h3>
+          <p>Mở file cài đặt, chọn thư mục bạn muốn lưu ứng dụng và nhấn <strong>Next</strong> để hoàn tất trong 10 giây.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">03</div>
+          <h3>Dán link & Tải về</h3>
+          <p>Khởi động phần mềm, dán link video hoặc Playlist bất kỳ và tận hưởng video chất lượng gốc trên máy tính.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="section faq-section" id="faq">
+    <div class="container faq-container">
+      <div class="section-header">
+        <h2 class="section-title">Câu hỏi thường gặp</h2>
+        <p class="section-desc">Giải đáp những thắc mắc phổ biến của người dùng về Social Media Downloader.</p>
+      </div>
+
+      <div class="faq-accordion">
+        <details class="faq-item" open>
+          <summary class="faq-question">
+            <span>Phần mềm này có hỗ trợ tải trọn bộ danh sách phát (Playlist) không?</span>
+            <svg class="faq-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </summary>
+          <div class="faq-answer">
+            <p><strong>Có, hoàn toàn hỗ trợ!</strong> Bạn chỉ cần dán đường link Playlist của YouTube, ứng dụng sẽ tự động nhận diện và hiển thị danh sách toàn bộ các video. Bạn có thể chọn tải toàn bộ chỉ với 1 click, hoặc tick chọn từng bài cụ thể. Ngoài ra bạn còn có thể nạp cả file <code>.txt</code> chứa hàng chục link để tải tự động liên tiếp.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">
+            <span>Tôi có cần cài thêm phần mềm hay công cụ kỹ thuật nào khác không?</span>
+            <svg class="faq-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </summary>
+          <div class="faq-answer">
+            <p><strong>Hoàn toàn không cần!</strong> Bạn chỉ cần tải bộ cài đặt về và sử dụng ngay. Mọi công nghệ ghép video độ phân giải cao và trích xuất âm thanh đã được tích hợp sẵn 100% bên trong ứng dụng.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">
+            <span>Phần mềm này có miễn phí không?</span>
+            <svg class="faq-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </summary>
+          <div class="faq-answer">
+            <p><strong>Có, miễn phí 100%!</strong> Ứng dụng là mã nguồn mở được chia sẻ cộng đồng, không có quảng cáo phiền toái, không ép người dùng mua gói trả phí và không thu thập bất kỳ dữ liệu cá nhân nào.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">
+            <span>Windows Defender hiện cảnh báo "SmartScreen" thì xử lý thế nào?</span>
+            <svg class="faq-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </summary>
+          <div class="faq-answer">
+            <p>Đây là cảnh báo tự động của Windows đối với các phần mềm mới chưa mua chứng chỉ chữ ký số hàng năm từ Microsoft. Bạn chỉ cần nhấn <strong>"More info" (Xem thêm)</strong> $\rightarrow$ chọn <strong>"Run anyway" (Vẫn chạy)</strong> là cài đặt bình thường và an toàn tuyệt đối.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">
+            <span>Làm thế nào khi các nền tảng đổi thuật toán khiến tải bị lỗi?</span>
+            <svg class="faq-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </summary>
+          <div class="faq-answer">
+            <p>Phần mềm có sẵn tính năng tự kiểm tra cập nhật lõi: Vào menu <strong>Cài đặt (Settings)</strong> $\rightarrow$ chọn <strong>Cập nhật (Update)</strong> để tự động nhận bản vá mới nhất chỉ sau vài giây.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA Section -->
+  <section class="section final-cta-section">
+    <div class="container">
+      <div class="cta-box">
+        <h2 class="cta-title">Sẵn sàng tải trọn Playlist và Video chất lượng cao?</h2>
+        <p class="cta-desc">Tải về ngay hôm nay và tận hưởng trải nghiệm tải video, playlist mượt mà nhất trên máy tính Windows của bạn.</p>
+        <div class="cta-buttons">
+          <a href="https://github.com/ChinChoppaVN/Social_Downloader/releases/latest/download/SocialMediaDownloader_Setup.exe" class="btn btn-primary btn-lg">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+              <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.901-1.801"/>
+            </svg>
+            <span>Tải về cho Windows v2.0 (~98 MB)</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-brand">
+        <div class="brand-logo">
+          <img src="/assets/logo.png" alt="Logo" width="28" height="28">
+          <span class="brand-name">Social Media Downloader</span>
+        </div>
+        <p class="footer-tagline">Tiện ích tải video, playlist và âm thanh tốc độ cao, đa nền tảng và thân thiện cho người dùng Windows.</p>
+      </div>
+
+      <div class="footer-links">
+        <div class="link-group">
+          <h4>Dự án</h4>
+          <a href="https://github.com/ChinChoppaVN/Social_Downloader" target="_blank" rel="noopener">Mã nguồn GitHub</a>
+          <a href="https://github.com/ChinChoppaVN/Social_Downloader/releases" target="_blank" rel="noopener">Lịch sử phát hành</a>
+          <a href="https://github.com/ChinChoppaVN/Social_Downloader/issues" target="_blank" rel="noopener">Báo lỗi & Góp ý</a>
+        </div>
+        <div class="link-group">
+          <h4>Hạ tầng</h4>
+          <a href="https://thangmedia.site" target="_blank" rel="noopener">ThangMedia Site</a>
+          <span>Cloudflare Tunnel</span>
+          <span>Google Cloud Platform</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>© 2026 Social Media Downloader. Phát hành dưới giấy phép mã nguồn mở MIT License.</p>
+    </div>
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>

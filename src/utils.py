@@ -17,7 +17,10 @@ import subprocess
 import threading
 import time
 
-import yt_dlp
+try:
+    import yt_dlp
+except ImportError:
+    yt_dlp = None
 from PIL import Image, ImageTk
 import customtkinter as ctk
 from tkinter import messagebox, filedialog
@@ -110,7 +113,7 @@ def _normalize_spacing(name):
     return name
 
 def fetch_video_title(url):
-    """Fetch video title from URL using yt-dlp.
+    """Fetch video title from URL using yt-dlp CLI or library.
     
     Args:
         url (str): Video URL
@@ -118,17 +121,30 @@ def fetch_video_title(url):
     Returns:
         str: Cleaned video title or default name if extraction fails
     """
-    ydl_opts = {'quiet': True}
-    try:
-        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            info = ydl.extract_info(url, download=False)
-            title = info.get('title', 'video_youtube')
-            # Clean title before returning
-            clean_title = get_clean_filename(title, "mp3")
-            return os.path.splitext(clean_title)[0]  # Remove extension to avoid conflicts
-    except Exception as e:
-        logging.error(f"Cannot fetch video title: {e}")
-        return "video_youtube"
+    from src import paths
+    if paths.YT_DLP_PATH and os.path.exists(paths.YT_DLP_PATH):
+        try:
+            creationflags = subprocess.CREATE_NO_WINDOW if sys.platform == 'win32' else 0
+            cmd = [paths.YT_DLP_PATH, "--print", "%(title)s", "--no-warnings", "--skip-download", url]
+            res = subprocess.run(cmd, capture_output=True, text=True, encoding='utf-8', errors='replace', creationflags=creationflags, timeout=12)
+            if res.returncode == 0 and res.stdout.strip():
+                clean_title = get_clean_filename(res.stdout.strip().split('\n')[0], "mp3")
+                return os.path.splitext(clean_title)[0]
+        except Exception as e:
+            logging.debug(f"CLI title fetch failed: {e}")
+
+    if yt_dlp is not None:
+        ydl_opts = {'quiet': True}
+        try:
+            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                info = ydl.extract_info(url, download=False)
+                title = info.get('title', 'video_youtube')
+                clean_title = get_clean_filename(title, "mp3")
+                return os.path.splitext(clean_title)[0]
+        except Exception as e:
+            logging.error(f"Cannot fetch video title via yt_dlp library: {e}")
+
+    return "video_youtube"
 
 def validate_url(url):
     """Validate if URL is properly formatted and accessible.
@@ -299,73 +315,170 @@ def export_download_history(export_path):
         logging.error(f"Error exporting history: {e}")
         return False
 
-def download_yt_dlp(dest_path, progress_callback=None):
-    """Download latest yt-dlp.exe from GitHub to dest_path.
+def is_path_writable(path):
+    """Check if a file or directory path is genuinely writable on Windows."""
+    try:
+        if not path:
+            return False
+        d = path if os.path.isdir(path) else os.path.dirname(path)
+        if not d:
+            d = "."
+        if not os.path.exists(d):
+            os.makedirs(d, exist_ok=True)
+        test_file = os.path.join(d, f".write_test_{os.getpid()}_{int(time.time()*1000)}.tmp")
+        with open(test_file, "w") as f:
+            f.write("test")
+        try:
+            os.remove(test_file)
+        except Exception:
+            pass
+        return True
+    except Exception:
+        return False
+
+def get_user_bin_ytdlp_path():
+    """Get the user-writable path for yt-dlp in AppData."""
+    app_data = os.environ.get('APPDATA', '')
+    if not app_data:
+        app_data = os.path.expanduser("~")
+    user_bin = os.path.join(app_data, "Social Media Downloader", "bin")
+    try:
+        os.makedirs(user_bin, exist_ok=True)
+    except Exception:
+        pass
+    return os.path.join(user_bin, "yt-dlp.exe")
+
+def get_ytdlp_update_path(preferred_path=None):
+    """Determine the optimal writable destination for yt-dlp.exe.
+    
+    If preferred_path is provided and its directory is writable, returns preferred_path.
+    Otherwise, falls back to AppData/bin which is always writable without Admin rights.
+    """
+    if preferred_path and is_path_writable(preferred_path):
+        return preferred_path
+    return get_user_bin_ytdlp_path()
+
+def download_yt_dlp(dest_path=None, progress_callback=None, new_version=None):
+    """Download latest yt-dlp.exe from GitHub with fallbacks and auto-privilege handling.
     
     Args:
-        dest_path (str): Destination path for yt-dlp.exe
-        progress_callback (callable, optional): Callback function for progress updates
+        dest_path (str, optional): Target destination. If not provided or not writable,
+                                   falls back to user AppData/bin automatically.
+        progress_callback (callable, optional): (downloaded_bytes, total_bytes) -> None
+        new_version (str, optional): Version tag if known (e.g. '2026.10.21')
         
     Returns:
         tuple: (success: bool, error_message: str or None)
     """
+    target_path = get_ytdlp_update_path(dest_path)
+    logging.info(f"Downloading yt-dlp to: {target_path} (requested: {dest_path})")
+
+    # List candidate URLs to try in order
+    urls = [
+        "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe"
+    ]
+    if new_version:
+        urls.insert(0, f"https://github.com/yt-dlp/yt-dlp/releases/download/{new_version}/yt-dlp.exe")
+    urls.append("https://github.com/yt-dlp/yt-dlp-nightly-builds/releases/latest/download/yt-dlp.exe")
+
+    target_dir = os.path.dirname(target_path)
+    os.makedirs(target_dir, exist_ok=True)
+    temp_path = target_path + f".tmp_{int(time.time()*1000)}"
+
+    import urllib.request
+    import ssl
+
+    last_error = None
+    success = False
+
+    for url in urls:
+        logging.info(f"Trying download from URL: {url}")
+        for use_unverified_ssl in (False, True):
+            try:
+                headers = {
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+                    "Accept": "*/*"
+                }
+                req = urllib.request.Request(url, headers=headers)
+                
+                ssl_context = None
+                if use_unverified_ssl:
+                    ssl_context = ssl._create_unverified_context()
+
+                with urllib.request.urlopen(req, timeout=45, context=ssl_context) as response:
+                    total_size = int(response.headers.get('Content-Length', 0))
+                    downloaded_size = 0
+                    
+                    with open(temp_path, 'wb') as file:
+                        while True:
+                            chunk = response.read(65536)
+                            if not chunk:
+                                break
+                            file.write(chunk)
+                            downloaded_size += len(chunk)
+                            if progress_callback:
+                                try:
+                                    progress_callback(downloaded_size, total_size)
+                                except Exception:
+                                    pass
+
+                # Check if download is valid (> 5MB)
+                if os.path.exists(temp_path) and os.path.getsize(temp_path) > 5 * 1024 * 1024:
+                    success = True
+                    break
+                else:
+                    if os.path.exists(temp_path):
+                        try:
+                            os.remove(temp_path)
+                        except Exception:
+                            pass
+                    last_error = "File tải về dung lượng không hợp lệ."
+            except Exception as e:
+                last_error = str(e)
+                logging.warning(f"Download attempt failed from {url} (unverified_ssl={use_unverified_ssl}): {e}")
+                if os.path.exists(temp_path):
+                    try:
+                        os.remove(temp_path)
+                    except Exception:
+                        pass
+        if success:
+            break
+
+    if not success:
+        return False, f"Không thể tải yt-dlp từ máy chủ: {last_error}"
+
+    # Replace target_path with temp_path safely
     try:
-        import requests
-    except ImportError as e:
-        error_msg = "Requests library not found. Please install: pip install requests"
-        logging.error(error_msg)
-        return False, error_msg
-    
-    url = "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe"
-    logging.info(f"Downloading yt-dlp from: {url}")
-    logging.info(f"Destination: {dest_path}")
-    
-    try:
-        # Ensure destination directory exists
-        dest_dir = os.path.dirname(dest_path)
-        if not os.path.exists(dest_dir):
-            os.makedirs(dest_dir, exist_ok=True)
-            logging.info(f"Created directory: {dest_dir}")
-        
-        with requests.get(url, stream=True, timeout=60) as response:
-            response.raise_for_status()
-            logging.info(f"HTTP response: {response.status_code}")
-            
-            total_size = int(response.headers.get('content-length', 0))
-            downloaded_size = 0
-            logging.info(f"File size: {total_size} bytes")
-            
-            with open(dest_path, 'wb') as file:
-                for chunk in response.iter_content(chunk_size=8192):
-                    if chunk:
-                        file.write(chunk)
-                        downloaded_size += len(chunk)
-                        
-                        # Call progress callback if provided
-                        if progress_callback:
-                            try:
-                                progress_callback(downloaded_size, total_size)
-                            except Exception as cb_e:
-                                logging.warning(f"Progress callback error: {cb_e}")
-        
-        # Verify download
-        if os.path.exists(dest_path) and os.path.getsize(dest_path) > 0:
-            logging.info(f"Download successful: {dest_path} ({os.path.getsize(dest_path)} bytes)")
-            return True, None
-        else:
-            error_msg = "Downloaded file is empty or does not exist"
-            logging.error(error_msg)
-            return False, error_msg
-        
-    except requests.RequestException as e:
-        error_msg = f"Network error: {e}"
-        logging.error(error_msg)
-        return False, error_msg
-    except PermissionError as e:
-        error_msg = f"Permission denied: {e}. Try running as administrator."
-        logging.error(error_msg)
-        return False, error_msg
+        if os.path.exists(target_path):
+            old_backup = target_path + f".old_{int(time.time()*1000)}"
+            try:
+                os.replace(target_path, old_backup)
+                try:
+                    os.remove(old_backup)
+                except Exception:
+                    pass
+            except Exception:
+                try:
+                    os.remove(target_path)
+                except Exception:
+                    pass
+        os.replace(temp_path, target_path)
     except Exception as e:
-        error_msg = f"Unexpected error: {e}"
-        logging.error(error_msg)
-        return False, error_msg
+        try:
+            shutil.copy2(temp_path, target_path)
+            try:
+                os.remove(temp_path)
+            except Exception:
+                pass
+        except Exception as copy_e:
+            return False, f"Không thể lưu file yt-dlp: {copy_e}"
+
+    # Update runtime paths
+    from src import paths
+    paths.YT_DLP_PATH = target_path
+    bin_dir = os.path.dirname(target_path)
+    if bin_dir not in os.environ.get("PATH", ""):
+        os.environ["PATH"] = bin_dir + os.pathsep + os.environ.get("PATH", "")
+
+    logging.info(f"yt-dlp successfully updated to: {target_path} ({os.path.getsize(target_path)} bytes)")
+    return True, None
