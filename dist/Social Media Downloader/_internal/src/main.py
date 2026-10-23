@@ -5,6 +5,10 @@ import logging
 import subprocess
 import json
 
+# Thiết lập UTF-8 toàn cục cho môi trường và các tiến trình con
+os.environ["PYTHONIOENCODING"] = "utf-8"
+os.environ["PYTHONUTF8"] = "1"
+
 # Add root directory path to sys.path
 root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if root_dir not in sys.path:

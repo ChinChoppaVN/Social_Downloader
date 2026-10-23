@@ -46,6 +46,9 @@ class DownloaderProcess:
 
         try:
             creationflags = subprocess.CREATE_NO_WINDOW if sys.platform == 'win32' else 0
+            env = os.environ.copy()
+            env['PYTHONIOENCODING'] = 'utf-8'
+            env['PYTHONUTF8'] = '1'
 
             self.process = subprocess.Popen(
                 command,
@@ -54,6 +57,7 @@ class DownloaderProcess:
                 text=True,
                 encoding='utf-8',
                 errors='replace',
+                env=env,
                 creationflags=creationflags
             )
 
@@ -101,6 +105,7 @@ class DownloaderProcess:
         ytdlp_bin = paths.YT_DLP_PATH or "yt-dlp"
         command = [
             ytdlp_bin,
+            '--encoding', 'utf-8',
             self.url,
             '--output', self.output_path,
             '--progress',
@@ -222,10 +227,15 @@ def fetch_video_title(url):
     ytdlp_bin = paths.YT_DLP_PATH or "yt-dlp"
     try:
         creationflags = subprocess.CREATE_NO_WINDOW if sys.platform == 'win32' else 0
-        cmd = [ytdlp_bin, "--print", "%(title)s", "--no-warnings", "--skip-download", url]
-        result = subprocess.run(cmd, capture_output=True, text=True, encoding='utf-8', errors='replace', creationflags=creationflags, timeout=15)
-        if result.returncode == 0 and result.stdout.strip():
-            return result.stdout.strip().split('\n')[0].strip()
+        env = os.environ.copy()
+        env['PYTHONIOENCODING'] = 'utf-8'
+        env['PYTHONUTF8'] = '1'
+        cmd = [ytdlp_bin, "--encoding", "utf-8", "--print", "%(title)s", "--no-warnings", "--skip-download", url]
+        result = subprocess.run(cmd, capture_output=True, env=env, creationflags=creationflags, timeout=15)
+        if result.returncode == 0 and result.stdout:
+            title = result.stdout.decode('utf-8', errors='replace').strip()
+            if title:
+                return title.split('\n')[0].strip()
     except Exception as e:
         logging.warning(f"Failed to fetch video title via CLI: {e}")
     return "video"
@@ -240,16 +250,21 @@ def fetch_playlist_entries(url):
     entries = []
     try:
         creationflags = subprocess.CREATE_NO_WINDOW if sys.platform == 'win32' else 0
+        env = os.environ.copy()
+        env['PYTHONIOENCODING'] = 'utf-8'
+        env['PYTHONUTF8'] = '1'
         cmd = [
             ytdlp_bin,
+            "--encoding", "utf-8",
             "--flat-playlist",
             "--print", "%(url)s\t%(title)s",
             "--no-warnings",
             url
         ]
-        result = subprocess.run(cmd, capture_output=True, text=True, encoding='utf-8', errors='replace', creationflags=creationflags, timeout=30)
-        if result.returncode == 0 and result.stdout.strip():
-            for line in result.stdout.strip().split('\n'):
+        result = subprocess.run(cmd, capture_output=True, env=env, creationflags=creationflags, timeout=30)
+        if result.returncode == 0 and result.stdout:
+            text = result.stdout.decode('utf-8', errors='replace').strip()
+            for line in text.splitlines():
                 parts = line.split('\t', 1)
                 if len(parts) == 2:
                     v_url = parts[0].strip()

@@ -21,6 +21,10 @@ from functools import partial
 import tkinter as tk  # Đảm bảo đã import tk
 from urllib.parse import urlparse, parse_qs
 
+# Thiết lập UTF-8 toàn cục cho môi trường và các tiến trình con
+os.environ["PYTHONIOENCODING"] = "utf-8"
+os.environ["PYTHONUTF8"] = "1"
+
 # Thêm thư mục gốc vào sys.path
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if ROOT_DIR not in sys.path:

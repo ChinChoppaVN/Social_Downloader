@@ -48,7 +48,8 @@ if not os.path.exists(DATA_DIR):
     os.makedirs(DATA_DIR, exist_ok=True)
 
 def get_clean_filename(name, ext):
-    """Clean and sanitize filename for safe file system operations.
+    """Clean and sanitize filename for safe file system operations on Windows/macOS/Linux.
+    Preserves Vietnamese accented characters and natural spaces while stripping invalid chars.
     
     Args:
         name (str): Original filename
@@ -61,56 +62,53 @@ def get_clean_filename(name, ext):
         return f"video.{ext}"
     
     # Remove existing extension if present
-    if name.lower().endswith((".mp3", ".mp4")):
+    if name.lower().endswith((".mp3", ".mp4", f".{ext.lower()}")):
         name = name.rsplit(".", 1)[0]
     
-    # Remove invalid filesystem characters
-    name = _remove_invalid_chars(name)
+    # 1. Replace separators that are illegal in Windows filenames (/, \, |, :) with a neat hyphen
+    for ch in ['/', '\\', '|', ':']:
+        name = name.replace(ch, ' - ')
     
-    # Remove hashtags completely
-    name = _remove_hashtags(name)
+    # 2. Remove other Windows invalid characters: < > " ? *
+    for ch in '<>"?*':
+        name = name.replace(ch, '')
+        
+    # 3. Remove hashtags completely (e.g. #shorts, #trending)
+    name = re.sub(r'#\S+', '', name)
     
-    # Replace spaces with underscores and clean up
-    name = _normalize_spacing(name)
+    # 4. Remove non-printable control characters (ASCII < 32)
+    name = ''.join(c for c in name if ord(c) >= 32)
     
-    return f"{name}.{ext}" if name else f"video.{ext}"
+    # 5. Normalize spaces and hyphens (preserve natural spaces, DO NOT replace with underscores)
+    name = re.sub(r'(\s*-\s*)+', ' - ', name)
+    name = re.sub(r'\s+', ' ', name)
+    name = name.strip(' .-_')
+    
+    if not name:
+        name = "video"
+        
+    # Limit length to avoid Windows MAX_PATH issues (255 chars limit)
+    if len(name) > 180:
+        name = name[:180].rstrip(' .-_')
+        
+    return f"{name}.{ext}"
 
 def _remove_invalid_chars(name):
-    """Remove characters that are invalid in filenames."""
-    invalid_chars = '<>:"/\\|?!*.-'
-    for char in invalid_chars:
-        name = name.replace(char, '')
+    """Legacy helper maintained for backward compatibility."""
+    for ch in ['/', '\\', '|', ':']:
+        name = name.replace(ch, ' - ')
+    for ch in '<>"?*':
+        name = name.replace(ch, '')
     return name
 
 def _remove_hashtags(name):
-    """Remove hashtags from filename."""
-    result = []
-    i = 0
-    while i < len(name):
-        if name[i] == '#' and i + 1 < len(name):
-            # Skip hashtag and following alphanumeric characters
-            j = i + 1
-            while j < len(name) and (name[j].isalnum() or name[j] == '_'):
-                j += 1
-            i = j
-        else:
-            result.append(name[i])
-            i += 1
-    return ''.join(result)
+    """Legacy helper maintained for backward compatibility."""
+    return re.sub(r'#\S+', '', name)
 
 def _normalize_spacing(name):
-    """Normalize spaces and underscores in filename."""
-    # Replace spaces with underscores
-    name = name.replace(" ", "_")
-    
-    # Merge consecutive underscores into single underscore
-    while "__" in name:
-        name = name.replace("__", "_")
-    
-    # Remove leading and trailing underscores
-    name = name.strip("_")
-    
-    return name
+    """Legacy helper maintained for backward compatibility."""
+    name = re.sub(r'\s+', ' ', name)
+    return name.strip(' .-_')
 
 def fetch_video_title(url):
     """Fetch video title from URL using yt-dlp CLI or library.
@@ -125,11 +123,16 @@ def fetch_video_title(url):
     if paths.YT_DLP_PATH and os.path.exists(paths.YT_DLP_PATH):
         try:
             creationflags = subprocess.CREATE_NO_WINDOW if sys.platform == 'win32' else 0
-            cmd = [paths.YT_DLP_PATH, "--print", "%(title)s", "--no-warnings", "--skip-download", url]
-            res = subprocess.run(cmd, capture_output=True, text=True, encoding='utf-8', errors='replace', creationflags=creationflags, timeout=12)
-            if res.returncode == 0 and res.stdout.strip():
-                clean_title = get_clean_filename(res.stdout.strip().split('\n')[0], "mp3")
-                return os.path.splitext(clean_title)[0]
+            env = os.environ.copy()
+            env['PYTHONIOENCODING'] = 'utf-8'
+            env['PYTHONUTF8'] = '1'
+            cmd = [paths.YT_DLP_PATH, "--encoding", "utf-8", "--print", "%(title)s", "--no-warnings", "--skip-download", url]
+            res = subprocess.run(cmd, capture_output=True, env=env, creationflags=creationflags, timeout=15)
+            if res.returncode == 0 and res.stdout:
+                title = res.stdout.decode('utf-8', errors='replace').strip()
+                if title:
+                    clean_title = get_clean_filename(title.split('\n')[0].strip(), "mp3")
+                    return os.path.splitext(clean_title)[0]
         except Exception as e:
             logging.debug(f"CLI title fetch failed: {e}")
 
